@@ -1,0 +1,84 @@
+.layout-footer {
+  background-color: #001c41;
+  color: #fff;
+  font-size: 30px;
+  padding-bottom: 15px;
+  
+}
+.footer {
+  display: flex;
+  line-height: 1.5;
+  padding-top: 60px;
+  justify-content: center;
+}
+.sonary-container {
+    margin: 0 auto;
+    width: 98%;
+}
+.links-wrapper {
+  display: flex;
+}
+.links {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0;
+}
+.single-link {
+  margin: 10px 0;
+}
+.title-logos {
+  display: flex;
+  justify-content: space-between;
+}
+.title-logos .big-logo img {
+  width: 100%;
+}
+.right-text .logos img{
+    margin-right: 15px;
+}
+.links .text, .footer-text {
+  font-size: 15px;
+  padding: 0;
+  text-decoration: none;
+  cursor: pointer;
+  color: #fff;
+}
+.footer-text{
+    cursor: unset;
+    line-height: 2.14;
+    font-size: 14px;
+}
+.quick-links {
+  padding-left: 9%;
+  margin-top: 25px;
+  width: 240px;
+}
+.quick-links-title {
+  font-size: 24px;
+  font-weight: 800;
+}
+.menu-links {
+  margin-top: 25px;
+  width: 240px;
+}
+.menu-links-title {
+  font-size: 22px;
+  font-weight: 800;
+}
+.right-text {
+  line-height: 2.14;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 25px;
+  width: 736px;
+  padding-left: 9%;
+  cursor: unset;
+}
+.right-reserved{
+    padding-top: 15px;
+}
+@media (min-width: 1282px) {
+  .sonary-container {
+    max-width: 1200px;
+  }
+}
