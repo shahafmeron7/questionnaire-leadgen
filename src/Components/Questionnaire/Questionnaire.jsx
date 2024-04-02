@@ -1,6 +1,8 @@
 import React from "react";
 import QuestionnaireLayout from "../../containers/QuestionnaireLayout";
+import questionnaireData from  '../../utils/data/questionnaireData.json'
 const Questionnaire = ({ onStart, onComplete }) => {
+  console.log(questionnaireData)
   function handleStart() {
     onStart();
   }

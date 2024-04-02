@@ -1,0 +1,51 @@
+[
+    {
+      "flow_id": 1,
+      "flow_name": "merchant_services",
+      "questions": [
+        {
+          "question_code": "satisfaction_level",
+          "question_type": "one-selection",
+          "answers": [
+            {
+              "text": "High",
+              "next_question": "custom_feedback"
+            },
+            {
+              "text": "Medium",
+              "next_question": null
+            },
+            {
+              "text": "Low",
+              "next_question": "immediate_support"
+            }
+          ]
+        },
+        {
+          "question_code": "follow_up",
+          "question_type": "multiple-choice",
+          "answers": [
+            {
+              "text": "Contact support",
+              "next_question": null
+            },
+            {
+              "text": "Schedule a call",
+              "next_question": null
+            }
+          ]
+        },
+        {
+          "question_code": "custom_feedback",
+          "question_type": "open-ended",
+          "answers": []
+        },
+        {
+          "question_code": "immediate_support",
+          "question_type": "open-ended",
+          "answers": []
+        }
+      ]
+    }
+  ]
+  

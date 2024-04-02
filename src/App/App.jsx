@@ -18,7 +18,6 @@ function App() {
   };
   const completeQuestionnaire = () => {
     setQuestionnaireCompleted(true);
-    // Optionally reset `questionnaireStarted` if going back to the questionnaire isn't allowed after completion
   };
   return (
     <div className="AppWrapper">
