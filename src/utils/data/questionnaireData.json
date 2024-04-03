@@ -1,51 +1,159 @@
-[
-    {
-      "flow_id": 1,
-      "flow_name": "merchant_services",
-      "questions": [
-        {
-          "question_code": "satisfaction_level",
-          "question_type": "one-selection",
-          "answers": [
-            {
-              "text": "High",
-              "next_question": "custom_feedback"
-            },
-            {
-              "text": "Medium",
-              "next_question": null
-            },
-            {
-              "text": "Low",
-              "next_question": "immediate_support"
-            }
-          ]
-        },
-        {
-          "question_code": "follow_up",
-          "question_type": "multiple-choice",
-          "answers": [
-            {
-              "text": "Contact support",
-              "next_question": null
-            },
-            {
-              "text": "Schedule a call",
-              "next_question": null
-            }
-          ]
-        },
-        {
-          "question_code": "custom_feedback",
-          "question_type": "open-ended",
-          "answers": []
-        },
-        {
-          "question_code": "immediate_support",
-          "question_type": "open-ended",
-          "answers": []
-        }
-      ]
-    }
-  ]
+{
+    "flow_id": 1,
+    "flow_name": "merchant_services",
+    "questions": [
+      {
+        "text": "What type of business do you have?",
+        "code": "business_type",
+        "step": 1,
+        "type": "one-selection",
+        "display_list_direction":"row",
+        "answers": [
+          {
+            "text": "food and catering",
+            "next_question_code": "monthly_volume"
+          },
+          {
+            "text": "Retail",
+            "next_question_code": "monthly_volume"
+          },
+          {
+            "text": "B2B Services",
+            "next_question_code": "cc_payment_method"
+          },
+          {
+            "text": "Health and Leisure",
+            "next_question_code": "monthly_volume"
+          },
+          {
+            "text": "Other",
+            "next_question_code": "monthly_volume"
+          }
+        ]
+      },
+      {
+        "text": "What's your estimated monthly processing volume?",
+        "code": "monthly_volume",
+        "step": 2,
+        "type": "one-selection",
+        "display_list_direction":"column",
+        "answers": [
+          {
+            "text": "More than $10,000",
+            "next_question_code": "cc_payment_method"
+          },
+          {
+            "text": "Between $1,000-$9,000",
+            "next_question_code": "cc_payment_method"
+          },
+          {
+            "text": "Up to $999",
+            "next_question_code": "cc_payment_method"
+          },
+          {
+            "text": "not sure",
+            "next_question_code": "cc_payment_method"
+          }
+        ]
+      },
+      {
+        "text": "How do you want to accept credit card payments?",
+        "code": "cc_payment_method",
+        "step": 3,
+        "type": "one-selection",
+        "display_list_direction":"row",
+
+        "answers": [
+          {
+            "text": "In person",
+            "next_question_code": "zip_code"
+          },
+          {
+            "text": "Online",
+            "next_question_code": "zip_code"
+          },
+          {
+            "text": "By phone",
+            "next_question_code": "zip_code"
+          }
+        ]
+      },
+      {
+        "text": "Please enter your zip code",
+        "code": "zip_code",
+        "step": 4,
+        "type": "details-question",
+        "display_list_direction":"col",
+        "answers": [
+          {
+            "next_question_code": "email"
+          }
+        ]
+      },
+      {
+        "text": "What is your email address?",
+        "code": "email",
+        "step": 5,
+        "display_list_direction":"col",
+
+        "type": "details-question",
+        "answers": [
+          {
+            "next_question_code": "personal_and_business_info"
+          }
+        ]
+      },
+      {
+        "text": "Please provide your personal and business information",
+        "code": "personal_and_business_info",
+        "step": 6,
+        "type": "details-question",
+        "display_list_direction":"col",
+
+        "subquestions": [
+          {
+            "text": "What is your first name?",
+            "code": "First_name",
+            "answers": []
+          },
+          {
+            "text": "What is your last name?",
+            "code": "Last_name",
+            "answers": []
+          },
+          {
+            "text": "What is your business name?",
+            "code": "company_name",
+            "answers": []
+          }
+        ],
+        "answers": [
+          {
+            "next_question_code": "phone"
+          }
+        ]
+      },
+      {
+        "text": "What is your phone number?",
+        "code": "phone",
+        "step": 7,
+        "display_list_direction":"col",
+
+        "type": "details-question",
+        "answers": [
+          {
+            "next_question_code": "thank_you"
+          }
+        ]
+      },
+      {
+        "text": "Thank you",
+        "code": "thank_you",
+        "step": 8,
+        "type": "thank you",
+        "display_list_direction":"col",
+        "answers": []
+      }
+    ]
+  }
   

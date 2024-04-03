@@ -1,9 +1,9 @@
 import React from "react";
-
+import styles from './QuestionnaireLayout.module.css'
 const QuestionnaireLayout = ({ children }) => {
   return (
-    <div style={{padding:"64px 24px 80px 24px"}}>
-      <div>{children}</div>
+    <div className={styles.questionnaireLayout}>
+      <div className={styles.questionnaireWrapper}>{children}</div>
     </div>
   );
 };

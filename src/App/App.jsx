@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./App.css";
+import {
+  useQuestionnaire,
+} from "../context/QuestionnaireContext";
 import Questionnaire from "../Components/Questionnaire/Questionnaire.jsx";
 import BestMatch from "../Components/UI/BestMatch";
 import FAQ from "../Components/UI/FAQ";
@@ -10,37 +13,26 @@ import PartnerWith from "../Components/UI/PartnerWith";
 import ThankYou from "../Components/UI/ThankYou";
 import ContentLayout from "../containers/ContentLayout";
 function App() {
-  const [questionnaireStarted, setQuestionnaireStarted] = useState(false);
-  const [questionnaireCompleted, setQuestionnaireCompleted] = useState(false);
-
-  const startQuestionnaire = () => {
-    setQuestionnaireStarted(true);
-  };
-  const completeQuestionnaire = () => {
-    setQuestionnaireCompleted(true);
-  };
+  const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();
   return (
-    <div className="AppWrapper">
-      <Navbar />
-      {!questionnaireCompleted ? (
-        <>
-          <Questionnaire
-            onStart={startQuestionnaire}
-            onComplete={completeQuestionnaire}
-          />
-          {!questionnaireStarted && (
-            <ContentLayout>
-              <PartnerWith />
-              <BestMatch />
-              <FAQ />
-            </ContentLayout>
-          )}
-        </>
-      ) : (
-        <ThankYou />
-      )}
-      <Footer />
-    </div>
+      <div className="AppWrapper">
+        <Navbar />
+        {!questionnaireCompleted ? (
+          <>
+            <Questionnaire />
+            {!questionnaireStarted && (
+              <ContentLayout>
+                <PartnerWith />
+                <BestMatch />
+                <FAQ />
+              </ContentLayout>
+            )}
+          </>
+        ) : (
+          <ThankYou />
+        )}
+        <Footer />
+      </div>
   );
 }
 

@@ -1,0 +1,44 @@
+.answersContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap:8px;
+}
+.answerItem {
+  display: flex;
+  flex-direction: column;
+  transition: outline 400ms ease-in-out;
+  outline: 2px solid #006eff00;
+  border:1px solid rgba(153, 165, 197, 0.5);
+  cursor: pointer;
+}
+.selected{
+  border:1px solid #006fff;
+
+}
+.answerItem:hover{
+  outline: 2px solid #006fff;
+}
+.listRow {
+  flex-direction: row;
+}
+.listCol {
+  flex-direction: column;
+}
+
+.answerCardItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+  padding: 0px 8px;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--gray-color-1);
+  background-color: #fff;
+}
+.answerRowItem {
+}
