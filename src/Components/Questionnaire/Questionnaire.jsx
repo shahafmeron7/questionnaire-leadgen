@@ -22,12 +22,8 @@ const Questionnaire = () => {
     questionnaireData,
   } = useQuestionnaire();
 
-  const onAnswerSelect = (selectedIndex) => {
-    handleAnswerSelection(currentQuestion.code, selectedIndex);
-  };
+ 
 
-  const selectedAnswerIndex = responses[currentQuestion.code];
-  console.log("Questionnaire.jsx",selectedAnswerIndex)
   const progressBarWidth = Math.round(
     (currentQuestionIndex / (totalQuestions - 1)) * 100
   );
@@ -47,17 +43,13 @@ const Questionnaire = () => {
       <QuestionnaireTitle />
       <QuestionnaireWrapper>
         <ProgressBar width={progressBarWidth} />
+        {currentQuestion.text && (
         <div className={styles.questionDescriptionText}>
           {currentQuestion.text}
         </div>
+        )}
         <div className={styles.contentWrapper}>
-          <AnswersContent
-          answers={currentQuestion.answers}
-          questionType={currentQuestion.type}
-          displayDirection={currentQuestion.display_list_direction}
-          onAnswerSelect={onAnswerSelect}
-          selectedAnswerIndex={selectedAnswerIndex}
-        />
+          <AnswersContent/>
           <div className={styles.buttonsWrapper}>
             {questionHistory.length > 0 && (
               <button className={styles.prevBtn} onClick={moveToPrevQuestion}>

@@ -38,37 +38,49 @@
  const selectedCheckboxSVG = 'https://assets.sonary.com/wp-content/uploads/2023/12/27112431/Selector-1.svg';
  const unselectedCheckboxSVG = 'https://assets.sonary.com/wp-content/uploads/2023/12/27112433/Selector.svg';
 
- const OneSelectionQuestion = ({ displayDirection }) => {
-     const { currentQuestion, responses, handleAnswerSelection } = useQuestionnaire();
-     const [localSelectedIndex, setLocalSelectedIndex] = useState(responses[currentQuestion.code]);
+ const OneSelectionQuestion = () => {
+    const { currentQuestion, responses, handleAnswerSelection } = useQuestionnaire();
+    const [localSelectedIndex, setLocalSelectedIndex] = useState(responses[currentQuestion.code]);
+    const [delayNextQuestion, setDelayNextQuestion] = useState(false);
+    const displayDirection = currentQuestion.display_list_direction;
+    useEffect(() => {
+        setLocalSelectedIndex(responses[currentQuestion.code]);
+        
+        setDelayNextQuestion(false);
+        
+    }, [currentQuestion, responses]);
 
+    useEffect(() => {
+        let timer;
+        if (delayNextQuestion) {
+            timer = setTimeout(() => {
+                handleAnswerSelection(currentQuestion.code, localSelectedIndex);
+                setDelayNextQuestion(false);
+            }, 1000); 
+        }
+        return () => clearTimeout(timer);
+    }, [delayNextQuestion, localSelectedIndex, currentQuestion.code, handleAnswerSelection]);
 
-    const isRowItem = displayDirection === "column";
+    const handleClick = (index) => {
+        setLocalSelectedIndex(index);
+        setDelayNextQuestion(true);
+    };
 
-     const handleClick = (index) => {
-         setLocalSelectedIndex(index);
-         setTimeout(()=>{
-            
-             handleAnswerSelection(currentQuestion.code, index);
-         },1000)
-     };
-
-     return (
-         <div className={`${styles.answersContainer} ${isRowItem ? styles.listCol : styles.listRow}`}>
-             {currentQuestion.answers.map((answer, index) => (
-                 <div key={index} 
-                      className={`${styles.answerItem} ${index === localSelectedIndex ? styles.selected : ''} ${
-                          isRowItem ? styles.answerRowItem : styles.answerCardItem
-                      }`} 
-                      onClick={() => handleClick(index)}
-                 >
-                     <span>{answer.text}</span>
-                     {!isRowItem && (
-                         <img className={styles.checkboxSvg} src={index === localSelectedIndex ? selectedCheckboxSVG : unselectedCheckboxSVG} alt="Checkbox" />
-                     )}
-                 </div>
-             ))}
-         </div>
-     );
- };
+    return (
+        <div className={`${styles.answersContainer} ${displayDirection === "column" ? styles.listCol : styles.listRow}`}>
+            {currentQuestion.answers.map((answer, index) => (
+                <div key={`${currentQuestion.code}-${index}`}
+                    className={`${styles.answerItem} ${index === localSelectedIndex ? styles.selected : ''} ${
+                        displayDirection === "column" ? styles.answerRowItem : styles.answerCardItem
+                    } ${styles.slideUpEntranceList} `} // Use delayNextQuestion to toggle animation classes
+                    onClick={() => handleClick(index)}
+                    style={{ animationDelay: `${index * 0.1}s` }} // Stagger the entrance of each answer
+                >
+                    <span>{answer.text}</span>
+                    <img className={styles.checkboxSvg} src={index === localSelectedIndex ? selectedCheckboxSVG : unselectedCheckboxSVG} alt="Checkbox" />
+                </div>
+            ))}
+        </div>
+    );
+};
  export default OneSelectionQuestion;

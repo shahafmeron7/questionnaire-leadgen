@@ -3,22 +3,27 @@
   width: 100%;
   justify-content: center;
   align-items: center;
-  gap:8px;
+  gap: 8px;
 }
 .answerItem {
+  opacity: 0;
+  visibility: hidden;
   display: flex;
   flex-direction: column;
   transition: outline 400ms ease-in-out;
-  outline: 2px solid #006eff00;
-  border:1px solid rgba(153, 165, 197, 0.5);
+  outline: 2px solid var(--black-color-3);
+  border: 1px solid rgba(153, 165, 197, 0.5);
   cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid var(--gray-color-1);
+  background-color: #fff;
 }
-.selected{
-  border:1px solid #006fff;
-
+.selected {
+  outline: 2px solid var(--blue-color-1);
+  background-color: var(--selected-bg-color);
 }
-.answerItem:hover{
-  outline: 2px solid #006fff;
+.answerItem:hover {
+  outline: 2px solid var(--blue-color-1);
 }
 .listRow {
   flex-direction: row;
@@ -36,9 +41,66 @@
   height: 180px;
   padding: 0px 8px;
   gap: 8px;
-  border-radius: 8px;
-  border: 1px solid var(--gray-color-1);
-  background-color: #fff;
 }
 .answerRowItem {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 56px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 8px 24px;
+  gap: 13px;
+  justify-content: flex-end;
+}
+.inputsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-self: center;
+}
+.inputTitle {
+  color: var(--black-color-1);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.inputItem {
+  /* width: 100%; */
+}
+
+.slideUpEntranceList {
+  visibility: visible;
+  animation: slideUpEntranceList 0.3s ease-in-out forwards;
+}
+.exitFadeOut {
+  animation: exitFadeOut 0.2s ease-out forwards;
+}
+
+@keyframes slideUpEntranceList {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes exitFadeOut {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }

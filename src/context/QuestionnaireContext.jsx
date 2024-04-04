@@ -43,7 +43,6 @@ export const QuestionnaireProvider = ({ children }) => {
       [questionCode]: answerIndex,
     }));
 
-   console.log("handleAnswerSelection",responses);
     const nextQuestionCode = currentQuestion.answers[answerIndex].next_question_code;
     if (nextQuestionCode) {
       setQuestionHistory(prevHistory => [...prevHistory, currentQuestionCode]);
@@ -52,6 +51,12 @@ export const QuestionnaireProvider = ({ children }) => {
 
     }
   };
+  const handleInputChange = (questionCode,inputValue)=>{
+    setResponses(prevResponses => ({
+      ...prevResponses,
+      [questionCode]: inputValue,
+    }));
+  }
 
   const moveToNextQuestion = ()=>{
 
@@ -64,6 +69,7 @@ export const QuestionnaireProvider = ({ children }) => {
       setCurrentQuestionCode(prevQuestionCode || questionnaireData.questions[0].code);
       return history; 
     });
+
   };
 
   const value = useMemo(
@@ -76,6 +82,7 @@ export const QuestionnaireProvider = ({ children }) => {
       questionHistory,
       totalQuestions,
       currentQuestionIndex,
+      handleInputChange,
       moveToNextQuestion,
       moveToPrevQuestion,
       startQuestionnaire,

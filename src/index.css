@@ -2,10 +2,13 @@
   --layout-bg-color: #f6f6f6;
   --black-color-1: #313131;
   --black-color-2: #1C1F33;
+  --black-color-3:#006eff00;
   --blue-color-1:#006FFF;
   --gray-color-1:rgba(153, 165, 197, 0.40);
   --border-border-50: rgba(153, 165, 197, 0.50);
   --bg-prev-btn-color:#F6F6F6;
+  --selected-bg-color:#e9eff6;
+  --err-color:#F62B54;
 }
 body {
   margin: 0;
