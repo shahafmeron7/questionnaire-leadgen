@@ -55,5 +55,10 @@
   align-items: center;
   border-radius: 8px;
   border: none;
-  background: var(--border-border-50);
+  background-color: var(--border-border-50);
+  transition: background-color 0.3ms ease-in;
+}
+.enabled{
+  background-color: var(--blue-color-1);
+
 }

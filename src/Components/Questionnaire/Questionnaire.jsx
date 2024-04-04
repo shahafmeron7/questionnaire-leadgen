@@ -9,20 +9,15 @@ import QuestionnaireWrapper from "../../containers/QuestionnaireWrapper.jsx";
 const Questionnaire = () => {
   const {
     currentQuestion,
-    questionnaireStarted,
-    startQuestionnaire,
-    handleAnswerSelection,
-    setCurrentQuestionCode,
     totalQuestions,
     currentQuestionIndex,
     moveToPrevQuestion,
     moveToNextQuestion,
     questionHistory,
-    responses,
-    questionnaireData,
-  } = useQuestionnaire();
 
- 
+    inputModified,
+    nextBtnEnabled
+  } = useQuestionnaire();
 
   const progressBarWidth = Math.round(
     (currentQuestionIndex / (totalQuestions - 1)) * 100
@@ -44,19 +39,25 @@ const Questionnaire = () => {
       <QuestionnaireWrapper>
         <ProgressBar width={progressBarWidth} />
         {currentQuestion.text && (
-        <div className={styles.questionDescriptionText}>
-          {currentQuestion.text}
-        </div>
+          <div className={styles.questionDescriptionText}>
+            {currentQuestion.text}
+          </div>
         )}
         <div className={styles.contentWrapper}>
-          <AnswersContent/>
+          <AnswersContent />
           <div className={styles.buttonsWrapper}>
             {questionHistory.length > 0 && (
               <button className={styles.prevBtn} onClick={moveToPrevQuestion}>
                 <img src={prevIcon} alt="prev_btn_icon" />
               </button>
             )}
-            <button className={styles.nextBtn} onClick={moveToNextQuestion}>
+            <button
+              className={`${styles.nextBtn} ${
+                inputModified ||  nextBtnEnabled ? styles.enabled : ""
+              }`}
+              onClick={moveToNextQuestion}
+              disabled={!inputModified && !nextBtnEnabled}
+            >
               Next
             </button>
           </div>

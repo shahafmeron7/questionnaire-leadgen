@@ -3,15 +3,16 @@ import styles from "./AnswersContent.module.css";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import InputWithValidation from "../../UI/InputWithValidation";
 const DetailsQuestion = () => {
-  const { currentQuestion, responses, handleInputChange } = useQuestionnaire();
+  const { currentQuestion, responses, handleInputChange ,errResponses} = useQuestionnaire();
   const getInputType = (code) => {
     switch(code) {
       case "email": return "email";
       case "zip_code": return "zip";
+      case "phone": return "phone";
       case "first_name":
       case "last_name":
       case "company_name":
-      case "phone": return "text"; 
+       return "text"; 
       default: return "text";
     }
   };
@@ -27,6 +28,7 @@ const DetailsQuestion = () => {
             onChange={handleInputChange} 
             placeholder={sub.example} 
             errorMessage={sub.error}
+            isError={errResponses[sub.code] ||false}
           />
         </div>
       ))}

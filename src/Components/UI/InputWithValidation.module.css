@@ -1,31 +1,35 @@
-.inputContainer{
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.input{
-    padding:8px 24px;
-    width: 488px;
-    height: 56px;
-    border-radius: 8px;
-    cursor: text;
-    font-weight: 700;
-    font-size: 16px;
-    outline: 2px solid var(--black-color-3);
-    transition: outline 400ms ease-in-out;
-    border:1px solid var(--gray-color-1)
-  }
-  .input:focus{
-    outline: 2px solid var(--blue-color-1);
-  }
-  .inputError:focus{
-    outline: 2px solid var(--err-color);
-  }
-  .errContainer{
-    display: flex;
-    gap:8px;
-    align-items: center;
-    color: var(--err-color);
-  }
-  
+.input {
+  padding: 8px 24px;
+  width: 488px;
+  height: 56px;
+  border-radius: 8px;
+  cursor: text;
+  font-weight: 700;
+  font-size: 16px;
+  outline: 2px solid var(--black-color-3);
+  transition: outline 400ms ease-in-out;
+  border: 1px solid var(--gray-color-1);
+}
+.input:focus {
+  outline: 2px solid var(--blue-color-1);
+}
+.inputError:focus {
+  outline: 2px solid var(--err-color);
+}
+.errContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--err-color);
+  transition: opacity 400ms ease-in-out;
+  opacity: 0;
+}
+
+
+
