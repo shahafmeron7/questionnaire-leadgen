@@ -59,6 +59,7 @@
   transition: background-color 0.3ms ease-in;
 }
 .enabled{
+  cursor: pointer;
   background-color: var(--blue-color-1);
 
 }

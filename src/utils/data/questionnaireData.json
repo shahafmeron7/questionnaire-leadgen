@@ -93,11 +93,11 @@
       ],
       "answers": [
         {
-          "next_question_code": "loader"
+          "next_question_code":"personal_and_business_info" 
         }
       ],
       "extra_info": "This will help us find relevant providers in your location."
-
+      
     },
     {
       "text": "Hold on...",

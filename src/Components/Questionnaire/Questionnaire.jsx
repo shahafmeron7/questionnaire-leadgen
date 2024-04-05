@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import ProgressBar from "../UI/ProgressBar";
@@ -14,14 +14,19 @@ const Questionnaire = () => {
     moveToPrevQuestion,
     moveToNextQuestion,
     questionHistory,
-
+    checkAndEnableNextButton,
     inputModified,
-    nextBtnEnabled
+    nextBtnEnabled,
+    responses
   } = useQuestionnaire();
 
   const progressBarWidth = Math.round(
     (currentQuestionIndex / (totalQuestions - 1)) * 100
   );
+  useEffect(() => {
+    checkAndEnableNextButton();
+  }, [currentQuestion, responses]);
+  
 
   const QuestionnaireTitle = () => {
     return (

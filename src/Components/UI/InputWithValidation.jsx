@@ -27,7 +27,7 @@ const handleChange = (e) => {
   return (
     <div className={styles.inputContainer}>
       <input
-        type={type === "zip" || type === "phone" ? "number" : type}
+        type={ type === "phone" ? "number" : type}
         name={name}
         maxLength={type==="zip" ? "5" :''}
         value={inputValue}

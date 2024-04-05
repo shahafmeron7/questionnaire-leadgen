@@ -89,29 +89,34 @@ export const QuestionnaireProvider = ({ children }) => {
     }));
   };
   const resetInputModified = () => setInputModified(false);
-
+  
   const moveToNextQuestion = () => {
-    if(currentQuestion.type ==='details-question'){
-      let allValid=true;
-      let codes = currentQuestion.subquestions.map(sub=> sub.code)
-      console.log(codes);
-      codes.map(code=>{
-        if(!validateField(code,responses[code])){
-          console.log('notvalid')
-          setErrResponses((prevErrResponses) => ({
-            ...prevErrResponses,
-            [code]: true,
-          }));
-          allValid=false;
+    let proceedToNext = true;
+  
+    if (currentQuestion.type === 'details-question') {
+      currentQuestion.subquestions.forEach(sub => {
+        if (!validateField(sub.code, responses[sub.code])) {
+          proceedToNext = false;
+          setErrResponses(prev => ({ ...prev, [sub.code]: true }));
         }
-      })
-      if(!allValid) {
-        setNextBtnEnabled(false);
-        return;
-
+      });
+  
+      if (!proceedToNext) {
+        console.log("Validation failed for one or more fields.");
+        setNextBtnEnabled(false); 
+        return; 
       }
     }
-    console.log("move next");
+    const nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
+    if (nextQuestionCode) {
+      setCurrentQuestionCode(nextQuestionCode); // Update to next question
+      setQuestionHistory(prevHistory => [...prevHistory, currentQuestionCode]); 
+      setNextBtnEnabled(false);
+      // Optionally reset specific UI states (like inputModified or nextBtnEnabled) as needed
+    } else {
+      console.log("Next question not found.");
+      // Handle case where no next question is defined
+    }
   };
 
   const moveToPrevQuestion = () => {
@@ -124,7 +129,17 @@ export const QuestionnaireProvider = ({ children }) => {
       return history;
     });
   };
-
+  const checkAndEnableNextButton = () => {
+    if (currentQuestion.type === 'details-question') {
+      const allSubquestionsAnswered = currentQuestion.subquestions.every(sub => responses[sub.code] != null);
+      setNextBtnEnabled(allSubquestionsAnswered);
+    } else {
+      console.log('check button',currentQuestion.code,responses[currentQuestion.code])
+      const isAnswered = responses[currentQuestion.code] != null;
+      console.log(isAnswered)
+      setNextBtnEnabled(isAnswered);
+    }
+  };
   const value = useMemo(
     () => ({
       currentQuestionCode,
@@ -138,6 +153,7 @@ export const QuestionnaireProvider = ({ children }) => {
       currentQuestionIndex,
       inputModified,
       nextBtnEnabled,
+      checkAndEnableNextButton,
       changeNextBtnState,
       handleInputChange,
       resetInputModified,
@@ -156,6 +172,8 @@ export const QuestionnaireProvider = ({ children }) => {
       currentQuestionIndex,
       totalQuestions,
       currentQuestion,
+      nextBtnEnabled,
+      inputModified,
       questionHistory,
     ]
   );
