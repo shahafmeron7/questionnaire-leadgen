@@ -64,6 +64,30 @@
   gap: 24px;
   align-items: center;
   justify-self: center;
+  /* width: 100%; */
+}
+
+.rowChild {
+  width: 240px !important; 
+}
+.specialLayout {
+  display: flex;
+  flex-flow: wrap;
+  max-width: 500px;
+  justify-content: center;
+  gap: 19px;
+}
+.specialLayout input{
+  width: unset;
+}
+.specialLayout > #company_name{
+  /* width: 50%; */
+  /* width: 480px !important; */
+  width: 100% !important;
+}
+
+.specialLayout > #company_name >  .inputContainer{  
+  width: 100% !important;
 }
 .inputTitle {
   color: var(--black-color-1);

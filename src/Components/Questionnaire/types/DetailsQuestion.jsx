@@ -3,7 +3,7 @@ import styles from "./AnswersContent.module.css";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import InputWithValidation from "../../UI/InputWithValidation";
 const DetailsQuestion = () => {
-  const { currentQuestion, responses, handleInputChange ,errResponses} = useQuestionnaire();
+  const { currentQuestion, responses, handleInputChange ,errResponses,currentQuestionCode} = useQuestionnaire();
   const getInputType = (code) => {
     switch(code) {
       case "email": return "email";
@@ -16,19 +16,23 @@ const DetailsQuestion = () => {
       default: return "text";
     }
   };
+  const isPersonalAndBusinessInfo = currentQuestion.code === "personal_and_business_info";
+
+  
   return (
-    <div className={styles.inputsContainer}>
+    <div className={`${styles.inputsContainer} ${isPersonalAndBusinessInfo ? styles.specialLayout : ''}`}>
       {currentQuestion.subquestions.map((sub, index) => (
-        <div key={`${sub.code}-${index}`} className={styles.inputWrapper}>
+        <div id={sub.code} key={`${sub.code}-${index}`} 
+             className={`${styles.inputWrapper} ${isPersonalAndBusinessInfo && index < 2 ? styles.rowChild : ''}`}>
           <h4 className={styles.inputTitle}>{sub.text}</h4>
           <InputWithValidation
-            type={getInputType(sub.code)}
+            type="text"
             name={sub.code}
-            value={responses[sub.code] || ""} 
-            onChange={handleInputChange} 
-            placeholder={sub.example} 
+            value={responses[sub.code] || ""}
+            onChange={handleInputChange}
+            placeholder={sub.example}
             errorMessage={sub.error}
-            isError={errResponses[sub.code] ||false}
+            isError={errResponses[sub.code] || false}
           />
         </div>
       ))}

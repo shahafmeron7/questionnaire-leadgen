@@ -141,13 +141,13 @@
 
       "subquestions": [
         {
-          "text": "What is your first name?",
+          "text": "First name",
           "code": "first_name",
           "error": "Your first name must contain at least 2 characters",
           "example": "e.g: John"
         },
         {
-          "text": "What is your last name?",
+          "text": "Last name",
           "code": "last_name",
           "error": "Your last name must contain at least 2 characters",
         "example": "e.g: Smith"
