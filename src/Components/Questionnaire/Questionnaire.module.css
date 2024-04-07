@@ -56,10 +56,10 @@
   border-radius: 8px;
   border: none;
   background-color: var(--border-border-50);
-  transition: background-color 0.3ms ease-in;
+  /* transition: background-color 0.3ms ease-in; */
 }
 .enabled{
   cursor: pointer;
   background-color: var(--blue-color-1);
-
+  transition: background-color 0.5s ease-in-out;
 }

@@ -1,9 +1,13 @@
-import React from 'react'
 
+import React from "react";
+// import svg from '../../../images/test.svg'
 const Loader = () => {
   return (
-    <div>Loader</div>
-  )
-}
 
-export default Loader
+       <div>
+        {/* <img src={svg} alt="" /> */}
+       </div>
+  );
+};
+
+export default Loader;

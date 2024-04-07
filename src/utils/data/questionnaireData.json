@@ -93,7 +93,7 @@
       ],
       "answers": [
         {
-          "next_question_code":"personal_and_business_info" 
+          "next_question_code":"loader" 
         }
       ],
       "extra_info": "This will help us find relevant providers in your location."
@@ -113,12 +113,11 @@
       "extra_info":"Our experts are working their magic"
     },
     {
-      "text": "What is your email address?",
       "code": "email",
       "step": 6,
       "display_list_direction": "col",
 
-      "type": "details-question",
+      "type": "form-type",
       "subquestions": [
         {
           "text": "What is your email address?",
@@ -135,10 +134,9 @@
       ]
     },
     {
-      "text": "Please provide your personal and business information",
       "code": "personal_and_business_info",
       "step": 7,
-      "type": "details-question",
+      "type": "form-type",
       "display_list_direction": "col",
 
       "subquestions": [
@@ -172,7 +170,7 @@
       "step": 8,
       "display_list_direction": "col",
 
-      "type": "details-question",
+      "type": "form-type",
       "subquestions": [
         {
           "text": "What is your phone number?",

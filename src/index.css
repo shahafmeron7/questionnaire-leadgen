@@ -9,6 +9,7 @@
   --bg-prev-btn-color:#F6F6F6;
   --selected-bg-color:#e9eff6;
   --err-color:#F62B54;
+  --bg-pos-logo:rgba(0, 111, 255, 0.10);
 }
 body {
   margin: 0;

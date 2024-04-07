@@ -36,15 +36,15 @@ const handleChange = (e) => {
         placeholder={placeholder}
         className={`${styles.input} ${error ? `${styles.inputError}` : ""}`}
       />
-      {error && (
+      {/* {error && ( */}
     <div
-     className={`${styles.errContainer} ${error ? styles.visible : ''}`}
-     style={{opacity: error ? '1':'0'}}
+     className={`${styles.errContainer} ${error ? `${styles.visible}` : `${styles.notVisible}`}`}
+     
     >
     <img src="https://assets.sonary.com/wp-content/uploads/2024/01/24143354/Icon-Name-2.svg" />
             <span className={styles.errText}>{errorMessage}</span>
           </div>
-      )}
+      {/* )} */}
     </div>
   );
 };

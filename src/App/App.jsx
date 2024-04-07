@@ -13,7 +13,8 @@ import PartnerWith from "../Components/UI/PartnerWith";
 import ThankYou from "../Components/UI/ThankYou";
 import ContentLayout from "../containers/ContentLayout";
 function App() {
-  const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();
+  const { questionnaireCompleted,questionnaireStarted,currentQuestion } = useQuestionnaire();
+
   return (
       <div className="AppWrapper">
         <Navbar />

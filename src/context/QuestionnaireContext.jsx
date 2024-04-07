@@ -25,22 +25,26 @@ export const QuestionnaireProvider = ({ children }) => {
   const [questionnaireCompleted, setQuestionnaireCompleted] = useState(false);
   const [inputModified, setInputModified] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
-
+  
   const currentQuestion = useMemo(() => {
     return questionnaireData.questions.find(
       (q) => q.code === currentQuestionCode
-    );
-  }, [currentQuestionCode]);
-
+      );
+    }, [currentQuestionCode]);
+    
+    useEffect(() => {
+      if (currentQuestion?.step > 1) {
+        setQuestionnaireStarted(true);
+      } else {
+        setQuestionnaireStarted(false);
+      }
+    }, [currentQuestion]);
   const currentQuestionIndex = questionnaireData.questions.findIndex(
     (q) => q.code === currentQuestionCode
   );
   const totalQuestions = questionnaireData.questions.length;
 
-  const startQuestionnaire = () => {
-    setQuestionnaireStarted(true);
-    setCurrentQuestionCode(questionnaireData.questions[0].code);
-  };
+ 
 
   const completeQuestionnaire = () => {
     setQuestionnaireCompleted(true);
@@ -93,7 +97,7 @@ export const QuestionnaireProvider = ({ children }) => {
   const moveToNextQuestion = () => {
     let proceedToNext = true;
   
-    if (currentQuestion.type === 'details-question') {
+    if (currentQuestion.type === 'details-question' || currentQuestion.type ==='form-type') {
       currentQuestion.subquestions.forEach(sub => {
         if (!validateField(sub.code, responses[sub.code])) {
           proceedToNext = false;
@@ -130,11 +134,11 @@ export const QuestionnaireProvider = ({ children }) => {
     });
   };
   const checkAndEnableNextButton = () => {
-    if (currentQuestion.type === 'details-question') {
-      const allSubquestionsAnswered = currentQuestion.subquestions.every(sub => responses[sub.code] != null);
+    if (currentQuestion.type === 'details-question' || currentQuestion.type ==='form-type') {
+      console.log(responses)
+      const allSubquestionsAnswered = currentQuestion.subquestions.every(sub => responses[sub.code] != null && responses[sub.code] !== "");
       setNextBtnEnabled(allSubquestionsAnswered);
     } else {
-      console.log('check button',currentQuestion.code,responses[currentQuestion.code])
       const isAnswered = responses[currentQuestion.code] != null;
       console.log(isAnswered)
       setNextBtnEnabled(isAnswered);
@@ -159,9 +163,9 @@ export const QuestionnaireProvider = ({ children }) => {
       resetInputModified,
       moveToNextQuestion,
       moveToPrevQuestion,
-      startQuestionnaire,
       completeQuestionnaire,
       handleAnswerSelection,
+      setCurrentQuestionCode
     }),
     [
       currentQuestionCode,
