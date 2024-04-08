@@ -63,3 +63,39 @@
   background-color: var(--blue-color-1);
   transition: background-color 0.5s ease-in-out;
 }
+.exitFadeOut{
+  animation: exitFadeOut 0.2s ease-out forwards;
+
+}
+.loaderWrapper{
+  display: flex;
+  align-items: center;
+  justify-content:center ;
+  flex-direction: column;
+  gap: 40px;
+}
+.loaderText{
+  color: var(--black-color-1);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 48px;
+  text-align: center;
+}
+.loaderExtraInfo{
+  color: var(--black-color-1);
+  font-size: 28px;
+  text-align: center;
+  font-weight: 400;
+  line-height: 48px;
+}
+@keyframes exitFadeOut {
+  0% {
+      opacity: 1;
+  }
+  50%{
+    opacity: 0;
+  }
+  100% {
+      opacity: 0;
+  }
+}

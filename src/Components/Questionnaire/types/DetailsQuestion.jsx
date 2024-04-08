@@ -3,20 +3,9 @@ import styles from "./AnswersContent.module.css";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import InputWithValidation from "../../UI/InputWithValidation";
 const DetailsQuestion = () => {
-  const { currentQuestion, responses, handleInputChange ,errResponses,currentQuestionCode} = useQuestionnaire();
-  const getInputType = (code) => {
-    switch(code) {
-      case "email": return "email";
-      case "zip_code": return "zip";
-      case "phone": return "phone";
-      case "first_name":
-      case "last_name":
-      case "company_name":
-       return "text"; 
-      default: return "text";
-    }
-  };
-  const isPersonalAndBusinessInfo = currentQuestion.code === "personal_and_business_info";
+  const { currentQuestion, responses ,errResponses,currentQuestionCode} = useQuestionnaire();
+  
+  const isPersonalAndBusinessInfo = currentQuestionCode === "personal_and_business_info";
 
   
   return (
@@ -29,7 +18,6 @@ const DetailsQuestion = () => {
             type="text"
             name={sub.code}
             value={responses[sub.code] || ""}
-            onChange={handleInputChange}
             placeholder={sub.example}
             errorMessage={sub.error}
             isError={errResponses[sub.code] || false}

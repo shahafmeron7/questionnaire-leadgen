@@ -25,6 +25,8 @@ export const QuestionnaireProvider = ({ children }) => {
   const [questionnaireCompleted, setQuestionnaireCompleted] = useState(false);
   const [inputModified, setInputModified] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
+  const [isNextButtonFunctionallyDisabled, setIsNextButtonFunctionallyDisabled] = useState(false);
+
   
   const currentQuestion = useMemo(() => {
     return questionnaireData.questions.find(
@@ -51,9 +53,11 @@ export const QuestionnaireProvider = ({ children }) => {
   };
 
   const changeNextBtnState = (isEnabled) => {
-    console.log("Changing next button state to:", isEnabled);
 
     setNextBtnEnabled(isEnabled);
+  };
+  const toggleNextButtonFunctionality = (isDisabled) => {
+    setIsNextButtonFunctionallyDisabled(isDisabled);
   };
 
   const handleAnswerSelection = (questionCode, answerIndex) => {
@@ -61,7 +65,9 @@ export const QuestionnaireProvider = ({ children }) => {
       ...prevResponses,
       [questionCode]: answerIndex,
     }));
+    console.log("handleAnswerSelection");
 
+    console.log(questionCode,answerIndex);
     const nextQuestionCode =
       currentQuestion.answers[answerIndex].next_question_code;
     if (nextQuestionCode) {
@@ -73,25 +79,47 @@ export const QuestionnaireProvider = ({ children }) => {
     } else {
     }
   };
-  const handleInputChange = (questionCode, inputValue) => {
-    if(inputValue.length>0){
-      setNextBtnEnabled(true);
-      console.log('length>0',inputValue)
+  const handleInputChange = (questionCode, inputValue, isOther = false) => {
+    console.log(questionCode)
+    if (!isOther) {
+      console.log('regular input change');
+      setResponses(prevResponses => ({
+        ...prevResponses,
+        [questionCode]: inputValue,
+      }));
+    } else {
+      console.log('other change input');
+      const existingResponse = responses[questionCode];
+      // Check if there's already a response stored for the question
+      if (typeof existingResponse === 'object' && existingResponse !== null) {
+        // If 'Other' was previously selected and there's an object, update the otherValue
+        setResponses(prevResponses => ({
+          ...prevResponses,
+          [questionCode]: {
+            ...existingResponse,
+            otherValue: inputValue,
+          },
+        }));
+      } else {
+        // If there's no existing object, it means 'Other' is being selected now,
+        // so create a new object to store 'otherValue'
+        setResponses(prevResponses => ({
+          ...prevResponses,
+          [questionCode]: {
+            selectedIndex: existingResponse, // Preserve the previously selected index if any
+            otherValue: inputValue,
+          },
+        }));
+      }
     }
-    else{
-      setNextBtnEnabled(false);
-      console.log('length<0',inputValue)
-
-    }
-    setErrResponses((prevErrResponses) => ({
+  
+    setNextBtnEnabled(inputValue.trim().length > 0);
+    setErrResponses(prevErrResponses => ({
       ...prevErrResponses,
       [questionCode]: false,
     }));
-    setResponses((prevResponses) => ({
-      ...prevResponses,
-      [questionCode]: inputValue,
-    }));
   };
+
   const resetInputModified = () => setInputModified(false);
   
   const moveToNextQuestion = () => {
@@ -110,6 +138,9 @@ export const QuestionnaireProvider = ({ children }) => {
         setNextBtnEnabled(false); 
         return; 
       }
+    }
+    else if(currentQuestion.type === 'one-selection'){
+      //need to check 'other'
     }
     const nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
     if (nextQuestionCode) {
@@ -134,16 +165,19 @@ export const QuestionnaireProvider = ({ children }) => {
     });
   };
   const checkAndEnableNextButton = () => {
-    if (currentQuestion.type === 'details-question' || currentQuestion.type ==='form-type') {
-      console.log(responses)
+    if (currentQuestion.type === 'details-question' || currentQuestion.type === 'form-type') {
       const allSubquestionsAnswered = currentQuestion.subquestions.every(sub => responses[sub.code] != null && responses[sub.code] !== "");
       setNextBtnEnabled(allSubquestionsAnswered);
     } else {
-      const isAnswered = responses[currentQuestion.code] != null;
-      console.log(isAnswered)
+      const response = responses[currentQuestion.code];
+      let isAnswered = response != null;
+      if (typeof response === 'object' && response !== null) {
+        isAnswered = response.otherValue != null && response.otherValue.trim() !== "";
+      }   
       setNextBtnEnabled(isAnswered);
     }
   };
+  
   const value = useMemo(
     () => ({
       currentQuestionCode,
@@ -157,6 +191,8 @@ export const QuestionnaireProvider = ({ children }) => {
       currentQuestionIndex,
       inputModified,
       nextBtnEnabled,
+      isNextButtonFunctionallyDisabled, 
+      toggleNextButtonFunctionality,
       checkAndEnableNextButton,
       changeNextBtnState,
       handleInputChange,
@@ -179,6 +215,7 @@ export const QuestionnaireProvider = ({ children }) => {
       nextBtnEnabled,
       inputModified,
       questionHistory,
+      isNextButtonFunctionallyDisabled,
     ]
   );
 

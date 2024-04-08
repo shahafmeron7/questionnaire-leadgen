@@ -27,6 +27,7 @@
         },
         {
           "text": "Other",
+          "isOther":true,
           "next_question_code": "monthly_volume"
         }
       ]
@@ -183,7 +184,8 @@
         {
           "next_question_code": "thank_you"
         }
-      ]
+      ],
+      "extra_info":"This will be used for relevant providers to call you by phone."
     },
     {
       "text": "Thank you",

@@ -107,6 +107,7 @@
   animation: exitFadeOut 0.2s ease-out forwards;
 }
 
+
 @keyframes slideUpEntranceList {
   0% {
     opacity: 0;

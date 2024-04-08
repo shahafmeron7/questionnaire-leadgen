@@ -41,7 +41,40 @@
   /* height: 100%; */
 }
 
+.otherInput{
+  opacity: 0;
+  transform: translateY(-50px);
+  visibility: hidden;
+}
+.otherInput input{
+  border: 1px solid var(--blue-color-1);
 
+  box-shadow: 0px 0px 4px 0px var(--blue-color-1);
+}
+.slideUpEntranceInput{
+  opacity: 1;
+  visibility: visible;
+  animation: slideUpEntranceInput 0.8s ease-in-out forwards;
+
+}
+@keyframes slideUpEntranceInput {
+  
+    
+  0% {
+      transform: translateY(-70px);
+      opacity: 0;
+  }
+
+  60% {
+      transform: translateY(10px);
+      opacity: 1;
+  }
+
+  100% {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
 
 
 

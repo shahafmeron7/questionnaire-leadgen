@@ -5,33 +5,48 @@ import ProgressBar from "../UI/ProgressBar";
 import AnswersContent from "./types/AnswersContent.jsx";
 import prevIcon from "../../images/prevbutton.svg";
 import styles from "./Questionnaire.module.css";
-import Loader from "./types/Loader.jsx";
+ import Loader from "./types/Loader.jsx";
 import QuestionnaireWrapper from "../../containers/QuestionnaireWrapper.jsx";
 import FormProgress from "../UI/FormProgress.jsx";
 import LogoPOS from "../UI/LogoPOS.jsx";
+import ExtraInfo from "../UI/ExtraInfo.jsx";
+import LegalMessage from "../UI/LegalMessage.jsx";
 const Questionnaire = () => {
   const {
     currentQuestion,
     setCurrentQuestionCode,
-    totalQuestions,
-    currentQuestionIndex,
     currentQuestionCode,
     moveToPrevQuestion,
     questionnaireStarted,
     moveToNextQuestion,
     questionHistory,
+    isNextButtonFunctionallyDisabled,
     checkAndEnableNextButton,
     inputModified,
     nextBtnEnabled,
     responses,
   } = useQuestionnaire();
   const [showLoader, setShowLoader] = useState(false);
+  const [isNextButtonClicked, setIsNextButtonClicked] = useState(false);
+
 
   const isFormSequence = currentQuestion.type === "form-type";
 
   const progressBarWidth = Math.round(
     (currentQuestion.step / 4) * 100
   );
+
+  useEffect(() => {
+    let timerId;
+    if (isNextButtonClicked) {
+        timerId = setTimeout(() => {
+            moveToNextQuestion();
+            setIsNextButtonClicked(false);
+        }, 500); 
+    }
+    return () => clearTimeout(timerId); 
+}, [isNextButtonClicked, moveToNextQuestion]);
+
   useEffect(() => {
     checkAndEnableNextButton();
   }, [currentQuestion, responses]);
@@ -55,6 +70,11 @@ const Questionnaire = () => {
       }
     };
   }, [currentQuestion]);
+
+  const handleNextButtonClick = () => {
+    setIsNextButtonClicked(true); // Trigger the useEffect hook above
+};
+
   const QuestionnaireTitle = () => {
     return (
       <div className={styles.titleWrapper}>
@@ -65,7 +85,7 @@ const Questionnaire = () => {
       </div>
     );
   };
- 
+  
    if (showLoader) {
      return (
        <QuestionnaireLayout>
@@ -89,6 +109,12 @@ const Questionnaire = () => {
          )}
          <div className={styles.contentWrapper}>
            <AnswersContent />
+           {currentQuestionCode ==="phone" && ( 
+            <>
+           <ExtraInfo/>
+           <LegalMessage/>
+            </>
+           )}
            <div className={styles.buttonsWrapper}>
              {questionHistory.length > 0 && (
                <button className={styles.prevBtn} onClick={moveToPrevQuestion}>
@@ -99,8 +125,8 @@ const Questionnaire = () => {
                className={`${styles.nextBtn} ${
                  inputModified || nextBtnEnabled ? styles.enabled : ""
                }`}
-               onClick={moveToNextQuestion}
-               disabled={!inputModified && !nextBtnEnabled}
+               onClick={() => !isNextButtonFunctionallyDisabled && moveToNextQuestion()}
+               disabled={!inputModified && !nextBtnEnabled && !isNextButtonFunctionallyDisabled} 
              >
                Next
              </button>
