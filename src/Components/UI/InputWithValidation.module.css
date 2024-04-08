@@ -1,7 +1,7 @@
 .inputContainer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  /* gap: 8px; */
 }
 
 .input {
@@ -25,15 +25,21 @@
 .errContainer {
   display: flex;
   gap: 8px;
+  margin-top: 8px;
   /* opacity: 0; */
-  align-items: center;
+  align-items: flex-start;
+
   color: var(--err-color);
   transition: all 400ms ease-in-out;
   /* visibility: hidden; */
 }
+.errContainer img{
+  margin-top: 5px;
+}
 .errContainer.notVisible{
-  /* height: 0; */
+  height: 0;
   opacity: 0;
+  margin-top: 0;
   transition: all 0.5s;
 }
 .errContainer.visible{
