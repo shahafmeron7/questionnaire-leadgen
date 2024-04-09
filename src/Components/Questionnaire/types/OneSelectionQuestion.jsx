@@ -27,7 +27,7 @@ const OneSelectionQuestion = () => {
   const [otherInputValue, setOtherInputValue] = useState("");
   const [applyExitAnimation, setApplyExitAnimation] = useState(false);
 
-  const displayDirection = currentQuestion.display_list_direction;
+  const isDisplayDirectionCol = currentQuestion.display_list_direction === "col";
   useEffect(() => {
     const response = responses[currentQuestion.code];
 
@@ -114,7 +114,7 @@ const OneSelectionQuestion = () => {
     <>
       <div
         className={`${styles.answersContainer} ${
-          displayDirection === "column" ? styles.listCol : styles.listRow
+          isDisplayDirectionCol ? styles.listCol : styles.listRow
         }`}
       >
         {currentQuestion.answers.map((answer, index) => (
@@ -123,7 +123,7 @@ const OneSelectionQuestion = () => {
             className={`${styles.answerItem} ${
               index === localSelectedIndex ? styles.selected : ""
             } ${
-              displayDirection === "column"
+              isDisplayDirectionCol
                 ? styles.answerRowItem
                 : styles.answerCardItem
             } ${styles.slideUpEntranceList}  `}

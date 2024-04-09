@@ -1,7 +1,23 @@
+.navbarWrapper{
+    padding: 0px 24px;
+    background-color: #fff;
+    width: 100%;
+}
+
 .navbar{
+    padding: 8px 0px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
-.logo{
-
+.logosWrapper{
+    display:flex;
+    gap:16px;
+    align-items:center;
 }
+@media only screen and (max-width: 767px) {
+    .logosWrapper{
+      flex-direction: column;
+      gap: 4px;
+    }
+  }

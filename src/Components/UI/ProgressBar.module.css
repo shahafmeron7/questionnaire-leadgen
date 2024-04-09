@@ -33,3 +33,11 @@
     transition: width 0.2s linear 0s;
     background-color: var(--blue-color-1);
 }
+@media only screen and (min-width: 375px) and (max-width:767px){
+    .progressContainer{
+      /* width: 344px;
+       */
+       width: calc(100% - 24px);
+    }
+
+  }

@@ -31,8 +31,11 @@ const BestMatch = () => {
       <div className={styles.bestMatchCard}>
 
         <img src={card.src} alt={card.alt} className={styles.bestMatchLogo}/>
+        <div className={styles.cardInfoWrapper}>
         <h3 className={styles.cardTitle}>{card.title}</h3>
         <p className={styles.cardInfo}>{card.info}</p>
+        </div>
+
       </div>
 
     )

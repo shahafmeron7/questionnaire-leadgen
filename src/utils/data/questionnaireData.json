@@ -7,7 +7,7 @@
       "code": "business_type",
       "step": 1,
       "type": "one-selection",
-      "display_list_direction": "row",
+      "display_list_direction": "col",
       "answers": [
         {
           "text": "food and catering",
@@ -37,7 +37,7 @@
       "code": "monthly_volume",
       "step": 2,
       "type": "one-selection",
-      "display_list_direction": "column",
+      "display_list_direction": "col",
       "answers": [
         {
           "text": "More than $10,000",

@@ -6,13 +6,13 @@ import fiveStartsLogo from '../../images/5stars.svg';
 
 const Navbar = () => {
   return (
-    <div style={{padding:"0 24px",backgroundColor:'#fff'}}>
+    <div className={styles.navbarWrapper}>
 
-    <nav style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0px'}}>
+    <nav className={styles.navbar}>
       <div>
       <img src={logo} alt="Logo"  />
         </div>
-      <div style={{display:'flex',gap:'16px',alignItems:'center'}}>
+      <div className={styles.logosWrapper}>
       <img src={trustPilotLogo} alt="Logo"  />
       <img src={fiveStartsLogo} alt="Logo"  />
         

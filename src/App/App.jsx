@@ -24,17 +24,21 @@ function App() {
            <>
              <Questionnaire />
              {!questionnaireStarted && (
+              <>
                <ContentLayout>
                  <PartnerWith />
                  <BestMatch />
                  <FAQ />
                </ContentLayout>
+               <Footer />
+              </>
+
              )}
            </>
          ) : (
            <ThankYou />
          )}
-         <Footer />
+        
        </div>
    );
  }

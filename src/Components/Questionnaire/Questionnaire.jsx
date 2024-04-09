@@ -11,6 +11,7 @@ import FormProgress from "../UI/FormProgress.jsx";
 import LogoPOS from "../UI/LogoPOS.jsx";
 import ExtraInfo from "../UI/ExtraInfo.jsx";
 import LegalMessage from "../UI/LegalMessage.jsx";
+import FormIcons from "../UI/FormIcons.jsx";
 const Questionnaire = () => {
   const {
     currentQuestion,
@@ -95,7 +96,12 @@ const Questionnaire = () => {
   }
   return (
     <QuestionnaireLayout>
-      {!questionnaireStarted && <QuestionnaireTitle />}
+      {!questionnaireStarted && (
+        <>
+        <QuestionnaireTitle />
+        <FormIcons/>
+        </>
+      )}
       {isEmailStep && <LogoPOS />}
       {isFormSequence && <FormProgress />}
       <QuestionnaireWrapper>
