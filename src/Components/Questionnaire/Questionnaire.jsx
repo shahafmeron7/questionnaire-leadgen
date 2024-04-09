@@ -33,7 +33,7 @@ const Questionnaire = () => {
   const isFinalStep = currentQuestionCode === "phone";
   const isZipCodeStep = currentQuestionCode === "zip_code";
   const isEmailStep = currentQuestionCode === "email";
-  const progressBarWidth = Math.round((currentQuestion.step / 4) * 100);
+  const progressBarWidth = Math.round(((currentQuestion.step-1) / (4-1)) * 100);
 
   useEffect(() => {
     let timerId;
@@ -72,20 +72,13 @@ const Questionnaire = () => {
   const handleNextButtonClick = () => {
     setIsNextButtonClicked(true); // Trigger the useEffect hook above
   };
-  const FinalStepTitle = ()=>{
-    return(
-
-      <div className={styles.titleWrapper}>
-        <h1 className={styles.finalStepTitle}>Final Step</h1>
-      </div>
-      )
-  }
+  
   const QuestionnaireTitle = () => {
     return (
       <div className={styles.titleWrapper}>
-        <h1 className={styles.title}>Find your POS system</h1>
+        <h1 className={styles.title}>Find the right merchant service provider</h1>
         <h3 className={styles.titleDescription}>
-          6 questions for a customized business solution
+          Just a few questions to find your match
         </h3>
       </div>
     );
@@ -107,7 +100,7 @@ const Questionnaire = () => {
       {isFormSequence && <FormProgress />}
       <QuestionnaireWrapper>
         {!isFormSequence && <ProgressBar width={progressBarWidth} />}
-        {isFinalStep && <FinalStepTitle/>}
+        {/* {isFinalStep && <FinalStepTitle/>} */}
         {currentQuestion.text && (
           <div className={styles.questionDescriptionText}>
             {currentQuestion.text}

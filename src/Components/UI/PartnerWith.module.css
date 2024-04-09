@@ -1,0 +1,39 @@
+.partnerWithWrapper {
+  display: flex;
+  padding-bottom: 40px;
+  flex-direction: column;
+  align-items: center;
+}
+.partnerWithContainer {
+  display: flex;
+  /* width: 1140px; */
+  padding: 32px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  border-radius: 8px;
+  border: 1px solid var( --gray-color-1);
+  background: #fff;
+  /* background-color: red; */
+}
+.partnerWithDivider{
+    height: 1px;
+    width: 100%;
+    background-color: var(--border-border-50);
+}
+.partnerWithLogo{
+    width: 150px;
+    height: 30px;
+}
+.partnerWithTitle {
+    color: var(--black-color-1);
+    font-size: 28px;
+font-style: normal;
+font-weight: 700;
+line-height: 36px;
+}
+.partnerWithBrandsContainer {
+    display: flex;
+    align-items: center;
+}

@@ -126,7 +126,8 @@ const OneSelectionQuestion = () => {
               displayDirection === "column"
                 ? styles.answerRowItem
                 : styles.answerCardItem
-            } ${styles.slideUpEntranceList} ${applyExitAnimation ? `${styles.exitFadeOut}`:''} `}
+            } ${styles.slideUpEntranceList}  `}
+            // ${applyExitAnimation ? `${styles.exitFadeOut}`:''}
             onClick={() => handleClick(index)}
             style={{ animationDelay: `${index * 0.1}s` }}
           >

@@ -1,3 +1,16 @@
+.finalStepTitleWrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.finalStepTitle{
+  color: var(--blue-color-1);
+  font-size: 32px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px;
+}
 .answersContainer {
   display: flex;
   width: 100%;
@@ -79,6 +92,9 @@
 }
 .specialLayout input{
   width: unset;
+}
+.specialLayout > .inputWrapper:nth-child(3){
+  margin-top: 40px;
 }
 .specialLayout > #company_name{
   /* width: 50%; */

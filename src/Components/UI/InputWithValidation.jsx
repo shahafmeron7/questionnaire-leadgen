@@ -6,7 +6,8 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,i
   const { handleInputChange } = useQuestionnaire();
   const [inputValue, setInputValue] = useState(value);
   const [error, setError] = useState(isError);
-
+  const maxLength = name === "zip_code" ? "5" : name ==="phone" ? "10" : ""; 
+  console.log(maxLength,type)
   useEffect(() => {
     setError(isError);
   }, [isError]);
@@ -19,11 +20,11 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,i
     <div className={`${styles.inputContainer} ${isOther ? (`${styles.otherInput} ${styles.slideUpEntranceInput}`):''} `}>
       <input
         ref={ref}
-        type={type === "phone" ? "number" : type}
+        type={type}
         name={name}
-        maxLength={type === "zip" ? "5" : ""}
+        maxLength={maxLength}
         value={inputValue}
-        inputMode={type === "zip" || type === "phone" ? "numeric" : type}
+        inputMode={name === "phone" ? "numeric" : type}
         onChange={handleChange}
         placeholder={placeholder}
         className={`${styles.input} ${error ? `${styles.inputError}` : ""}`}

@@ -4,13 +4,7 @@
   align-items: center;
   gap: 8px;
 }
-.finalStepTitle{
-  color: var(--blue-color-1);
-  font-size: 32px;
-font-style: normal;
-font-weight: 700;
-line-height: 24px;
-}
+
 .title {
   color: var(--black-color-1);
   font-size: 40px;
