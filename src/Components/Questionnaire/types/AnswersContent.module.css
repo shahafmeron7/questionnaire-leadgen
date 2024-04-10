@@ -71,6 +71,7 @@ line-height: 24px;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  width: 100%;
 }
 .inputWrapper {
   display: flex;
@@ -111,6 +112,7 @@ line-height: 24px;
   font-size: 24px;
   font-weight: 700;
   line-height: 24px;
+  text-align: center;
 }
 .inputItem {
   /* width: 100%; */

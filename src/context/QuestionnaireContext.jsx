@@ -6,6 +6,8 @@ import React, {
   useState,
   useMemo,
 } from "react";
+import { useNavigate } from 'react-router-dom';
+
 import questionnaireData from "./../utils/data/questionnaireData.json";
 import { validateField } from "../utils/helperFunctions";
 const QuestionnaireContext = createContext();
@@ -13,6 +15,8 @@ const QuestionnaireContext = createContext();
 export const useQuestionnaire = () => useContext(QuestionnaireContext);
 
 export const QuestionnaireProvider = ({ children }) => {
+  const navigate = useNavigate(); // Use useNavigate hook
+
   const [currentQuestionCode, setCurrentQuestionCode] = useState(
     questionnaireData.questions[0]?.code
   );
@@ -40,7 +44,14 @@ export const QuestionnaireProvider = ({ children }) => {
       } else {
         setQuestionnaireStarted(false);
       }
-    }, [currentQuestion]);
+      if(currentQuestionCode ==='thank_you'){
+        setQuestionnaireCompleted(true);
+      }
+      else{
+        setQuestionnaireCompleted(false);
+
+      }
+    }, [currentQuestion,currentQuestionCode]);
   const currentQuestionIndex = questionnaireData.questions.findIndex(
     (q) => q.code === currentQuestionCode
   );
@@ -53,7 +64,7 @@ export const QuestionnaireProvider = ({ children }) => {
   };
 
   const changeNextBtnState = (isEnabled) => {
-
+    console.log(isEnabled)
     setNextBtnEnabled(isEnabled);
   };
   const toggleNextButtonFunctionality = (isDisabled) => {
@@ -70,17 +81,29 @@ export const QuestionnaireProvider = ({ children }) => {
     console.log(questionCode,answerIndex);
     const nextQuestionCode =
       currentQuestion.answers[answerIndex].next_question_code;
+      console.log(nextQuestionCode)
     if (nextQuestionCode) {
       setQuestionHistory((prevHistory) => [
         ...prevHistory,
         currentQuestionCode,
       ]);
       setCurrentQuestionCode(nextQuestionCode);
-    } else {
-    }
+      // navigate(`/questionnaire?step=${nextQuestionCode}`);
+
+    } 
   };
+ 
+  
+const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
+    setResponses(prevResponses => ({
+      ...prevResponses,
+      [questionCode]: selectedIndexes,
+    }));
+  };
+
+
   const handleInputChange = (questionCode, inputValue, isOther = false) => {
-    console.log(questionCode)
+    console.log(questionCode, inputValue, isOther)
     if (!isOther) {
       console.log('regular input change');
       setResponses(prevResponses => ({
@@ -101,12 +124,14 @@ export const QuestionnaireProvider = ({ children }) => {
           },
         }));
       } else {
+        const otherIndex = currentQuestion.answers.findIndex(answer => answer.isOther);
+
         // If there's no existing object, it means 'Other' is being selected now,
         // so create a new object to store 'otherValue'
         setResponses(prevResponses => ({
           ...prevResponses,
           [questionCode]: {
-            selectedIndex: existingResponse, // Preserve the previously selected index if any
+            selectedIndex: otherIndex, // Preserve the previously selected index if any
             otherValue: inputValue,
           },
         }));
@@ -124,33 +149,52 @@ export const QuestionnaireProvider = ({ children }) => {
   
   const moveToNextQuestion = () => {
     let proceedToNext = true;
+    let nextQuestionCode;
   
-    if (currentQuestion.type === 'details-question' || currentQuestion.type ==='form-type') {
+    if (currentQuestion.type === 'details-question' || currentQuestion.type === 'form-type') {
       currentQuestion.subquestions.forEach(sub => {
         if (!validateField(sub.code, responses[sub.code])) {
           proceedToNext = false;
           setErrResponses(prev => ({ ...prev, [sub.code]: true }));
         }
       });
-  
-      if (!proceedToNext) {
-        console.log("Validation failed for one or more fields.");
-        setNextBtnEnabled(false); 
-        return; 
+      // Use the first answer's next_question_code for these types
+      nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
+    } else if (currentQuestion.type === 'one-selection') {
+      
+      const response = responses[currentQuestion.code];
+      console.log(response)
+      if (typeof response === 'object' && response.hasOwnProperty('selectedIndex')) {
+        // Handle 'other' case where response is an object
+        const selectedIndex = response.selectedIndex;
+        console.log(selectedIndex)
+
+        nextQuestionCode = currentQuestion.answers[selectedIndex]?.next_question_code;
+        console.log(nextQuestionCode)
+
+      } else {
+        // Regular case where response is an index
+        nextQuestionCode = currentQuestion.answers[response]?.next_question_code;
+      }
+
+    } else if (currentQuestion.type === 'multiple-choice') {
+      // Assuming all answers lead to the same next question, check any selected answer
+      const selectedIndexes = responses[currentQuestion.code] || [];
+      if (selectedIndexes.length === 0) {
+        proceedToNext = false;
+        // Optionally, set an error state here
+      } else {
+        nextQuestionCode = currentQuestion.answers[selectedIndexes[0]]?.next_question_code;
       }
     }
-    else if(currentQuestion.type === 'one-selection'){
-      //need to check 'other'
-    }
-    const nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
-    if (nextQuestionCode) {
-      setCurrentQuestionCode(nextQuestionCode); // Update to next question
-      setQuestionHistory(prevHistory => [...prevHistory, currentQuestionCode]); 
+  
+    if (proceedToNext && nextQuestionCode) {
+      setCurrentQuestionCode(nextQuestionCode);
+      setQuestionHistory(prevHistory => [...prevHistory, currentQuestionCode]);
       setNextBtnEnabled(false);
-      // Optionally reset specific UI states (like inputModified or nextBtnEnabled) as needed
-    } else {
-      console.log("Next question not found.");
-      // Handle case where no next question is defined
+    } else if (!proceedToNext) {
+      console.log("Validation failed or no answer selected.");
+      setNextBtnEnabled(false);
     }
   };
 
@@ -161,6 +205,8 @@ export const QuestionnaireProvider = ({ children }) => {
       setCurrentQuestionCode(
         prevQuestionCode || questionnaireData.questions[0].code
       );
+      // navigate(`/questionnaire?step=${prevQuestionCode}`);
+
       return history;
     });
   };
@@ -173,7 +219,10 @@ export const QuestionnaireProvider = ({ children }) => {
       let isAnswered = response != null;
       if (typeof response === 'object' && response !== null) {
         isAnswered = response.otherValue != null && response.otherValue.trim() !== "";
-      }   
+      } 
+      else if(typeof response ==='array' ){
+        isAnswered=response.length>0;
+      }  
       setNextBtnEnabled(isAnswered);
     }
   };
@@ -191,13 +240,15 @@ export const QuestionnaireProvider = ({ children }) => {
       currentQuestionIndex,
       inputModified,
       nextBtnEnabled,
-      isNextButtonFunctionallyDisabled, 
+      isNextButtonFunctionallyDisabled,
+      navigate, 
       toggleNextButtonFunctionality,
       checkAndEnableNextButton,
       changeNextBtnState,
       handleInputChange,
       resetInputModified,
       moveToNextQuestion,
+      handleMultipleAnswerSelection,
       moveToPrevQuestion,
       completeQuestionnaire,
       handleAnswerSelection,

@@ -25,6 +25,7 @@
   line-height: 24px;
   font-weight: 700;
   color: var(--black-color-1);
+  text-align: center;
 }
 .contentWrapper {
   display: flex;

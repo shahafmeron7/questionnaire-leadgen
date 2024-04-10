@@ -47,7 +47,7 @@ line-height: 36px;
 .faqItem summary {
   display: flex;
   cursor: pointer;
-
+  gap: 16px;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
@@ -67,6 +67,8 @@ details[open] summary svg{
 details summary svg{
     transform: rotate(180deg);
     transition: all .3s ease-in-out;
+    min-width: 18px;
+    min-height: 18px;
 }
 
 

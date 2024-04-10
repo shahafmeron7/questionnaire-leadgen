@@ -3,13 +3,12 @@ import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import OneSelectionQuestion from "./OneSelectionQuestion";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
 import DetailsQuestion from "./DetailsQuestion";
-import FormLayout from "../../../containers/FormLayout";
 
 const AnswersContent = () => {
   const { currentQuestion } = useQuestionnaire();
   const questionComponents = {
     "one-selection": OneSelectionQuestion,
-    "multiple-choice": MultipleChoiceQuestion,
+    "multi-selection": MultipleChoiceQuestion,
     "details-question": DetailsQuestion,
     "form-type": DetailsQuestion,
   };

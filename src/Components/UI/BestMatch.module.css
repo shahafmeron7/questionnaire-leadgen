@@ -24,6 +24,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 36px;
+  text-align: center;
 }
 .bestMatchCardsContainer {
   display: flex;

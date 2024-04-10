@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import ProgressBar from "../UI/ProgressBar";
@@ -27,8 +29,10 @@ const Questionnaire = () => {
     nextBtnEnabled,
     responses,
   } = useQuestionnaire();
+  const navigate = useNavigate();
   const [showLoader, setShowLoader] = useState(false);
   const [isNextButtonClicked, setIsNextButtonClicked] = useState(false);
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 767);
 
   const isFormSequence = currentQuestion.type === "form-type";
   const isFinalStep = currentQuestionCode === "phone";
@@ -41,6 +45,8 @@ const Questionnaire = () => {
     if (isNextButtonClicked) {
       timerId = setTimeout(() => {
         moveToNextQuestion();
+        // navigate(`?step=${currentQuestion.step+1}`, { replace: true });
+
         setIsNextButtonClicked(false);
       }, 500);
     }
@@ -49,7 +55,33 @@ const Questionnaire = () => {
 
   useEffect(() => {
     checkAndEnableNextButton();
+    console.log('here2')
   }, [currentQuestion, responses]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth > 767);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  // useEffect(() => {
+  //   // Function to execute on back navigation
+  //   const handleBackNavigation = (event) => {
+  //     event.preventDefault();
+  //     if (currentQuestion.step > 1) {
+  //       moveToPrevQuestion();
+  //     } else {
+  //       navigate(-1);
+  //     }
+  //   };
+
+  //   window.addEventListener('popstate', handleBackNavigation);
+
+  //   return () => window.removeEventListener('popstate', handleBackNavigation);
+  // }, [currentQuestion, moveToPrevQuestion, navigate]);
 
   useEffect(() => {
     let timeoutId = null;
@@ -94,6 +126,13 @@ const Questionnaire = () => {
       </QuestionnaireLayout>
     );
   }
+  const mobileButtonsstyle = {
+    position:'absolute',
+    bottom:'0',
+    width:'100%',
+    backgroundColor:'#fff',
+    padding:'16px'
+  }
   return (
     <QuestionnaireLayout>
       {!questionnaireStarted && (
@@ -117,7 +156,7 @@ const Questionnaire = () => {
           {(isFinalStep || isZipCodeStep) && <ExtraInfo />}
 
           {isFinalStep && <LegalMessage />}
-          <div className={styles.buttonsWrapper}>
+          <div className={styles.buttonsWrapper} style={(questionnaireStarted && !isWideScreen) ? mobileButtonsstyle : {}}>
             {questionHistory.length > 0 && (
               <button className={styles.prevBtn} onClick={moveToPrevQuestion}>
                 <img src={prevIcon} alt="prev_btn_icon" />

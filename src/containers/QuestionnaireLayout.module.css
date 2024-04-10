@@ -5,7 +5,7 @@
     padding: 64px 24px 80px;
     width: 100%;
     height: 100%;
-    position: relative;
+    /* position: relative; */
 }
 .questionnaireWrapper{
     display: flex;
@@ -35,11 +35,15 @@
   }
   @media only screen and (min-width: 375px) and (max-width:767px){
     .questionnaireLayout{
-      padding: 24px 16px;
+      /* padding: 24px 16px; */
+      padding: 24px  16px 40px  16px;
+
+
     }
     .questionnaireWrapper{
       /* width: 344px; */
-      width: calc(100%-24px);
+      padding-top: 24px;
+      width: calc(100% - 24px);
       gap: 24px;
     }
     .questionnaireContentWrapper{

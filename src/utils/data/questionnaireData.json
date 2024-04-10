@@ -10,7 +10,7 @@
       "display_list_direction": "col",
       "answers": [
         {
-          "text": "food and catering",
+          "text": "Food and Catering",
           "next_question_code": "monthly_volume"
         },
         {
@@ -61,20 +61,24 @@
       "text": "How do you want to accept credit card payments?",
       "code": "cc_payment_method",
       "step": 3,
-      "type": "one-selection",
+      "type": "multi-selection",
       "display_list_direction": "row",
-
+      "instructions":"Select all that apply",
       "answers": [
         {
           "text": "In person",
+          "iconSrc":"",
           "next_question_code": "zip_code"
         },
         {
           "text": "Online",
+          "iconSrc":"",
+
           "next_question_code": "zip_code"
         },
         {
           "text": "By phone",
+          "iconSrc":"",
           "next_question_code": "zip_code"
         }
       ]
