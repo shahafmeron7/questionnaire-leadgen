@@ -19,6 +19,8 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,i
   return (
     <div className={`${styles.inputContainer} ${isOther ? (`${styles.otherInput} ${styles.slideUpEntranceInput}`):''} `}>
       <input
+        data-lpignore="true"
+
         ref={ref}
         type={type}
         name={name}

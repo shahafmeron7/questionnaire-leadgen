@@ -20,4 +20,7 @@
       flex-direction: column;
       gap: 4px;
     }
+    .logosWrapper img{
+        height: 18px;
+    }
   }

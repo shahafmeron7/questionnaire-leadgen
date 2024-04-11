@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import styles from "./FormProgress.module.css";
+
 const FormProgress = () => {
   const { currentQuestionCode } = useQuestionnaire();
   const steps = {

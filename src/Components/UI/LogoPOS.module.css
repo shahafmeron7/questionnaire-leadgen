@@ -35,3 +35,11 @@ color: var(--black-color-1);
     line-height: 28px; 
     color: var(--black-color-1);
 }
+@media only screen and (max-width: 767px) {
+  .logoPosWrapper{
+    padding: 24px 0px;
+  }
+  .logoPosContainer{
+    padding: 0 4px;
+  }
+}

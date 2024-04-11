@@ -22,10 +22,18 @@
 }
 .questionDescriptionText {
   font-size: 24px;
-  line-height: 24px;
+  line-height: 32px;
   font-weight: 700;
   color: var(--black-color-1);
   text-align: center;
+}
+.questionInstructions{
+  color: var(--border-border-100, #99A5C5);
+
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px; 
 }
 .contentWrapper {
   display: flex;
@@ -55,6 +63,7 @@
   height: 56px;
   padding: 8px 24px;
   color:#fff;
+  font-weight: 600;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
@@ -93,14 +102,19 @@
   font-weight: 400;
   line-height: 48px;
 }
-@keyframes exitFadeOut {
-  0% {
-      opacity: 1;
-  }
-  50%{
-    opacity: 0;
-  }
-  100% {
-      opacity: 0;
-  }
+.sslWrapper{
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+
+}
+.sslWrapper p{
+  color: var(--border-border-100);
+
+  font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 22px;
+  text-decoration: underline;
 }

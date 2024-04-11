@@ -8,12 +8,25 @@
   --gray-color-1:rgba(153, 165, 197, 0.40);
   --border-border-50: rgba(153, 165, 197, 0.50);
   --border-border-20: rgba(153, 165, 197, 0.20);
+  --border-border-100: #99A5C5;
   --bg-prev-btn-color:#F6F6F6;
   --selected-bg-color:#e9eff6;
   --err-color:#F62B54;
   --bg-pos-logo:rgba(0, 111, 255, 0.10);
+
+}
+[autocomplete="off"] + div[data-lastpass-icon-root="true"] {
+  display: none;
+}
+
+[autocomplete="off"] + div[data-lastpass-infield="true"] {
+  display: none;
+}
+#root{
+  height: 100%;
 }
 body {
+  min-height: 100vh;
   margin: 0;
   background-color: var(--layout-bg-color);
   font-family: 'Inter',sans-serif;
@@ -23,6 +36,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

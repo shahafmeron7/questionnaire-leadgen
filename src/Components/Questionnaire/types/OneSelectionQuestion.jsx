@@ -1,13 +1,12 @@
 import React, { useState, useEffect,useRef } from "react";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import styles from "./AnswersContent.module.css";
-import exitStyle from "../Questionnaire.module.css";
+import {ReactComponent as UnselectedCheckboxSVG} from "../../../images/unselectedCircleCheckbox.svg";
+import {ReactComponent as SelectedCheckboxSVG} from "../../../images/selectedCircleCheckbox.svg"
+import { motion,AnimatePresence } from 'framer-motion';
 
 import InputWithValidation from "../../UI/InputWithValidation";
-const selectedCheckboxSVG =
-  "https://assets.sonary.com/wp-content/uploads/2023/12/27112431/Selector-1.svg";
-const unselectedCheckboxSVG =
-  "https://assets.sonary.com/wp-content/uploads/2023/12/27112433/Selector.svg";
+import { slideUpListVariant } from "../../../animations/animations";
 
 const OneSelectionQuestion = () => {
   const {
@@ -25,7 +24,6 @@ const OneSelectionQuestion = () => {
   const [delayNextQuestion, setDelayNextQuestion] = useState(false);
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [otherInputValue, setOtherInputValue] = useState("");
-  const [applyExitAnimation, setApplyExitAnimation] = useState(false);
 
   const isDisplayDirectionCol = currentQuestion.display_list_direction === "col";
   useEffect(() => {
@@ -62,7 +60,6 @@ const OneSelectionQuestion = () => {
     if (delayNextQuestion && !isOtherSelected) {
         changeNextBtnState(true);
         toggleNextButtonFunctionality(true); 
-        setApplyExitAnimation(true); 
       timer = setTimeout(() => {
         handleAnswerSelection(
           currentQuestion.code,
@@ -71,7 +68,6 @@ const OneSelectionQuestion = () => {
           isOtherSelected
         );
         setDelayNextQuestion(false);
-        setApplyExitAnimation(false);
         changeNextBtnState(false);
         toggleNextButtonFunctionality(false);
       }, 1000);
@@ -117,8 +113,10 @@ const OneSelectionQuestion = () => {
           isDisplayDirectionCol ? styles.listCol : styles.listRow
         }`}
       >
+              <AnimatePresence>
+
         {currentQuestion.answers.map((answer, index) => (
-          <div
+          <motion.div
             key={`${currentQuestion.code}-${index}`}
             className={`${styles.answerItem} ${
               index === localSelectedIndex ? styles.selected : ""
@@ -126,23 +124,23 @@ const OneSelectionQuestion = () => {
               isDisplayDirectionCol
                 ? styles.answerRowItem
                 : styles.answerCardItem
-            } ${styles.slideUpEntranceList}  `}
-            // ${applyExitAnimation ? `${styles.exitFadeOut}`:''}
+            }  `}
+            custom={index}
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            variants={slideUpListVariant}
             onClick={() => handleClick(index)}
-            style={{ animationDelay: `${index * 0.1}s` }}
           >
             <span>{answer.text}</span>
-            <img
-              className={styles.checkboxSvg}
-              src={
-                index === localSelectedIndex
-                  ? selectedCheckboxSVG
-                  : unselectedCheckboxSVG
-              }
-              alt="Checkbox"
-            />
-          </div>
+        { index === localSelectedIndex
+                  ? (<SelectedCheckboxSVG/>)
+                  : (<UnselectedCheckboxSVG/>)}
+           
+          </motion.div>
         ))}
+              </AnimatePresence>
+
       </div>
       {isOtherSelected && (
         <InputWithValidation

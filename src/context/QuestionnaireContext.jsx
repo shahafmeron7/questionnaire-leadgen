@@ -30,6 +30,7 @@ export const QuestionnaireProvider = ({ children }) => {
   const [inputModified, setInputModified] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
   const [isNextButtonFunctionallyDisabled, setIsNextButtonFunctionallyDisabled] = useState(false);
+  const [animationState, setAnimationState] = useState('enter'); // 'enter', 'exit', or null
 
   
   const currentQuestion = useMemo(() => {
@@ -58,7 +59,13 @@ export const QuestionnaireProvider = ({ children }) => {
   const totalQuestions = questionnaireData.questions.length;
 
  
-
+  const triggerAnimation = (state) => {
+    setAnimationState(state);
+    // Optionally, reset the state after the animation duration
+    if (state !== null) {
+      setTimeout(() => setAnimationState(null), 1000); // Adjust based on your longest animation time
+    }
+  };
   const completeQuestionnaire = () => {
     setQuestionnaireCompleted(true);
   };
@@ -177,7 +184,8 @@ const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
         nextQuestionCode = currentQuestion.answers[response]?.next_question_code;
       }
 
-    } else if (currentQuestion.type === 'multiple-choice') {
+    } else if (currentQuestion.type === 'multi-selection') {
+      console.log('move next multi choice')
       // Assuming all answers lead to the same next question, check any selected answer
       const selectedIndexes = responses[currentQuestion.code] || [];
       if (selectedIndexes.length === 0) {
@@ -216,15 +224,23 @@ const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
       setNextBtnEnabled(allSubquestionsAnswered);
     } else {
       const response = responses[currentQuestion.code];
-      let isAnswered = response != null;
-      if (typeof response === 'object' && response !== null) {
-        isAnswered = response.otherValue != null && response.otherValue.trim() !== "";
-      } 
-      else if(typeof response ==='array' ){
-        isAnswered=response.length>0;
-      }  
-      setNextBtnEnabled(isAnswered);
+        let isAnswered = false;
+        if (response != null) {
+            if (typeof response === 'object' && !Array.isArray(response)) {
+                // Handling for 'other' type with object response (assuming 'otherValue' exists for 'other' response)
+                isAnswered = response.otherValue != null && response.otherValue.trim() !== "";
+            } else if (Array.isArray(response)) {
+                console.log('check button array type');
+                isAnswered = response.length > 0;
+            } else {
+                // For simple truthy check for non-object, non-array types
+                isAnswered = true;
+            }
+        }
+        setNextBtnEnabled(isAnswered);
+
     }
+    
   };
   
   const value = useMemo(
@@ -241,7 +257,10 @@ const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
       inputModified,
       nextBtnEnabled,
       isNextButtonFunctionallyDisabled,
-      navigate, 
+      animationState,
+      triggerAnimation,
+      navigate,
+      
       toggleNextButtonFunctionality,
       checkAndEnableNextButton,
       changeNextBtnState,
@@ -267,6 +286,7 @@ const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
       inputModified,
       questionHistory,
       isNextButtonFunctionallyDisabled,
+      animationState
     ]
   );
 

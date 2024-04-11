@@ -37,3 +37,11 @@
     background-color:var(--blue-color-1);
     
 }
+@media only screen and (max-width: 767px) {
+    .formProgressContainer{
+      width: 100%;
+    }
+    .formProgressItem{
+        width: 80px;
+    }
+  }

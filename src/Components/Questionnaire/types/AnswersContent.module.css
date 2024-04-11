@@ -19,8 +19,7 @@ line-height: 24px;
   gap: 8px;
 }
 .answerItem {
-  opacity: 0;
-  visibility: hidden;
+  
   display: flex;
   flex-direction: column;
   transition: outline 400ms ease-in-out;
@@ -51,9 +50,9 @@ line-height: 24px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 180px;
-  height: 180px;
-  padding: 0px 8px;
+  width: 220px;
+  height: 220px;
+  padding: 8px;
   gap: 8px;
 }
 .answerRowItem {
@@ -118,33 +117,4 @@ line-height: 24px;
   /* width: 100%; */
 }
 
-.slideUpEntranceList {
-  visibility: visible;
-  animation: slideUpEntranceList 0.3s ease-in-out forwards;
-}
-.exitFadeOut {
-  animation: exitFadeOut 0.2s ease-out forwards;
-}
 
-
-@keyframes slideUpEntranceList {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes exitFadeOut {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
