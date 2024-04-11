@@ -1,53 +1,53 @@
-.questionnaireLayout{
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 64px 24px 80px;
-    width: 100%;
-    height: 100%;
-    /* position: relative; */
+.questionnaireLayout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 64px 24px 80px;
+  width: 100%;
+  height: 100%;
+  /* position: relative; */
 }
-.questionnaireWrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    /* width:700px */
+.questionnaireWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  /* width:700px */
 }
-.questionnaireContentWrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    width: 100%;
+.questionnaireContentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
 }
 @media only screen and (min-width: 992px) {
-    /* .questionnaireWrapper{
+  /* .questionnaireWrapper{
       width: 897px;
     } */
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .questionnaireWrapper {
+    width: 721px;
   }
-
-  @media only screen and (min-width: 768px) and (max-width:991px){
-    .questionnaireWrapper{
-      width: 721px;
-    }
-
+}
+@media only screen and (min-width: 375px) and (max-width: 767px) {
+  .questionnaireLayout {
+    /* padding: 24px 16px; */
+    padding: 24px 16px 40px 16px;
+    height: 80vh;
+    min-height: 100%;
+    overflow-y: scroll;
+    padding-bottom: 80px;
   }
-  @media only screen and (min-width: 375px) and (max-width:767px){
-    .questionnaireLayout{
-      /* padding: 24px 16px; */
-      padding: 24px  16px 40px  16px;
-
-
-    }
-    .questionnaireWrapper{
-      /* width: 344px; */
-      padding-top: 24px;
-      width: calc(100% - 24px);
-      gap: 24px;
-    }
-    .questionnaireContentWrapper{
-      gap: 24px;
-    }
-
+  .questionnaireWrapper {
+    /* width: 344px; */
+    padding-top: 24px;
+    width: calc(100% - 24px);
+    gap: 24px;
   }
+  .questionnaireContentWrapper {
+    gap: 24px;
+  }
+}
