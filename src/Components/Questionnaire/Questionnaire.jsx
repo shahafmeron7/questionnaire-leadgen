@@ -4,7 +4,6 @@ import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import ProgressBar from "../UI/ProgressBar";
 import AnswersContent from "./types/AnswersContent.jsx";
-import { ReactComponent as PrevIcon } from "../../images/prevbutton.svg";
 import { motion, AnimatePresence } from "framer-motion";
 import SSLIcon from "../UI/SSLIcon.jsx";
 import styles from "./Questionnaire.module.css";
@@ -17,26 +16,19 @@ import LegalMessage from "../UI/LegalMessage.jsx";
 import FormIcons from "../UI/FormIcons.jsx";
 import { defaultVariants } from "../../animations/animations.js";
 import useIsWideScreen from "../../custom hooks/useIsWideScreen.jsx";
+import QuestionnaireButtons from "../UI/QuestionnaireButtons.jsx";
 
 const Questionnaire = () => {
   const {
     currentQuestion,
     setCurrentQuestionCode,
     currentQuestionCode,
-    moveToPrevQuestion,
+   
     questionnaireStarted,
-    moveToNextQuestion,
-    questionHistory,
-    isNextButtonFunctionallyDisabled,
-    checkAndEnableNextButton,
-    inputModified,
-    nextBtnEnabled,
-    responses,
+  
   } = useQuestionnaire();
   const navigate = useNavigate();
-  const isWideScreen = useIsWideScreen();
   const [showLoader, setShowLoader] = useState(false);
-  const [isNextButtonClicked, setIsNextButtonClicked] = useState(false);
 
   const isFormSequence = currentQuestion.type === "form-type";
   const isFinalStep = currentQuestionCode === "phone";
@@ -46,25 +38,7 @@ const Questionnaire = () => {
     ((currentQuestion.step - 1) / (4 - 1)) * 100
   );
 
-  useEffect(() => {
-    let timerId;
-    if (isNextButtonClicked) {
-      console.log("useeffect clciked");
-      timerId = setTimeout(() => {
-        moveToNextQuestion();
-        // navigate(`?step=${currentQuestion.step+1}`, { replace: true });
-        console.log("button false clciked");
-
-        setIsNextButtonClicked(false);
-      }, 500);
-    }
-    return () => clearTimeout(timerId);
-  }, [isNextButtonClicked, moveToNextQuestion]);
-
-  useEffect(() => {
-    checkAndEnableNextButton();
-  }, [currentQuestion, responses]);
-
+ 
   // useEffect(() => {
   //   // Function to execute on back navigation
   //   const handleBackNavigation = (event) => {
@@ -100,10 +74,6 @@ const Questionnaire = () => {
     };
   }, [currentQuestion]);
 
-  const handleNextButtonClick = () => {
-    console.log("next clicked");
-    setIsNextButtonClicked(true); // Trigger the useEffect hook above
-  };
 
   const QuestionnaireTitle = () => {
     return (
@@ -127,13 +97,7 @@ const Questionnaire = () => {
       </QuestionnaireLayout>
     );
   }
-  const mobileButtonsstyle = {
-    position: "absolute",
-    bottom: "0",
-    width: "100%",
-    backgroundColor: "#fff",
-    padding: "16px",
-  };
+  
   return (
     <QuestionnaireLayout>
       {!questionnaireStarted && (
@@ -202,40 +166,9 @@ const Questionnaire = () => {
                 </>
               )}
          
-          <AnimatePresence>
-            <motion.div
-              key={currentQuestionCode}
-              initial="initial"
-              animate="enter"
-              exit="exit"
-              variants={defaultVariants}
-              className={`${styles.buttonsWrapper}`}
-              style={
-                questionnaireStarted && !isWideScreen ? mobileButtonsstyle : {}
-              }
-            >
-              {questionHistory.length > 0 && (
-                <button className={styles.prevBtn} onClick={moveToPrevQuestion}>
-                  <PrevIcon />
-                </button>
-              )}
-              <button
-                className={`${styles.nextBtn} ${
-                  inputModified || nextBtnEnabled ? styles.enabled : ""
-                }`}
-                onClick={() =>
-                  !isNextButtonFunctionallyDisabled && handleNextButtonClick()
-                }
-                disabled={
-                  !inputModified &&
-                  !nextBtnEnabled &&
-                  !isNextButtonFunctionallyDisabled
-                }
-              >
-                {isFinalStep ? "Get Results" : "Next"}
-              </button>
-            </motion.div>
-          </AnimatePresence>
+          
+           <QuestionnaireButtons/>
+    
         </div>
       </QuestionnaireWrapper>
     </QuestionnaireLayout>

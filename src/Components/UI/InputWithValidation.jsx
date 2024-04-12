@@ -7,7 +7,6 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,i
   const [inputValue, setInputValue] = useState(value);
   const [error, setError] = useState(isError);
   const maxLength = name === "zip_code" ? "5" : name ==="phone" ? "10" : ""; 
-  console.log(maxLength,type)
   useEffect(() => {
     setError(isError);
   }, [isError]);
