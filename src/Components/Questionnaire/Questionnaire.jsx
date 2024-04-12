@@ -16,6 +16,7 @@ import ExtraInfo from "../UI/ExtraInfo.jsx";
 import LegalMessage from "../UI/LegalMessage.jsx";
 import FormIcons from "../UI/FormIcons.jsx";
 import { defaultVariants } from "../../animations/animations.js";
+import useIsWideScreen from "../../custom hooks/useIsWideScreen.jsx";
 
 const Questionnaire = () => {
   const {
@@ -33,9 +34,9 @@ const Questionnaire = () => {
     responses,
   } = useQuestionnaire();
   const navigate = useNavigate();
+  const isWideScreen = useIsWideScreen();
   const [showLoader, setShowLoader] = useState(false);
   const [isNextButtonClicked, setIsNextButtonClicked] = useState(false);
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 767);
 
   const isFormSequence = currentQuestion.type === "form-type";
   const isFinalStep = currentQuestionCode === "phone";
@@ -64,15 +65,6 @@ const Questionnaire = () => {
     checkAndEnableNextButton();
   }, [currentQuestion, responses]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth > 767);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
   // useEffect(() => {
   //   // Function to execute on back navigation
   //   const handleBackNavigation = (event) => {

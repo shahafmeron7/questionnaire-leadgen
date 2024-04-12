@@ -36,10 +36,10 @@
   .questionnaireLayout {
     /* padding: 24px 16px; */
     padding: 24px 16px 40px 16px;
-    height: 80vh;
+    /* height: 80vh;
     min-height: 100%;
     overflow-y: scroll;
-    padding-bottom: 80px;
+    padding-bottom: 80px; */
   }
   .questionnaireWrapper {
     /* width: 344px; */

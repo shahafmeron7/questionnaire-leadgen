@@ -8,6 +8,7 @@ import { ReactComponent as PhoneSVG } from "../../../images/multiselection/phone
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./AnswersContent.module.css";
 import  {slideUpBoxVariant}  from "../../../animations/animations";
+import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
 
 const icons = {
   1: CashSVG,
@@ -27,19 +28,11 @@ const MultipleChoiceQuestion = () => {
     responses[currentQuestionCode] || []
   );
   const [delayNextQuestion, setDelayNextQuestion] = useState(false);
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 767);
+  const isWideScreen = useIsWideScreen();
 
   const isDisplayDirectionCol =
     currentQuestion.display_list_direction === "col";
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth > 767);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  
   useEffect(() => {
     const response = responses[currentQuestion.code];
     if (response) {

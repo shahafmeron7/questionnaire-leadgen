@@ -37,7 +37,8 @@
     .progressContainer{
       /* width: 344px;
        */
-       width: calc(100% - 24px);
+       /* width: calc(100% - 24px); */
+       width: 100%;
     }
 
   }

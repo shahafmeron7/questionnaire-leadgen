@@ -4,12 +4,13 @@ import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import InputWithValidation from "../../UI/InputWithValidation";
 import { motion, AnimatePresence } from "framer-motion";
 import { slideUpBoxVariant } from "../../../animations/animations";
+import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
 
 const DetailsQuestion = () => {
   const { currentQuestion, responses, errResponses, currentQuestionCode } =
     useQuestionnaire();
-  const isFinalStep = currentQuestionCode === "phone";
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 600);
+  const isWideScreen = useIsWideScreen();
+    const isFinalStep = currentQuestionCode === "phone";
 
   const isPersonalAndBusinessInfo =
     currentQuestionCode === "personal_and_business_info";
@@ -21,15 +22,7 @@ const DetailsQuestion = () => {
       </div>
     );
   };
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth > 600);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+ 
   return (
     <div
       className={`${styles.inputsContainer} ${
