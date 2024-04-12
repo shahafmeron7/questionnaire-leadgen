@@ -59,8 +59,7 @@ const QuestionnaireButtons = ({}) => {
       };
   return (
 
-    <AnimatePresence>
-    <motion.div
+    <div
       key={currentQuestionCode}
       initial="initial"
       animate="enter"
@@ -81,8 +80,8 @@ const QuestionnaireButtons = ({}) => {
       >
         {isFinalStep ? "Get Results" : "Next"}
       </button>
-      </motion.div>
-      </AnimatePresence>
+      </div>
+      
 
   );
 };

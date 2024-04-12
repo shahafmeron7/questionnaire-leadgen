@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef,useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import ProgressBar from "../UI/ProgressBar";
 import AnswersContent from "./types/AnswersContent.jsx";
 import { motion, AnimatePresence } from "framer-motion";
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import SSLIcon from "../UI/SSLIcon.jsx";
 import styles from "./Questionnaire.module.css";
 import Loader from "./types/Loader.jsx";
@@ -18,13 +20,14 @@ import { defaultVariants } from "../../animations/animations.js";
 import QuestionnaireButtons from "../UI/QuestionnaireButtons.jsx";
 
 const Questionnaire = () => {
+  gsap.registerPlugin(useGSAP);
+
   const {
     currentQuestion,
     setCurrentQuestionCode,
     currentQuestionCode,
-   
+
     questionnaireStarted,
-  
   } = useQuestionnaire();
   const navigate = useNavigate();
   const [showLoader, setShowLoader] = useState(false);
@@ -37,7 +40,31 @@ const Questionnaire = () => {
     ((currentQuestion.step - 1) / (4 - 1)) * 100
   );
 
- 
+  const titleRef = useRef(null);
+  const iconsRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const answersContentRef = useRef(null);
+  const sslIconRef = useRef(null);
+  const legalMessageRef = useRef(null);
+  const buttonsRef = useRef(null);
+  useEffect(() => {
+    const tl = gsap.timeline();
+    
+    tl.fromTo(titleRef.current, 
+      { y: -50, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }
+    )
+     .fromTo(answersContentRef.current, 
+       { y: -50, opacity: 0 }, 
+       { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, "-=0.25" // slightly overlap animations
+     )
+    // .fromTo(progressBarRef.current, 
+    //   { y: -50, opacity: 0 }, 
+    //   { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, "-=0.25"
+    // );
+    // Continue chaining animations for other components...
+
+  }, []);
   useEffect(() => {
     let timeoutId = null;
     if (currentQuestion.type === "loader") {
@@ -57,10 +84,9 @@ const Questionnaire = () => {
     };
   }, [currentQuestion]);
 
-
   const QuestionnaireTitle = () => {
     return (
-      <div className={styles.titleWrapper}>
+      <div ref={titleRef} className={styles.titleWrapper}>
         <h1 className={styles.title}>
           Find the right merchant service provider
         </h1>
@@ -80,7 +106,7 @@ const Questionnaire = () => {
       </QuestionnaireLayout>
     );
   }
-  
+
   return (
     <QuestionnaireLayout>
       {!questionnaireStarted && (
@@ -89,69 +115,34 @@ const Questionnaire = () => {
           <FormIcons />
         </>
       )}
-      {isEmailStep && (
-        <AnimatePresence>
-          <motion.div
-            key={currentQuestionCode}
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={defaultVariants}
-          >
-            <LogoPOS />
-          </motion.div>
-        </AnimatePresence>
-      )}
+      {isEmailStep && <LogoPOS />}
 
-      {isFormSequence && (
-        <AnimatePresence>
-          <motion.div
-            key={currentQuestionCode}
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={defaultVariants}
-          >
-            <FormProgress />
-          </motion.div>
-        </AnimatePresence>
-      )}
+      {isFormSequence && <FormProgress />}
       <QuestionnaireWrapper>
         {!isFormSequence && <ProgressBar width={progressBarWidth} />}
         {currentQuestion.text && (
-          <AnimatePresence>
-            <motion.div
-              key={currentQuestionCode}
-              initial="initial"
-              animate="enter"
-              exit="exit"
-              variants={defaultVariants}
-              className={`${styles.questionDescriptionText}`}
-            >
-              {currentQuestion.text}
-              {currentQuestion.instructions && (
-                <p className={styles.questionInstructions}>
-                  {currentQuestion.instructions}
-                </p>
-              )}
-            </motion.div>
-          </AnimatePresence>
+          <div className={`${styles.questionDescriptionText}`}>
+            {currentQuestion.text}
+            {currentQuestion.instructions && (
+              <p className={styles.questionInstructions}>
+                {currentQuestion.instructions}
+              </p>
+            )}
+          </div>
         )}
         <div className={styles.contentWrapper}>
-          <AnswersContent />
-         
-              {(isFinalStep || isZipCodeStep) && <ExtraInfo />}
+          <AnswersContent ref={answersContentRef} />
 
-              {isFinalStep && (
-                <>
-                  <SSLIcon />
-                  <LegalMessage />
-                </>
-              )}
-         
-          
-           <QuestionnaireButtons/>
-    
+          {(isFinalStep || isZipCodeStep) && <ExtraInfo />}
+
+          {isFinalStep && (
+            <>
+              <SSLIcon />
+              <LegalMessage />
+            </>
+          )}
+
+          <QuestionnaireButtons />
         </div>
       </QuestionnaireWrapper>
     </QuestionnaireLayout>

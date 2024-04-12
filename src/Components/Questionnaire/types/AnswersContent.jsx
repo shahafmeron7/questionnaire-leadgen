@@ -4,7 +4,7 @@ import OneSelectionQuestion from "./OneSelectionQuestion";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
 import DetailsQuestion from "./DetailsQuestion";
 
-const AnswersContent = () => {
+const AnswersContent = React.forwardRef((props, ref) => {
   const { currentQuestion } = useQuestionnaire();
   const questionComponents = {
     "one-selection": OneSelectionQuestion,
@@ -19,7 +19,7 @@ const AnswersContent = () => {
     return <>Question type not supported</>;
   }
 
-  return <QuestionComponent/>;
-};
+  return <QuestionComponent ref={ref}/>;
+});
 
 export default AnswersContent;

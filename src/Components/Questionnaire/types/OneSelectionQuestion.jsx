@@ -3,12 +3,11 @@ import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import styles from "./AnswersContent.module.css";
 import {ReactComponent as UnselectedCheckboxSVG} from "../../../images/unselectedCircleCheckbox.svg";
 import {ReactComponent as SelectedCheckboxSVG} from "../../../images/selectedCircleCheckbox.svg"
-import { motion,AnimatePresence } from 'framer-motion';
 
 import InputWithValidation from "../../UI/InputWithValidation";
 import { slideUpListVariant } from "../../../animations/animations";
 
-const OneSelectionQuestion = () => {
+const OneSelectionQuestion = React.forwardRef((props, ref) => {
   const {
     currentQuestion,
     responses,
@@ -108,15 +107,14 @@ const OneSelectionQuestion = () => {
 
   return (
     <>
-      <div
+      <div ref={ref}
         className={`${styles.answersContainer} ${
           isDisplayDirectionCol ? styles.listCol : styles.listRow
         }`}
       >
-              <AnimatePresence>
 
         {currentQuestion.answers.map((answer, index) => (
-          <motion.div
+          <div
             key={`${currentQuestion.code}-${index}`}
             className={`${styles.answerItem} ${
               index === localSelectedIndex ? styles.selected : ""
@@ -125,11 +123,7 @@ const OneSelectionQuestion = () => {
                 ? styles.answerRowItem
                 : styles.answerCardItem
             }  `}
-            custom={index}
-            initial="initial"
-            animate="enter"
-            exit="exit"
-            variants={slideUpListVariant}
+      
             onClick={() => handleClick(index)}
           >
             <span>{answer.text}</span>
@@ -137,9 +131,9 @@ const OneSelectionQuestion = () => {
                   ? (<SelectedCheckboxSVG/>)
                   : (<UnselectedCheckboxSVG/>)}
            
-          </motion.div>
+          </div>
         ))}
-              </AnimatePresence>
+             
 
       </div>
       {isOtherSelected && (
@@ -154,5 +148,5 @@ const OneSelectionQuestion = () => {
       )}
     </>
   );
-};
+});
 export default OneSelectionQuestion;
