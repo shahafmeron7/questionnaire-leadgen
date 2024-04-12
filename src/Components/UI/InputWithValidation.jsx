@@ -35,7 +35,7 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,i
           error ? `${styles.visible}` : `${styles.notVisible}`
         }`}
       >
-        <img src="https://assets.sonary.com/wp-content/uploads/2024/01/24143354/Icon-Name-2.svg" />
+        <img src="https://assets.sonary.com/wp-content/uploads/2024/01/24143354/Icon-Name-2.svg" alt="error icon" />
         <span className={styles.errText}>{errorMessage}</span>
       </div>
     </div>

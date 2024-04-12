@@ -15,7 +15,6 @@ import ExtraInfo from "../UI/ExtraInfo.jsx";
 import LegalMessage from "../UI/LegalMessage.jsx";
 import FormIcons from "../UI/FormIcons.jsx";
 import { defaultVariants } from "../../animations/animations.js";
-import useIsWideScreen from "../../custom hooks/useIsWideScreen.jsx";
 import QuestionnaireButtons from "../UI/QuestionnaireButtons.jsx";
 
 const Questionnaire = () => {
@@ -39,22 +38,6 @@ const Questionnaire = () => {
   );
 
  
-  // useEffect(() => {
-  //   // Function to execute on back navigation
-  //   const handleBackNavigation = (event) => {
-  //     event.preventDefault();
-  //     if (currentQuestion.step > 1) {
-  //       moveToPrevQuestion();
-  //     } else {
-  //       navigate(-1);
-  //     }
-  //   };
-
-  //   window.addEventListener('popstate', handleBackNavigation);
-
-  //   return () => window.removeEventListener('popstate', handleBackNavigation);
-  // }, [currentQuestion, moveToPrevQuestion, navigate]);
-
   useEffect(() => {
     let timeoutId = null;
     if (currentQuestion.type === "loader") {
