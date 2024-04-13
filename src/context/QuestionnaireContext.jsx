@@ -15,6 +15,7 @@ const STREAM_STEP_NAME = process.env.REACT_APP_STREAM_STEP_NAME;
 const STREAM_FINAL_NAME = process.env.REACT_APP_STREAM_FINAL_NAME;
 const FIRST_EVENT_NAME = process.env.REACT_APP_FIRST_EVENT_NAME;
 const STEP_EVENT_NAME = process.env.REACT_APP_STEP_EVENT_NAME;
+const FINAL_SUBMIT_EVENT_NAME= process.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME
 
 const USER_EVENT_NAME = process.env.REACT_APP_USER_EVENT_NAME;
 const USER_ACTION_NAME = process.env.REACT_APP_USER_ACTION_EXIT;
@@ -60,7 +61,7 @@ export const QuestionnaireProvider = ({ children }) => {
       setQuestionnaireStarted(false);
     }
     if (currentQuestionCode === "thank_you") {
-      setQuestionnaireCompleted(true);
+      completeQuestionnaire();
     } else {
       setQuestionnaireCompleted(false);
     }
@@ -119,12 +120,18 @@ export const QuestionnaireProvider = ({ children }) => {
   };
 
   const completeQuestionnaire = () => {
-    // handle final impression here
+    const finalResponses = Object.keys(responses).reduce((acc, key) => {
+      const { answerIndexes, ...responseWithoutIndexes } = responses[key];
+      acc[key] = responseWithoutIndexes;
+      return acc;
+    }, {});
+  
+    // Send final impression
+    sendImpressions(finalResponses, FINAL_SUBMIT_EVENT_NAME, STREAM_FINAL_NAME);
     setQuestionnaireCompleted(true);
   };
 
   const changeNextBtnState = (isEnabled) => {
-    console.log(isEnabled);
     setNextBtnEnabled(isEnabled);
   };
   const toggleNextButtonFunctionality = (isDisabled) => {
@@ -132,143 +139,165 @@ export const QuestionnaireProvider = ({ children }) => {
   };
 
   const handleAnswerSelection = (questionCode, answerIndex) => {
+    const answer = currentQuestion.answers[answerIndex];
+    const answerText = answer?.text;
+    const existingResponse = responses[questionCode] || {};
+
+    const newResponse = {
+      ...existingResponse,
+      answer: answerText,
+      answerIndexes: [answerIndex], // Storing index for reference
+      step: currentQuestion.step,
+      question: currentQuestion.text,
+    };
+
+    // Only add 'other_text' if the selected answer is the 'Other' type.
+    if (answer?.isOther) {
+      // Carry over the 'other' text only if it already exists in the responses.
+      newResponse.other_text = existingResponse.other_text || '';
+    } else {
+      // Ensure 'other_text' is removed if it exists and the selection isn't 'Other'
+      if (newResponse.other_text) {
+        delete newResponse.other_text;
+      }
+    }
+
     setResponses((prevResponses) => ({
       ...prevResponses,
-      [questionCode]: answerIndex,
+      [questionCode]: newResponse,
     }));
 
-    const nextQuestionCode =
-      currentQuestion.answers[answerIndex].next_question_code;
-    console.log(nextQuestionCode);
+    // Navigate to the next question based on the selected answer's directive
+    const nextQuestionCode = answer?.next_question_code;
     if (nextQuestionCode) {
       setQuestionHistory((prevHistory) => [
         ...prevHistory,
         currentQuestionCode,
       ]);
       setCurrentQuestionCode(nextQuestionCode);
-      // navigate(`/questionnaire?step=${nextQuestionCode}`);
     }
-  };
+};
 
   const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
+    const answersData = selectedIndexes.map((index) => {
+      return {
+        text: currentQuestion.answers[index].text,
+        index: index,
+      };
+    });
+
+    const response = {
+      answers: answersData.map((answer) => answer.text).join(", "),
+      answerIndexes: selectedIndexes,
+      step: currentQuestion.step,
+      question: currentQuestion.text,
+    };
+
     setResponses((prevResponses) => ({
       ...prevResponses,
-      [questionCode]: selectedIndexes,
+      [questionCode]: response,
     }));
   };
 
   const handleInputChange = (questionCode, inputValue, isOther = false) => {
-    console.log(questionCode, inputValue, isOther);
-    if (!isOther) {
-      console.log("regular input change");
-      setResponses((prevResponses) => ({
-        ...prevResponses,
-        [questionCode]: inputValue,
-      }));
-    } else {
-      console.log("other change input");
-      const existingResponse = responses[questionCode];
-      // Check if there's already a response stored for the question
-      if (typeof existingResponse === "object" && existingResponse !== null) {
-        // If 'Other' was previously selected and there's an object, update the otherValue
-        setResponses((prevResponses) => ({
+    setResponses((prevResponses) => {
+      const currentResponse = prevResponses[questionCode] || {
+        step: currentQuestion.step,
+        question: (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") 
+                  ? currentQuestion.subquestions.find(sub => sub.code === questionCode).text
+                  : currentQuestion.text,
+        answerIndexes: []
+      };
+
+      // console.log('handle input change')
+      if (!isOther) {
+        // Update the main answer for non-'other' inputs, treat it as a normal input.
+        return {
           ...prevResponses,
           [questionCode]: {
-            ...existingResponse,
-            otherValue: inputValue,
-          },
-        }));
+            ...currentResponse,
+            answer: inputValue, // Assuming a normal answer is just stored under 'answer'.
+          }
+        };
       } else {
-        const otherIndex = currentQuestion.answers.findIndex(
-          (answer) => answer.isOther
-        );
+        // console.log('other input change')
 
-        // If there's no existing object, it means 'Other' is being selected now,
-        // so create a new object to store 'otherValue'
-        setResponses((prevResponses) => ({
+        // Handle 'other' inputs, storing both the selected index if it exists, and the 'other' text.
+        const otherIndex = currentQuestion.answers.findIndex(answer => answer.isOther);
+        const otherAnswerText = currentQuestion.answers[otherIndex].text;
+
+        return {
           ...prevResponses,
           [questionCode]: {
-            selectedIndex: otherIndex, // Preserve the previously selected index if any
-            otherValue: inputValue,
-          },
-        }));
+            ...currentResponse,
+            answer: otherAnswerText,
+            other_text: inputValue, // Store custom input from 'other' option.
+            answerIndexes: [otherIndex] // Ensuring that 'other' index is correctly set.
+          }
+        };
       }
-    }
-
+    });
+    // console.log("enabled next",inputValue.trim().length > 0)
     setNextBtnEnabled(inputValue.trim().length > 0);
     setErrResponses((prevErrResponses) => ({
       ...prevErrResponses,
       [questionCode]: false,
     }));
   };
+  
+
 
   const resetInputModified = () => setInputModified(false);
 
   const moveToNextQuestion = () => {
     let proceedToNext = true;
     let nextQuestionCode;
-
-    if (
-      currentQuestion.type === "details-question" ||
-      currentQuestion.type === "form-type"
-    ) {
-      currentQuestion.subquestions.forEach((sub) => {
-        if (!validateField(sub.code, responses[sub.code])) {
+  
+    if (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") {
+      currentQuestion.subquestions.forEach(sub => {
+        if (!validateField(sub.code, responses[sub.code]?.answer)) { // Use the answer property
           proceedToNext = false;
-          setErrResponses((prev) => ({ ...prev, [sub.code]: true }));
+          setErrResponses(prev => ({ ...prev, [sub.code]: true }));
         }
       });
-      // Use the first answer's next_question_code for these types
       nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
     } else if (currentQuestion.type === "one-selection") {
+      // console.log('move to next question')
       const response = responses[currentQuestion.code];
-      console.log(response);
-      if (
-        typeof response === "object" &&
-        response.hasOwnProperty("selectedIndex")
-      ) {
-        // Handle 'other' case where response is an object
-        const selectedIndex = response.selectedIndex;
-        console.log(selectedIndex);
-
-        nextQuestionCode =
-          currentQuestion.answers[selectedIndex]?.next_question_code;
-        console.log(nextQuestionCode);
+      if (response && response.answerIndexes) {
+        const selectedIndex = response.answerIndexes[0]; // Assuming 'answerIndexes' holds indices
+        nextQuestionCode = currentQuestion.answers[selectedIndex]?.next_question_code;
       } else {
-        // Regular case where response is an index
-        nextQuestionCode =
-          currentQuestion.answers[response]?.next_question_code;
+        // This condition is simplified assuming that the 'answer' is not stored as an index anymore
+        proceedToNext = false;
       }
     } else if (currentQuestion.type === "multi-selection") {
-      console.log("move next multi choice");
-      // Assuming all answers lead to the same next question, check any selected answer
-      const selectedIndexes = responses[currentQuestion.code] || [];
-      if (selectedIndexes.length === 0) {
-        proceedToNext = false;
-        // Optionally, set an error state here
+      const response = responses[currentQuestion.code];
+      if (response && response.answerIndexes && response.answerIndexes.length > 0) {
+        nextQuestionCode = currentQuestion.answers[response.answerIndexes[0]]?.next_question_code;
       } else {
-        nextQuestionCode =
-          currentQuestion.answers[selectedIndexes[0]]?.next_question_code;
+        proceedToNext = false;
       }
     }
-
+  
     if (proceedToNext && nextQuestionCode) {
       sendImpressions(buildEventData(USER_ACTION_CLICK_NEXT), USER_EVENT_NAME, STREAM_STEP_NAME);
-
       setCurrentQuestionCode(nextQuestionCode);
-      setQuestionHistory((prevHistory) => [
-        ...prevHistory,
-        currentQuestionCode,
-      ]);
+      setQuestionHistory(prevHistory => [...prevHistory, currentQuestionCode]);
       setNextBtnEnabled(false);
-    } else if (!proceedToNext) {
-      console.log("Validation failed or no answer selected.");
+    } else {
+      // console.log("Validation failed or no answer selected.");
       setNextBtnEnabled(false);
     }
   };
+  
 
   const moveToPrevQuestion = () => {
-    sendImpressions(buildEventData(USER_ACTION_CLICK_PREV),USER_EVENT_NAME,STEP_EVENT_NAME)
+    sendImpressions(
+      buildEventData(USER_ACTION_CLICK_PREV),
+      USER_EVENT_NAME,
+      STEP_EVENT_NAME
+    );
     setQuestionHistory((prevHistory) => {
       const history = [...prevHistory];
       const prevQuestionCode = history.pop();
@@ -281,33 +310,40 @@ export const QuestionnaireProvider = ({ children }) => {
     });
   };
   const checkAndEnableNextButton = () => {
-    if (
-      currentQuestion.type === "details-question" ||
-      currentQuestion.type === "form-type"
-    ) {
-      const allSubquestionsAnswered = currentQuestion.subquestions.every(
-        (sub) => responses[sub.code] != null && responses[sub.code] !== ""
-      );
+    if (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") {
+      // Check if all subquestions have been answered
+      const allSubquestionsAnswered = currentQuestion.subquestions.every((sub) => {
+        const response = responses[sub.code];
+        return response && response.answer && response.answer.trim() !== "";
+      });
       setNextBtnEnabled(allSubquestionsAnswered);
     } else {
       const response = responses[currentQuestion.code];
       let isAnswered = false;
-      if (response != null) {
-        if (typeof response === "object" && !Array.isArray(response)) {
-          // Handling for 'other' type with object response (assuming 'otherValue' exists for 'other' response)
-          isAnswered =
-            response.otherValue != null && response.otherValue.trim() !== "";
-        } else if (Array.isArray(response)) {
-          console.log("check button array type");
-          isAnswered = response.length > 0;
-        } else {
-          // For simple truthy check for non-object, non-array types
-          isAnswered = true;
+  
+      if (response) {
+        // Separate logic for one-selection, which may include an 'other' text input
+        if (currentQuestion.type === "one-selection") {
+          if (response.answerIndexes.length > 0) {
+            const answerIndex = response.answerIndexes[0]; // Since one-selection should have only one index
+            if (currentQuestion.answers[answerIndex].isOther) {
+              // Check if other text is not empty when 'Other' option is selected
+              isAnswered = response.other_text && response.other_text.trim() !== "";
+            } else {
+              // Regular answer is selected
+              isAnswered = true;
+            }
+          }
+        } else if (currentQuestion.type === "multi-selection") {
+          isAnswered = response.answerIndexes.length > 0;
         }
       }
+  
       setNextBtnEnabled(isAnswered);
     }
   };
+  
+  
 
   const value = useMemo(
     () => ({

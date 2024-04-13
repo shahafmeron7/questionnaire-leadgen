@@ -1,11 +1,10 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import styles from "./AnswersContent.module.css";
-import {ReactComponent as UnselectedCheckboxSVG} from "../../../images/unselectedCircleCheckbox.svg";
-import {ReactComponent as SelectedCheckboxSVG} from "../../../images/selectedCircleCheckbox.svg"
+import { ReactComponent as UnselectedCheckboxSVG } from "../../../images/unselectedCircleCheckbox.svg";
+import { ReactComponent as SelectedCheckboxSVG } from "../../../images/selectedCircleCheckbox.svg";
 
 import InputWithValidation from "../../UI/InputWithValidation";
-import { slideUpListVariant } from "../../../animations/animations";
 
 const OneSelectionQuestion = React.forwardRef((props, ref) => {
   const {
@@ -14,55 +13,50 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
     handleAnswerSelection,
     toggleNextButtonFunctionality,
     changeNextBtnState,
-    currentQuestionCode
+    currentQuestionCode,
   } = useQuestionnaire();
   const otherInputRef = useRef(null);
   const [localSelectedIndex, setLocalSelectedIndex] = useState(
-    responses[currentQuestion.code]
+    responses[currentQuestionCode]?.answerIndexes?.[0] || undefined
   );
 
   const [delayNextQuestion, setDelayNextQuestion] = useState(false);
   const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [otherInputValue, setOtherInputValue] = useState("");
 
-  const isDisplayDirectionCol = currentQuestion.display_list_direction === "col";
+  const isDisplayDirectionCol =
+    currentQuestion.display_list_direction === "col";
   useEffect(() => {
-    const response = responses[currentQuestion.code];
-
-    if (response !== undefined) {
-      if (
-        typeof response === "object" &&
-        response.hasOwnProperty("otherValue")
-      ) {
-        setIsOtherSelected(true);
-        changeNextBtnState(true);
-
-        setOtherInputValue(response.otherValue);
-
-        const otherIndex = currentQuestion.answers.findIndex(
-          (answer) => answer.isOther
-        );
-        setLocalSelectedIndex(otherIndex);
-        focusAndScrollIntoView();
-      } else {
-        setIsOtherSelected(false);
-        setLocalSelectedIndex(response);
-      }
-    } else {
+    const response = responses[currentQuestionCode];
+    if (!response){
       setIsOtherSelected(false);
       setLocalSelectedIndex(undefined);
       setOtherInputValue("");
+      return;
+    } 
+
+    if (response.hasOwnProperty("other_text")) {
+   
+      setIsOtherSelected(true);
+      // changeNextBtnState(true);
+      setOtherInputValue(response.other_text);
+      focusAndScrollIntoView();
+    } else {
+      setIsOtherSelected(false);
+      setOtherInputValue("");
     }
-  }, [currentQuestion, responses]);
+    setLocalSelectedIndex(response.answerIndexes[0])
+
+  }, [currentQuestion,responses]);
 
   useEffect(() => {
     let timer;
     if (delayNextQuestion && !isOtherSelected) {
-        changeNextBtnState(true);
-        toggleNextButtonFunctionality(true); 
+      changeNextBtnState(true);
+      toggleNextButtonFunctionality(true);
       timer = setTimeout(() => {
         handleAnswerSelection(
-          currentQuestion.code,
+          currentQuestionCode,
           localSelectedIndex,
           otherInputValue,
           isOtherSelected
@@ -76,21 +70,24 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
   }, [
     delayNextQuestion,
     localSelectedIndex,
-    currentQuestion.code,
+    currentQuestionCode,
     handleAnswerSelection,
     isOtherSelected,
     otherInputValue,
     toggleNextButtonFunctionality,
-    changeNextBtnState
+    changeNextBtnState,
   ]);
   const focusAndScrollIntoView = () => {
     setTimeout(() => {
-        if (otherInputRef.current) {
-            otherInputRef.current.focus();
-            otherInputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+      if (otherInputRef.current) {
+        otherInputRef.current.focus();
+        otherInputRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
     }, 0);
-};
+  };
   const handleClick = (index) => {
     if (delayNextQuestion) return;
 
@@ -108,12 +105,13 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
 
   return (
     <>
-      <div ref={ref}  key={currentQuestionCode}
+      <div
+        ref={ref}
+        key={currentQuestionCode}
         className={`${styles.answersContainer} ${
           isDisplayDirectionCol ? styles.listCol : styles.listRow
         }`}
       >
-
         {currentQuestion.answers.map((answer, index) => (
           <div
             key={`${currentQuestion.code}-${index}`}
@@ -124,18 +122,16 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
                 ? styles.answerRowItem
                 : styles.answerCardItem
             }  `}
-      
             onClick={() => handleClick(index)}
           >
             <span>{answer.text}</span>
-        { index === localSelectedIndex
-                  ? (<SelectedCheckboxSVG/>)
-                  : (<UnselectedCheckboxSVG/>)}
-           
+            {index === localSelectedIndex ? (
+              <SelectedCheckboxSVG />
+            ) : (
+              <UnselectedCheckboxSVG />
+            )}
           </div>
         ))}
-             
-
       </div>
       {isOtherSelected && (
         <InputWithValidation

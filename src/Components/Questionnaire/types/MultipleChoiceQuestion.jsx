@@ -25,7 +25,7 @@ const MultipleChoiceQuestion = React.forwardRef((props,ref) => {
     toggleNextButtonFunctionality,
   } = useQuestionnaire();
   const [selectedIndexes, setSelectedIndexes] = useState(
-    responses[currentQuestionCode] || []
+    responses[currentQuestionCode]?.answerIndexes || []
   );
   const [delayNextQuestion, setDelayNextQuestion] = useState(false);
   const isWideScreen = useIsWideScreen();
@@ -33,12 +33,14 @@ const MultipleChoiceQuestion = React.forwardRef((props,ref) => {
   const isDisplayDirectionCol =
     currentQuestion.display_list_direction === "col";
   
-  useEffect(() => {
-    const response = responses[currentQuestion.code];
-    if (response) {
-      setSelectedIndexes(response);
-    }
-  }, [currentQuestion, responses]);
+    useEffect(() => {
+      const response = responses[currentQuestionCode];
+      if (response && response.answerIndexes) {
+        setSelectedIndexes(response.answerIndexes);
+      } else {
+        setSelectedIndexes([]);
+      }
+    }, [currentQuestionCode, responses]);
   useEffect(() => {
     if (delayNextQuestion) {
       toggleNextButtonFunctionality(true);

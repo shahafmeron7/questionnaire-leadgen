@@ -54,7 +54,7 @@ const DetailsQuestion = React.forwardRef((props,ref) => {
             <InputWithValidation
               type="text"
               name={sub.code}
-              value={responses[sub.code] || ""}
+              value={responses[sub.code]?.answer || ""}
               placeholder={sub.example}
               errorMessage={sub.error}
               isError={errResponses[sub.code] || false}
