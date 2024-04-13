@@ -36,35 +36,41 @@ const Questionnaire = () => {
   const isFinalStep = currentQuestionCode === "phone";
   const isZipCodeStep = currentQuestionCode === "zip_code";
   const isEmailStep = currentQuestionCode === "email";
-  const progressBarWidth = Math.round(
-    ((currentQuestion.step - 1) / (4 - 1)) * 100
-  );
+  
 
   const titleRef = useRef(null);
+  const textRef = useRef(null);
   const iconsRef = useRef(null);
   const progressBarRef = useRef(null);
   const answersContentRef = useRef(null);
   const sslIconRef = useRef(null);
   const legalMessageRef = useRef(null);
   const buttonsRef = useRef(null);
-  useEffect(() => {
-    const tl = gsap.timeline();
-    
-    tl.fromTo(titleRef.current, 
-      { y: -50, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }
-    )
-     .fromTo(answersContentRef.current, 
-       { y: -50, opacity: 0 }, 
-       { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, "-=0.25" // slightly overlap animations
-     )
-    // .fromTo(progressBarRef.current, 
-    //   { y: -50, opacity: 0 }, 
-    //   { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' }, "-=0.25"
-    // );
-    // Continue chaining animations for other components...
+  useGSAP(() => {
+    const progressBarWidth = Math.round(((currentQuestion.step - 1) / (4 - 1)) * 100) + '%';
 
-  }, []);
+    const tl = gsap.timeline();
+
+    tl.fromTo(progressBarRef.current,
+        { width: "0%" }, // Assuming the initial state should be 0% or capture the initial width dynamically
+        { width: progressBarWidth, duration: 0.2, ease: 'none' },
+      ).fromTo(textRef.current, 
+        { opacity: 0, y: 30 }, 
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
+        .fromTo(answersContentRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, "-=0.3")
+        .fromTo(buttonsRef.current,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, "-=0.3");
+  
+      // return () => {
+      //   // Clean up animation
+      //   gsap.to([textRef.current, answersContentRef.current, buttonsRef.current], {
+      //     opacity: 0, y: -30, duration: 0.5, ease: 'power2.in'
+      //   });
+      // };
+  }, [currentQuestionCode]); 
   useEffect(() => {
     let timeoutId = null;
     if (currentQuestion.type === "loader") {
@@ -119,9 +125,9 @@ const Questionnaire = () => {
 
       {isFormSequence && <FormProgress />}
       <QuestionnaireWrapper>
-        {!isFormSequence && <ProgressBar width={progressBarWidth} />}
+        {!isFormSequence && <ProgressBar ref={progressBarRef} />}
         {currentQuestion.text && (
-          <div className={`${styles.questionDescriptionText}`}>
+          <div ref={textRef} key={currentQuestionCode} className={`${styles.questionDescriptionText}`}>
             {currentQuestion.text}
             {currentQuestion.instructions && (
               <p className={styles.questionInstructions}>
@@ -142,7 +148,7 @@ const Questionnaire = () => {
             </>
           )}
 
-          <QuestionnaireButtons />
+          <QuestionnaireButtons ref={buttonsRef} />
         </div>
       </QuestionnaireWrapper>
     </QuestionnaireLayout>

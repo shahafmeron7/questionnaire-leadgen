@@ -1,12 +1,11 @@
 import React,{useEffect,useState} from 'react';
 import styles from '../Questionnaire/Questionnaire.module.css'
 import { ReactComponent as PrevIcon } from "../../images/prevbutton.svg";
-import { motion, AnimatePresence } from "framer-motion";
 import { defaultVariants } from '../../animations/animations';
 import { useQuestionnaire } from '../../context/QuestionnaireContext';
 import useIsWideScreen from '../../custom hooks/useIsWideScreen';
 
-const QuestionnaireButtons = ({}) => {
+const QuestionnaireButtons = React.forwardRef((props,ref) => {
     const isWideScreen=useIsWideScreen();
     const [isNextButtonClicked,setIsNextButtonClicked] = useState(false);
 
@@ -61,10 +60,7 @@ const QuestionnaireButtons = ({}) => {
 
     <div
       key={currentQuestionCode}
-      initial="initial"
-      animate="enter"
-      exit="exit"
-      variants={defaultVariants}
+      ref={ref}
       className={styles.buttonsWrapper}
       style={questionnaireStarted && !isWideScreen ? mobileButtonsStyle: {} }
     >
@@ -84,6 +80,6 @@ const QuestionnaireButtons = ({}) => {
       
 
   );
-};
+});
 
 export default QuestionnaireButtons;

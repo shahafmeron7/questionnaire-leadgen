@@ -14,6 +14,7 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
     handleAnswerSelection,
     toggleNextButtonFunctionality,
     changeNextBtnState,
+    currentQuestionCode
   } = useQuestionnaire();
   const otherInputRef = useRef(null);
   const [localSelectedIndex, setLocalSelectedIndex] = useState(
@@ -107,7 +108,7 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
 
   return (
     <>
-      <div ref={ref}
+      <div ref={ref}  key={currentQuestionCode}
         className={`${styles.answersContainer} ${
           isDisplayDirectionCol ? styles.listCol : styles.listRow
         }`}

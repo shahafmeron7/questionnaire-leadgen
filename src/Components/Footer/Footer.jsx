@@ -38,7 +38,7 @@ const Footer = () => {
               CCPA Privacy Notice
             </a>
 
-            <a className="text">Cookie Settings</a>
+            <a className="text cookie_settings">Cookie Settings</a>
           </div>
         </div>
         <div className="right-text">
