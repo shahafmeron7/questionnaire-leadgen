@@ -8,6 +8,7 @@ const consIcon =
     {
       src: lightspeedIcon,
       alt: "lightspeed Logo",
+      pid:"677451",
       pros_cons: {
         Pros: {
           icon: prosIcon,
@@ -32,6 +33,7 @@ const consIcon =
     {
       src: toastIcon,
       alt: "Trusted Providers Logo",
+      pid:"675177",
       pros_cons: {
         Pros: {
           icon: prosIcon,

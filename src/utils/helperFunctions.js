@@ -26,10 +26,13 @@ export const validateField = (type, val) => {
     }
   };
 
-  export const sendImpressions = (question,action=null,eventName,stream)=>{
+  export const sendImpressions = (data,eventName,stream)=>{
 
     const impressionData={}
-    console.log(question,action,eventName,stream)
+    console.log(data)
+    console.log(eventName)
+    console.log(stream)
+
     // if (action) {
     //   sendLeadgenImpression(
     //     {

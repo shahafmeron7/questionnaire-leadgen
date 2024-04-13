@@ -3,11 +3,13 @@ import styles from "./BrandsLayout.module.css";
 
 import { brandsCards } from "../../../../utils/data/brandsData";
 const BrandCard = ({ card }) => {
+  const outlink = `https://out.sonary.com/track/click/?pid=${card.pid}&internal=true&page=${window.location.pathname}&action=ms_leadgen`
   return (
     <div className={styles.cardContainer}>
       <img src={card.src} alt={card.alt} className={styles.bestMatchLogo} />
       <button type="button" className={styles.cardButton}>
-        Visit Site
+        <a href={outlink}></a>
+        
       </button>
       <div className={styles.divider}></div>
       <div className={styles.pros_cons}>
