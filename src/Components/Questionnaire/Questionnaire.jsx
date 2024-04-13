@@ -4,7 +4,6 @@ import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import ProgressBar from "../UI/ProgressBar";
 import AnswersContent from "./types/AnswersContent.jsx";
-import { motion, AnimatePresence } from "framer-motion";
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import SSLIcon from "../UI/SSLIcon.jsx";
@@ -16,7 +15,6 @@ import LogoPOS from "../UI/LogoPOS.jsx";
 import ExtraInfo from "../UI/ExtraInfo.jsx";
 import LegalMessage from "../UI/LegalMessage.jsx";
 import FormIcons from "../UI/FormIcons.jsx";
-import { defaultVariants } from "../../animations/animations.js";
 import QuestionnaireButtons from "../UI/QuestionnaireButtons.jsx";
 
 const Questionnaire = () => {

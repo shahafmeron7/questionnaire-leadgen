@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { slideUpBoxVariant } from "../../../animations/animations";
 import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
 
-const DetailsQuestion = () => {
+const DetailsQuestion = React.forwardRef((props,ref) => {
   const { currentQuestion, responses, errResponses, currentQuestionCode } =
     useQuestionnaire();
   const isWideScreen = useIsWideScreen();
@@ -64,6 +64,6 @@ const DetailsQuestion = () => {
       {/* </AnimatePresence> */}
     </div>
   );
-};
+});
 
 export default DetailsQuestion;

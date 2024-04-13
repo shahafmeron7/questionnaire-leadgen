@@ -15,7 +15,7 @@ const icons = {
   2: CreditCardSVG,
   3: PhoneSVG,
 };
-const MultipleChoiceQuestion = () => {
+const MultipleChoiceQuestion = React.forwardRef((props,ref) => {
   const {
     currentQuestion,
     currentQuestionCode,
@@ -109,6 +109,6 @@ const MultipleChoiceQuestion = () => {
       </AnimatePresence>
     </div>
   );
-};
+});
 
 export default MultipleChoiceQuestion;

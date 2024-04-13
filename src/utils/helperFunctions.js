@@ -25,4 +25,43 @@ export const validateField = (type, val) => {
         return true;
     }
   };
+
+  export const sendImpressions = (question,action=null,eventName,stream)=>{
+
+    const impressionData={}
+    console.log(question,action,eventName,stream)
+    // if (action) {
+    //   sendLeadgenImpression(
+    //     {
+    //       ["context"]: impressionData,
+    //       action: action,
+    //     },
+    //     eventName
+    //   );
+    // } else {
+    //   sendLeadgenImpression(
+    //     {
+    //       ["context"]: impressionData,
+    //     },
+    //     eventName
+    //   );
+    // }
+  }
+
+  export function sendLeadgenImpression(data, eventName,stream) {
+    var to_send = {
+      extra: {
+        extra_data: data,
+      },
+      event: eventName,
+      api: "sonary.com",
+      stream: stream,
+    };
+    let logEvent = new CustomEvent("ry_send_log", {
+      detail: to_send,
+      bubbles: true,
+      composed: false,
+    });
+    window.dispatchEvent(logEvent);
+  }
   

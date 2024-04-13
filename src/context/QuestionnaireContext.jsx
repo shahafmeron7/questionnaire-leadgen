@@ -5,34 +5,44 @@ import React, {
   useContext,
   useState,
   useMemo,
+  useRef
 } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import questionnaireData from "./../utils/data/questionnaireData.json";
-import { validateField } from "../utils/helperFunctions";
+import { sendImpressions, validateField } from "../utils/helperFunctions";
+const STREAM_STEP_NAME = process.env.REACT_APP_STREAM_STEP_NAME;
+const STREAM_FINAL_NAME = process.env.REACT_APP_STREAM_FINAL_NAME;
+const FIRST_EVENT_NAME = process.env.REACT_APP_FIRST_EVENT_NAME;
+const STEP_EVENT_NAME = process.env.REACT_APP_STEP_EVENT_NAME;
+
+const USER_EVENT_NAME = process.env.REACT_APP_USER_EVENT_NAME;
+const USER_ACTION_NAME = process.env.REACT_APP_USER_ACTION_EXIT;
+
+const STAX_FORM_ID = process.env.REACT_APP_STAX_FORM_ID;
+const PAYSAFE_FORM_ID = process.env.REACT_APP_PAYSAFE_FORM_ID;
+
 const QuestionnaireContext = createContext();
 
 export const useQuestionnaire = () => useContext(QuestionnaireContext);
 
 export const QuestionnaireProvider = ({ children }) => {
-  const navigate = useNavigate(); // Use useNavigate hook
-
+ 
+  const navigate = useNavigate();
+  const hasSentImpression = useRef(false);
   const [currentQuestionCode, setCurrentQuestionCode] = useState(
     questionnaireData.questions[0]?.code
   );
   const [responses, setResponses] = useState({});
   const [errResponses, setErrResponses] = useState({});
-
   const [questionHistory, setQuestionHistory] = useState([]);
-
   const [questionnaireStarted, setQuestionnaireStarted] = useState(false);
   const [questionnaireCompleted, setQuestionnaireCompleted] = useState(false);
   const [inputModified, setInputModified] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
   const [isNextButtonFunctionallyDisabled, setIsNextButtonFunctionallyDisabled] = useState(false);
-  const [animationState, setAnimationState] = useState('enter'); // 'enter', 'exit', or null
 
-  
+
   const currentQuestion = useMemo(() => {
     return questionnaireData.questions.find(
       (q) => q.code === currentQuestionCode
@@ -53,19 +63,55 @@ export const QuestionnaireProvider = ({ children }) => {
 
       }
     }, [currentQuestion,currentQuestionCode]);
+    
+    useEffect(() => {
+      if (!hasSentImpression.current) {
+        sendImpressions({}, null, FIRST_EVENT_NAME, STREAM_STEP_NAME);
+        hasSentImpression.current = true;
+      }
+    }, []);
+    useEffect(() => {
+        sendImpressions(buildEventData(), null, FIRST_EVENT_NAME, STREAM_STEP_NAME);
+    }, [currentQuestionCode]);
+
+
+    useEffect(() => {
+      const handleUnload = () => {
+        sendImpressions({},USER_ACTION_NAME, USER_EVENT_NAME, STREAM_STEP_NAME);
+      };
+    
+      window.addEventListener('beforeunload', handleUnload);
+      return () => window.removeEventListener('beforeunload', handleUnload);
+    }, [currentQuestionCode]);
+
   const currentQuestionIndex = questionnaireData.questions.findIndex(
     (q) => q.code === currentQuestionCode
   );
   const totalQuestions = questionnaireData.questions.length;
 
- 
-  const triggerAnimation = (state) => {
-    setAnimationState(state);
-    // Optionally, reset the state after the animation duration
-    if (state !== null) {
-      setTimeout(() => setAnimationState(null), 1000); // Adjust based on your longest animation time
+  const buildEventData = () => {
+    const { step, code, text, type, subquestions } = currentQuestion;
+    
+    let questionsData;
+    if (type === 'details-question' || type === 'form-type') {
+        questionsData = subquestions.map(sub => ({
+            code: sub.code,
+            text: sub.text
+        }));
+    } else {
+        questionsData = [{ code, text }];
     }
-  };
+    return {
+        context: {
+            step,
+            questions: questionsData,
+            flow_id: questionnaireData.flow_id,
+            flow_name: questionnaireData.flow_name
+        }
+    };
+};
+
+ 
   const completeQuestionnaire = () => {
     setQuestionnaireCompleted(true);
   };
@@ -83,9 +129,7 @@ export const QuestionnaireProvider = ({ children }) => {
       ...prevResponses,
       [questionCode]: answerIndex,
     }));
-    console.log("handleAnswerSelection");
-
-    console.log(questionCode,answerIndex);
+  
     const nextQuestionCode =
       currentQuestion.answers[answerIndex].next_question_code;
       console.log(nextQuestionCode)
@@ -257,8 +301,7 @@ const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
       inputModified,
       nextBtnEnabled,
       isNextButtonFunctionallyDisabled,
-      animationState,
-      triggerAnimation,
+    
       navigate,
       
       toggleNextButtonFunctionality,
@@ -286,7 +329,7 @@ const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
       inputModified,
       questionHistory,
       isNextButtonFunctionallyDisabled,
-      animationState
+      
     ]
   );
 
