@@ -113,10 +113,8 @@ export const QuestionnaireProvider = ({ children }) => {
     };
 
     if (action) {
-      console.log(action);
       eventData["action"] = action;
     }
-    console.log(eventData);
 
     return eventData;
   };
@@ -125,11 +123,9 @@ export const QuestionnaireProvider = ({ children }) => {
     //changing structure of code:'monthly_volume' to match their API.
     if(targetFormID === PAYSAFE_FORM_ID){
       const paysafe_monthly_volume =["1-999","1000-9999","10000","0"]
-      console.log("paysafe",responses.monthly_volume);
 
       const monthly_volume = responses.monthly_volume;
       monthly_volume.answer=paysafe_monthly_volume[monthly_volume.answerIndexes[0]]
-      console.log(responses.monthly_volume);
     }
     const finalResponses = Object.keys(responses).reduce((acc, key) => {
       const { answerIndexes, ...responseWithoutIndexes } = responses[key];

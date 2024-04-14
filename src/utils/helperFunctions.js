@@ -9,7 +9,6 @@ function isValidPhone(phone) {
   );
 }
 export const validateField = (type, val) => {
-  console.log(type,val)
     switch (type) {
       case "email":
         return /^\S+@\S+\.\S+$/.test(val);
@@ -48,7 +47,6 @@ export const validateField = (type, val) => {
       bubbles: true,
       composed: false,
     });
-    console.log(to_send);
      window.dispatchEvent(logEvent);
   }
   

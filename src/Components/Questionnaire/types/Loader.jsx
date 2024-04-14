@@ -17,7 +17,7 @@ const Loader = () => {
         className={styles.loaderWrapper}
       >
         <LoaderSVG />
-        <div>
+        <div style={{lineHeight:"48px"}}>
           <h1 className={styles.loaderText}>{currentQuestion.text}</h1>
           <p className={styles.loaderExtraInfoText}>
             {currentQuestion.extra_info}
