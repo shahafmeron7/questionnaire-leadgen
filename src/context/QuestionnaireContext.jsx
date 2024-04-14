@@ -21,8 +21,7 @@ const USER_EVENT_NAME = process.env.REACT_APP_USER_EVENT_NAME;
 const USER_ACTION_NAME = process.env.REACT_APP_USER_ACTION_EXIT;
 const USER_ACTION_CLICK_NEXT = process.env.REACT_APP_USER_ACTION_CLICK_NEXT;
 const USER_ACTION_CLICK_PREV = process.env.REACT_APP_USER_ACTION_CLICK_PREV;
-const USER_ACTION_CLICK_PREV_BROWSER =
-  process.env.REACT_APP_USER_ACTION_CLICK_PREV_BROWSER;
+const USER_ACTION_CLICK_PREV_BROWSER =process.env.REACT_APP_USER_ACTION_CLICK_PREV_BROWSER;
 const STAX_FORM_ID = process.env.REACT_APP_STAX_FORM_ID;
 const PAYSAFE_FORM_ID = process.env.REACT_APP_PAYSAFE_FORM_ID;
 
@@ -114,8 +113,10 @@ export const QuestionnaireProvider = ({ children }) => {
     };
 
     if (action) {
-      eventData.action = action;
+      console.log(action);
+      eventData["action"] = action;
     }
+    console.log(eventData);
 
     return eventData;
   };
@@ -322,7 +323,7 @@ export const QuestionnaireProvider = ({ children }) => {
     sendImpressions(
       buildEventData(USER_ACTION_CLICK_PREV),
       USER_EVENT_NAME,
-      STEP_EVENT_NAME
+      STREAM_STEP_NAME
     );
     setQuestionHistory((prevHistory) => {
       const history = [...prevHistory];

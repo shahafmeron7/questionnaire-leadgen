@@ -37,7 +37,7 @@ export const validateField = (type, val) => {
     var to_send = {
       extra: {
         extra_data: data,
-        ...(formID !== null && { form: formID }) // Conditionally include the form field
+        ...(formID !== null && { form: formID })
       },
       event: eventName,
       api: "sonary.com",
@@ -49,6 +49,6 @@ export const validateField = (type, val) => {
       composed: false,
     });
     console.log(to_send);
-    // window.dispatchEvent(logEvent);
+     window.dispatchEvent(logEvent);
   }
   

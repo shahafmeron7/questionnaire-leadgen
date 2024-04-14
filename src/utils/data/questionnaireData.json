@@ -4,7 +4,7 @@
   "questions": [
     {
       "text": "What type of business do you have?",
-      "code": "business_type",
+      "code": "industry_type",
       "step": 1,
       "type": "one-selection",
       "display_list_direction": "col",
