@@ -7,10 +7,8 @@ const BrandCard = ({ card }) => {
   return (
     <div className={styles.cardContainer}>
       <img src={card.src} alt={card.alt} className={styles.bestMatchLogo} />
-      <button type="button" className={styles.cardButton}>
-        <a href={outlink}>Visit Site</a>
+        <a href={outlink} target="_blank" rel="nofollow" className={styles.cardButton}>Visit Site</a>
         
-      </button>
       <div className={styles.divider}></div>
       <div className={styles.pros_cons}>
         {Object.entries(card.pros_cons).map(

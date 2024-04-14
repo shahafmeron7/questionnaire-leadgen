@@ -1,3 +1,4 @@
+
 function isValidZipCode(zipCode) {
   const regex = /^\d{5}(?:-\d{4})?$|^(\d{3} \d{3})$/;
   return regex.test(zipCode) && !zipCode.includes("0000");
@@ -27,32 +28,16 @@ export const validateField = (type, val) => {
   };
 
   export const sendImpressions = (data,eventName,stream,formID=null)=>{
-    console.log(data,eventName,stream,formID);
-    const impressionData={}
    
-
-    // if (action) {
-    //   sendLeadgenImpression(
-    //     {
-    //       ["context"]: impressionData,
-    //       action: action,
-    //     },
-    //     eventName
-    //   );
-    // } else {
-    //   sendLeadgenImpression(
-    //     {
-    //       ["context"]: impressionData,
-    //     },
-    //     eventName
-    //   );
-    // }
+    sendLeadgenImpression(data,eventName,stream,formID);
+    
   }
 
-  export function sendLeadgenImpression(data, eventName,stream) {
+  export function sendLeadgenImpression(data, eventName,stream,formID=null) {
     var to_send = {
       extra: {
         extra_data: data,
+        ...(formID !== null && { form: formID }) // Conditionally include the form field
       },
       event: eventName,
       api: "sonary.com",
@@ -63,6 +48,7 @@ export const validateField = (type, val) => {
       bubbles: true,
       composed: false,
     });
-    window.dispatchEvent(logEvent);
+    console.log(to_send);
+    // window.dispatchEvent(logEvent);
   }
   

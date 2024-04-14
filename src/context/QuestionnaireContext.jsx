@@ -70,7 +70,7 @@ export const QuestionnaireProvider = ({ children }) => {
 
   useEffect(() => {
     if (!hasSentImpression.current) {
-      sendImpressions({}, null, FIRST_EVENT_NAME, STREAM_STEP_NAME);
+      sendImpressions({}, FIRST_EVENT_NAME,STREAM_STEP_NAME);
       hasSentImpression.current = true;
     }
   }, []);
@@ -121,6 +121,15 @@ export const QuestionnaireProvider = ({ children }) => {
   };
 
   const completeQuestionnaire = () => {
+    //changing structure of code:'monthly_volume' to match their API.
+    if(targetFormID === PAYSAFE_FORM_ID){
+      const paysafe_monthly_volume =["1-999","1000-9999","10000","0"]
+      console.log("paysafe",responses.monthly_volume);
+
+      const monthly_volume = responses.monthly_volume;
+      monthly_volume.answer=paysafe_monthly_volume[monthly_volume.answerIndexes[0]]
+      console.log(responses.monthly_volume);
+    }
     const finalResponses = Object.keys(responses).reduce((acc, key) => {
       const { answerIndexes, ...responseWithoutIndexes } = responses[key];
       acc[key] = responseWithoutIndexes;
@@ -138,16 +147,10 @@ export const QuestionnaireProvider = ({ children }) => {
   const toggleNextButtonFunctionality = (isDisabled) => {
     setIsNextButtonFunctionallyDisabled(isDisabled);
   };
-
-  const handleAnswerSelection = (questionCode, answerIndex) => {
-    
-    const answer = currentQuestion.answers[answerIndex];
-    const answerText = answer?.text;
-    const existingResponse = responses[questionCode] || {};
-    // Check if the question is about business type
+  function checkAndUpdateFormID(questionCode, answerIndex) {
     if (questionCode === "business_type") {
-      let formID=null;
-        if (answerText === "B2B Services") {
+        let formID = null;
+        if (answerIndex === 2) {
             formID = STAX_FORM_ID;
         } else {
             // Random selection logic
@@ -156,6 +159,14 @@ export const QuestionnaireProvider = ({ children }) => {
         }
         setTargetFormID(formID);
     }
+}
+  const handleAnswerSelection = (questionCode, answerIndex) => {
+    
+    const answer = currentQuestion.answers[answerIndex];
+    const answerText = answer?.text;
+    const existingResponse = responses[questionCode] || {};
+    // Check if the question is about business type and update form id
+    checkAndUpdateFormID(questionCode,answerIndex);
     const newResponse = {
       ...existingResponse,
       answer: answerText,
@@ -279,6 +290,8 @@ export const QuestionnaireProvider = ({ children }) => {
       const response = responses[currentQuestion.code];
       if (response && response.answerIndexes) {
         const selectedIndex = response.answerIndexes[0]; // Assuming 'answerIndexes' holds indices
+        // Check if the question is about business type and update form id
+        checkAndUpdateFormID(currentQuestionCode,selectedIndex);
         nextQuestionCode = currentQuestion.answers[selectedIndex]?.next_question_code;
       } else {
         // This condition is simplified assuming that the 'answer' is not stored as an index anymore
