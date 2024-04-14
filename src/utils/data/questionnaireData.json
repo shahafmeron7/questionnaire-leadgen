@@ -44,7 +44,7 @@
           "next_question_code": "cc_payment_method"
         },
         {
-          "text": "Between $1,000-$9,000",
+          "text": "Between $1,000-$9,999",
           "next_question_code": "cc_payment_method"
         },
         {

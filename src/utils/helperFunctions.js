@@ -13,7 +13,6 @@ export const validateField = (type, val) => {
       case "email":
         return /^\S+@\S+\.\S+$/.test(val);
       case "zip_code":
-        console.log('zip',val)
         return isValidZipCode(val);
       case "first_name":
       case "last_name":

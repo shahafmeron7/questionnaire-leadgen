@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 import questionnaireData from "./../utils/data/questionnaireData.json";
 import { sendImpressions, validateField } from "../utils/helperFunctions";
+import Impression from "../utils/impression/impression";
 const STREAM_STEP_NAME = process.env.REACT_APP_STREAM_STEP_NAME;
 const STREAM_FINAL_NAME = process.env.REACT_APP_STREAM_FINAL_NAME;
 const FIRST_EVENT_NAME = process.env.REACT_APP_FIRST_EVENT_NAME;
@@ -69,6 +70,7 @@ export const QuestionnaireProvider = ({ children }) => {
 
   useEffect(() => {
     if (!hasSentImpression.current) {
+      // Impression();
       sendImpressions({}, FIRST_EVENT_NAME,STREAM_STEP_NAME);
       hasSentImpression.current = true;
     }
