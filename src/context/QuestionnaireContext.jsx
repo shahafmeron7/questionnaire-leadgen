@@ -41,6 +41,7 @@ export const QuestionnaireProvider = ({ children }) => {
   const [questionHistory, setQuestionHistory] = useState([]);
   const [questionnaireStarted, setQuestionnaireStarted] = useState(false);
   const [questionnaireCompleted, setQuestionnaireCompleted] = useState(false);
+  const [targetFormID,setTargetFormID] = useState(undefined)
   const [inputModified, setInputModified] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
   const [
@@ -125,9 +126,9 @@ export const QuestionnaireProvider = ({ children }) => {
       acc[key] = responseWithoutIndexes;
       return acc;
     }, {});
-  
+    
     // Send final impression
-    sendImpressions(finalResponses, FINAL_SUBMIT_EVENT_NAME, STREAM_FINAL_NAME);
+    sendImpressions(finalResponses, FINAL_SUBMIT_EVENT_NAME, STREAM_FINAL_NAME,targetFormID);
     setQuestionnaireCompleted(true);
   };
 
@@ -139,10 +140,22 @@ export const QuestionnaireProvider = ({ children }) => {
   };
 
   const handleAnswerSelection = (questionCode, answerIndex) => {
+    
     const answer = currentQuestion.answers[answerIndex];
     const answerText = answer?.text;
     const existingResponse = responses[questionCode] || {};
-
+    // Check if the question is about business type
+    if (questionCode === "business_type") {
+      let formID=null;
+        if (answerText === "B2B Services") {
+            formID = STAX_FORM_ID;
+        } else {
+            // Random selection logic
+            const random = Math.random();
+            formID = random < 0.9 ? PAYSAFE_FORM_ID : STAX_FORM_ID; // 90% Paysafe, 10% Stax
+        }
+        setTargetFormID(formID);
+    }
     const newResponse = {
       ...existingResponse,
       answer: answerText,
