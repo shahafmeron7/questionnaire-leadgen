@@ -11,18 +11,15 @@ const QuestionnaireButtons = React.forwardRef((props,ref) => {
 
     const {questionHistory,questionnaireStarted,isFinalStep,currentQuestionCode,checkAndEnableNextButton,moveToNextQuestion,isNextButtonFunctionallyDisabled,inputModified,nextBtnEnabled,moveToPrevQuestion,responses,currentQuestion} = useQuestionnaire();
     const handleNextButtonClick = () => {
-        console.log("next clicked");
         setIsNextButtonClicked(true); 
       };
 
       useEffect(() => {
         let timerId;
         if (isNextButtonClicked) {
-          console.log("useeffect clciked");
           timerId = setTimeout(() => {
             moveToNextQuestion();
             // navigate(`?step=${currentQuestion.step+1}`, { replace: true });
-            console.log("button false clciked");
     
             setIsNextButtonClicked(false);
           }, 500);

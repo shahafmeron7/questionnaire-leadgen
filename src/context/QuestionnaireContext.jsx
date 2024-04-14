@@ -145,7 +145,7 @@ export const QuestionnaireProvider = ({ children }) => {
     setIsNextButtonFunctionallyDisabled(isDisabled);
   };
   function checkAndUpdateFormID(questionCode, answerIndex) {
-    if (questionCode === "business_type") {
+    if (questionCode === "industry_type") {
         let formID = null;
         if (answerIndex === 2) {
             formID = STAX_FORM_ID;
@@ -162,7 +162,7 @@ export const QuestionnaireProvider = ({ children }) => {
     const answer = currentQuestion.answers[answerIndex];
     const answerText = answer?.text;
     const existingResponse = responses[questionCode] || {};
-    // Check if the question is about business type and update form id
+    // Check if the question is about industry type and update form id
     checkAndUpdateFormID(questionCode,answerIndex);
     const newResponse = {
       ...existingResponse,
@@ -287,7 +287,7 @@ export const QuestionnaireProvider = ({ children }) => {
       const response = responses[currentQuestion.code];
       if (response && response.answerIndexes) {
         const selectedIndex = response.answerIndexes[0]; // Assuming 'answerIndexes' holds indices
-        // Check if the question is about business type and update form id
+        // Check if the question is about industry type and update form id
         checkAndUpdateFormID(currentQuestionCode,selectedIndex);
         nextQuestionCode = currentQuestion.answers[selectedIndex]?.next_question_code;
       } else {
