@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./HearBack.module.css";
 import { useState } from "react";
+import { ReactComponent as SelectedCheckboxSVG } from "../../../../images/selectedbox.svg";
+import { ReactComponent as UnselectedCheckboxSVG } from "../../../../images/unselectedbox.svg";
 const HearBack = () => {
   const [isSelected,setIsSelected] = useState(false);
   const handleClick = ()=>{
@@ -36,8 +38,9 @@ const HearBack = () => {
           </div>
         </div>
         <div className={styles.infoBottom}>
+
           <div className={styles.checkBox} onClick={handleClick}>
-            
+           {isSelected ? <SelectedCheckboxSVG/> : <UnselectedCheckboxSVG/>}
           </div>
           <p>
           We’re happy to provide you with our services. We’ll email you here and there to keep you updated on relevant services. If you’re not interested, please select this box.

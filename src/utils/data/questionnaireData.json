@@ -40,7 +40,7 @@
       "display_list_direction": "col",
       "answers": [
         {
-          "text": "More than $10,000",
+          "text": "Up to $999",
           "next_question_code": "cc_payment_method"
         },
         {
@@ -48,11 +48,11 @@
           "next_question_code": "cc_payment_method"
         },
         {
-          "text": "Up to $999",
+          "text": "More than $10,000",
           "next_question_code": "cc_payment_method"
         },
         {
-          "text": "not sure",
+          "text": "Not sure",
           "next_question_code": "cc_payment_method"
         }
       ]
@@ -93,7 +93,8 @@
           "text": "Please enter your zip code",
           "code": "zip_code",
           "error": "Please enter a valid 5-digit ZIP code.",
-          "example": "e.g: 90210"
+          "example": "e.g: 90210",
+          "maxLength":"5"
         }
       ],
       "answers": [
@@ -161,7 +162,8 @@
           "text": "What is your business name?",
           "code": "company_name",
           "error": "Your business name must contain at least 2 characters",
-        "example": "e.g: Acme Marketing"
+        "example": "e.g: Acme Marketing",
+        "maxLength":"50"
         }
       ],
       "answers": [
@@ -181,7 +183,8 @@
           "text": "What is your phone number?",
           "code": "phone",
           "error": "Please enter a valid phone number",
-           "example": "e.g: 2345678901"
+           "example": "e.g: 2345678901",
+           "maxLength":"10"
         }
       ],
       "answers": [

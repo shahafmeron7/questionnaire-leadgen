@@ -56,6 +56,7 @@ const DetailsQuestion = React.forwardRef((props,ref) => {
               name={sub.code}
               value={responses[sub.code]?.answer || ""}
               placeholder={sub.example}
+              maxLength={sub.maxLength}
               errorMessage={sub.error}
               isError={errResponses[sub.code] || false}
             />

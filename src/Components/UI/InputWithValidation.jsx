@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "./InputWithValidation.module.css";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
-const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,isOther=false,errorMessage,isError }, ref) => {
+const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,maxLength=null,isOther=false,errorMessage,isError }, ref) => {
 
   const { handleInputChange } = useQuestionnaire();
   const [inputValue, setInputValue] = useState(value);
   const [error, setError] = useState(isError);
-  const maxLength = name === "zip_code" ? "5" : name ==="phone" ? "10" : ""; 
   useEffect(() => {
     setError(isError);
   }, [isError]);

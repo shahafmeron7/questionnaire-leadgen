@@ -64,9 +64,7 @@ border: 1px solid var(--border-border-50);
     margin-top: 2px;
     min-width: 20px;
     min-height: 20px;
-    border-radius: 4px;
-border: 1px solid var(--border-border-50);
-background: #FFF;
+   
 cursor: pointer;
 }
 .infoBottom p{

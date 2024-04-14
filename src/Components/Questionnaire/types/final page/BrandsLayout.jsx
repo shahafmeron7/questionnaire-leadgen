@@ -8,7 +8,7 @@ const BrandCard = ({ card }) => {
     <div className={styles.cardContainer}>
       <img src={card.src} alt={card.alt} className={styles.bestMatchLogo} />
       <button type="button" className={styles.cardButton}>
-        <a href={outlink}></a>
+        <a href={outlink}>Visit Site</a>
         
       </button>
       <div className={styles.divider}></div>
