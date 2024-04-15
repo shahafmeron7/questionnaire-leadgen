@@ -15,7 +15,6 @@ const QuestionnaireButtons = React.forwardRef((props, ref) => {
   const {
     questionHistory,
     questionnaireStarted,
-    isFinalStep,
     currentQuestionCode,
     checkAndEnableNextButton,
     moveToNextQuestion,
@@ -27,6 +26,8 @@ const QuestionnaireButtons = React.forwardRef((props, ref) => {
     buildEventData,
     currentQuestion,
   } = useQuestionnaire();
+  const isFinalStep = currentQuestionCode === "phone";
+
   const handleNextButtonClick = () => {
     setIsNextButtonClicked(true);
   };
