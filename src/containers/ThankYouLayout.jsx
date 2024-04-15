@@ -4,12 +4,16 @@ import ThankYou from "../Components/Questionnaire/types/final page/ThankYou";
 import {BrandsLayout} from "../Components/Questionnaire/types/final page/BrandsLayout";
 import WhatsNext from "../Components/Questionnaire/types/final page/WhatsNext";
 import ContentLayout from "./ContentLayout";
+import PartnerWith from "../Components/UI/PartnerWith";
 
 const ThankYouLayout = () => {
   return (
     <>
       <ContentLayout bgColor={'rgba(0, 28, 65, 0.05)'}>
         <ThankYou />
+      </ContentLayout>
+      <ContentLayout bgColor={'#f6f6f6'}>
+        <PartnerWith />
       </ContentLayout>
       <ContentLayout bgColor={'#f6f6f6'}>
         <WhatsNext />

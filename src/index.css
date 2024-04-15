@@ -61,3 +61,6 @@ html, div, span, applet, object,
   padding: 0px;
   vertical-align: baseline;
 }
+.osano-cm-dialog--type_bar.osano-cm-dialog--position_bottom{
+  bottom: 0 !important;
+}
