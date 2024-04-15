@@ -1,5 +1,4 @@
 import React, { useEffect, useState,useRef,useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import ProgressBar from "../UI/ProgressBar";
@@ -24,10 +23,9 @@ const Questionnaire = () => {
     currentQuestion,
     setCurrentQuestionCode,
     currentQuestionCode,
-
+    navigate,
     questionnaireStarted,
   } = useQuestionnaire();
-  const navigate = useNavigate();
   const [showLoader, setShowLoader] = useState(false);
 
   const isFormSequence = currentQuestion.type === "form-type";
@@ -78,6 +76,7 @@ const Questionnaire = () => {
         const nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
         if (nextQuestionCode) {
           setCurrentQuestionCode(nextQuestionCode);
+
         }
       }, 3000);
     }
@@ -86,7 +85,7 @@ const Questionnaire = () => {
         clearTimeout(timeoutId);
       }
     };
-  }, [currentQuestion]);
+  }, [currentQuestion,navigate]);
 
   const QuestionnaireTitle = () => {
     return (

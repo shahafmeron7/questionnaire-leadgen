@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import questionnaireData from "./../utils/data/questionnaireData.json";
 import { sendImpressions, validateField } from "../utils/helperFunctions";
@@ -21,7 +21,6 @@ const FINAL_SUBMIT_EVENT_NAME= process.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME
 const USER_EVENT_NAME = process.env.REACT_APP_USER_EVENT_NAME;
 const USER_ACTION_NAME = process.env.REACT_APP_USER_ACTION_EXIT;
 const USER_ACTION_CLICK_NEXT = process.env.REACT_APP_USER_ACTION_CLICK_NEXT;
-const USER_ACTION_CLICK_PREV = process.env.REACT_APP_USER_ACTION_CLICK_PREV;
 const USER_ACTION_CLICK_PREV_BROWSER =process.env.REACT_APP_USER_ACTION_CLICK_PREV_BROWSER;
 const STAX_FORM_ID = process.env.REACT_APP_STAX_FORM_ID;
 const PAYSAFE_FORM_ID = process.env.REACT_APP_PAYSAFE_FORM_ID;
@@ -32,13 +31,18 @@ export const useQuestionnaire = () => useContext(QuestionnaireContext);
 
 export const QuestionnaireProvider = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+
   const hasSentImpression = useRef(false);
-  const [currentQuestionCode, setCurrentQuestionCode] = useState(
-    questionnaireData.questions[0]?.code
-  );
+  
+  const initialQuestionCode =  questionnaireData.questions[0]?.code;
+
+  const [currentQuestionCode, setCurrentQuestionCode] = useState(initialQuestionCode);
+  const [questionHistory, setQuestionHistory] = useState([initialQuestionCode]);
+
   const [responses, setResponses] = useState({});
   const [errResponses, setErrResponses] = useState({});
-  const [questionHistory, setQuestionHistory] = useState([]);
   const [questionnaireStarted, setQuestionnaireStarted] = useState(false);
   const [questionnaireCompleted, setQuestionnaireCompleted] = useState(false);
   const [targetFormID,setTargetFormID] = useState(undefined)
@@ -55,6 +59,11 @@ export const QuestionnaireProvider = ({ children }) => {
     );
   }, [currentQuestionCode]);
 
+
+ 
+  
+
+  
   useEffect(() => {
     if (currentQuestion?.step > 1) {
       setQuestionnaireStarted(true);
@@ -71,10 +80,15 @@ export const QuestionnaireProvider = ({ children }) => {
   useEffect(() => {
     if (!hasSentImpression.current) {
       // Impression();
+      
       sendImpressions({}, FIRST_EVENT_NAME,STREAM_STEP_NAME);
+      
+   
       hasSentImpression.current = true;
+     
     }
   }, []);
+  
   useEffect(() => {
     sendImpressions(buildEventData(), STEP_EVENT_NAME, STREAM_STEP_NAME);
   }, [currentQuestionCode]);
@@ -87,6 +101,30 @@ export const QuestionnaireProvider = ({ children }) => {
     window.addEventListener("beforeunload", handleUnload);
     return () => window.removeEventListener("beforeunload", handleUnload);
   }, [currentQuestionCode]);
+
+   useEffect(() => {
+     const handlePopState = (event) => {
+       event.preventDefault(); 
+       if (questionHistory.length > 1) {
+         if(questionnaireCompleted){
+           window.location.href = "https://sonary.com/";
+         }
+         else if(currentQuestionCode !=='loader'){
+          sendImpressions(buildEventData(USER_ACTION_CLICK_PREV_BROWSER), USER_EVENT_NAME, STREAM_STEP_NAME);
+          moveToPrevQuestion();
+         }
+       } else {
+     
+          window.history.go(-1);
+       }
+     };
+
+     window.addEventListener('popstate', handlePopState);
+     return () => {
+       window.removeEventListener('popstate', handlePopState);
+     };
+   }, [questionHistory,currentQuestionCode,questionnaireCompleted]);
+
 
   const currentQuestionIndex = questionnaireData.questions.findIndex(
     (q) => q.code === currentQuestionCode
@@ -159,6 +197,47 @@ export const QuestionnaireProvider = ({ children }) => {
         setTargetFormID(formID);
     }
 }
+const moveToNextQuestion = () => {
+  let proceedToNext = true;
+  let nextQuestionCode;
+
+  if (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") {
+    currentQuestion.subquestions.forEach(sub => {
+      if (!validateField(sub.code, responses[sub.code]?.answer)) { // Use the answer property
+        proceedToNext = false;
+        setErrResponses(prev => ({ ...prev, [sub.code]: true }));
+      }
+    });
+    nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
+  } else if (currentQuestion.type === "one-selection") {
+    // console.log('move to next question')
+    const response = responses[currentQuestion.code];
+    if (response && response.answerIndexes) {
+      const selectedIndex = response.answerIndexes[0]; // Assuming 'answerIndexes' holds indices
+      // Check if the question is about industry type and update form id
+      checkAndUpdateFormID(currentQuestionCode,selectedIndex);
+      nextQuestionCode = currentQuestion.answers[selectedIndex]?.next_question_code;
+    } else {
+      proceedToNext = false;
+    }
+  } else if (currentQuestion.type === "multi-selection") {
+    const response = responses[currentQuestion.code];
+    if (response && response.answerIndexes && response.answerIndexes.length > 0) {
+      nextQuestionCode = currentQuestion.answers[response.answerIndexes[0]]?.next_question_code;
+    } else {
+      proceedToNext = false;
+    }
+  }
+
+  if (proceedToNext && nextQuestionCode) {
+    sendImpressions(buildEventData(USER_ACTION_CLICK_NEXT), USER_EVENT_NAME, STREAM_STEP_NAME);
+    handleNavigateNextQuestion(nextQuestionCode);
+    setNextBtnEnabled(false);
+   
+  } else {
+    setNextBtnEnabled(false);
+  }
+};
   const handleAnswerSelection = (questionCode, answerIndex) => {
     
     const answer = currentQuestion.answers[answerIndex];
@@ -193,13 +272,18 @@ export const QuestionnaireProvider = ({ children }) => {
     // Navigate to the next question based on the selected answer's directive
     const nextQuestionCode = answer?.next_question_code;
     if (nextQuestionCode) {
-      setQuestionHistory((prevHistory) => [
-        ...prevHistory,
-        currentQuestionCode,
-      ]);
-      setCurrentQuestionCode(nextQuestionCode);
-    }
+      handleNavigateNextQuestion(nextQuestionCode);
+     }
+  
 };
+ const handleNavigateNextQuestion = (nextQuestionCode) => {
+   setQuestionHistory((prevHistory) => [...prevHistory, nextQuestionCode]);
+   setCurrentQuestionCode(nextQuestionCode);
+   window.history.pushState({},null, ' ');
+ };
+
+
+
 
   const handleMultipleAnswerSelection = (questionCode, selectedIndexes) => {
     const answersData = selectedIndexes.map((index) => {
@@ -271,69 +355,24 @@ export const QuestionnaireProvider = ({ children }) => {
 
 
   const resetInputModified = () => setInputModified(false);
-
-  const moveToNextQuestion = () => {
-    let proceedToNext = true;
-    let nextQuestionCode;
+ 
   
-    if (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") {
-      currentQuestion.subquestions.forEach(sub => {
-        if (!validateField(sub.code, responses[sub.code]?.answer)) { // Use the answer property
-          proceedToNext = false;
-          setErrResponses(prev => ({ ...prev, [sub.code]: true }));
-        }
-      });
-      nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
-    } else if (currentQuestion.type === "one-selection") {
-      // console.log('move to next question')
-      const response = responses[currentQuestion.code];
-      if (response && response.answerIndexes) {
-        const selectedIndex = response.answerIndexes[0]; // Assuming 'answerIndexes' holds indices
-        // Check if the question is about industry type and update form id
-        checkAndUpdateFormID(currentQuestionCode,selectedIndex);
-        nextQuestionCode = currentQuestion.answers[selectedIndex]?.next_question_code;
-      } else {
-        // This condition is simplified assuming that the 'answer' is not stored as an index anymore
-        proceedToNext = false;
-      }
-    } else if (currentQuestion.type === "multi-selection") {
-      const response = responses[currentQuestion.code];
-      if (response && response.answerIndexes && response.answerIndexes.length > 0) {
-        nextQuestionCode = currentQuestion.answers[response.answerIndexes[0]]?.next_question_code;
-      } else {
-        proceedToNext = false;
-      }
-    }
   
-    if (proceedToNext && nextQuestionCode) {
-      sendImpressions(buildEventData(USER_ACTION_CLICK_NEXT), USER_EVENT_NAME, STREAM_STEP_NAME);
-      setCurrentQuestionCode(nextQuestionCode);
-      setQuestionHistory(prevHistory => [...prevHistory, currentQuestionCode]);
-      setNextBtnEnabled(false);
-    } else {
-      // console.log("Validation failed or no answer selected.");
-      setNextBtnEnabled(false);
-    }
-  };
+   const moveToPrevQuestion = () => {
+     setQuestionHistory(prevHistory => {
+       if (prevHistory.length > 1) {
+         const newHistory = prevHistory.slice(0, -1);
+         setCurrentQuestionCode(newHistory[newHistory.length - 1]);
+         return newHistory;
+       }
+       return prevHistory;
+     });
+   };
+
+
+ 
   
-
-  const moveToPrevQuestion = () => {
-    sendImpressions(
-      buildEventData(USER_ACTION_CLICK_PREV),
-      USER_EVENT_NAME,
-      STREAM_STEP_NAME
-    );
-    setQuestionHistory((prevHistory) => {
-      const history = [...prevHistory];
-      const prevQuestionCode = history.pop();
-      setCurrentQuestionCode(
-        prevQuestionCode || questionnaireData.questions[0].code
-      );
-      // navigate(`/questionnaire?step=${prevQuestionCode}`);
-
-      return history;
-    });
-  };
+ 
   const checkAndEnableNextButton = () => {
     if (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") {
       // Check if all subquestions have been answered
@@ -385,13 +424,12 @@ export const QuestionnaireProvider = ({ children }) => {
       nextBtnEnabled,
       isNextButtonFunctionallyDisabled,
 
-      navigate,
-
       toggleNextButtonFunctionality,
       checkAndEnableNextButton,
       changeNextBtnState,
       handleInputChange,
       resetInputModified,
+      buildEventData,
       moveToNextQuestion,
       handleMultipleAnswerSelection,
       moveToPrevQuestion,
@@ -412,6 +450,7 @@ export const QuestionnaireProvider = ({ children }) => {
       inputModified,
       questionHistory,
       isNextButtonFunctionallyDisabled,
+      
     ]
   );
 

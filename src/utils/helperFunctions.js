@@ -46,6 +46,7 @@ export const validateField = (type, val) => {
       bubbles: true,
       composed: false,
     });
-     window.dispatchEvent(logEvent);
+    // console.log(to_send)
+    //  window.dispatchEvent(logEvent);
   }
   
