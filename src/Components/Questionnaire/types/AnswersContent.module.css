@@ -92,7 +92,7 @@ line-height: 24px;
   gap: 19px;
 }
 .specialLayout input{
-  width: unset;
+  width: 100%;
 }
 .specialLayout > .inputWrapper:nth-child(3){
   margin-top: 40px;

@@ -43,7 +43,7 @@ const DetailsQuestion = React.forwardRef((props,ref) => {
               isPersonalAndBusinessInfo && isWideScreen && index < 2
                 ? styles.rowChild
                 : ""
-            }`}
+            }`} style={sub.code==='company_name' ? {width:"100%"}:{}}
           >
             {isFinalStep ? (
               <FinalStepTitle text={sub.text} />

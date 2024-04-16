@@ -7,7 +7,6 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
 
 import questionnaireData from "./../utils/data/questionnaireData.json";
 import { sendImpressions, validateField } from "../utils/helperFunctions";
@@ -30,8 +29,6 @@ const QuestionnaireContext = createContext();
 export const useQuestionnaire = () => useContext(QuestionnaireContext);
 
 export const QuestionnaireProvider = ({ children }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
 
 
   const hasSentImpression = useRef(false);
@@ -79,7 +76,7 @@ export const QuestionnaireProvider = ({ children }) => {
 
   useEffect(() => {
     if (!hasSentImpression.current) {
-      // Impression();
+      Impression();
       
       sendImpressions({}, FIRST_EVENT_NAME,STREAM_STEP_NAME);
       

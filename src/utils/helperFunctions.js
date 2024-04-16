@@ -47,6 +47,6 @@ export const validateField = (type, val) => {
       composed: false,
     });
     // console.log(to_send)
-    //  window.dispatchEvent(logEvent);
+    window.dispatchEvent(logEvent);
   }
   

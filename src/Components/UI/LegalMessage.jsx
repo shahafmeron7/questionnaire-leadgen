@@ -102,12 +102,11 @@ const LegalMessage = () => {
         By submitting this form, you provide us your consent to share your
         details with the&#8194;
         <u style={legalStyle} ref={popupRef}>
-          3 suppliers
+          2 suppliers
           <div style={brandBoxStyle} ref={brandsBoxRef}>
             <ul style={ulStyle}>
-              <li>Lightspeed</li>
-              <li>Revel</li>
-              <li>TouchBistro</li>
+              <li>PaySafe</li>
+              <li>Stax</li>
             </ul>
           </div>
         </u>

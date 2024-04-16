@@ -15,7 +15,7 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,m
     handleInputChange(name, newValue, isOther);
   };
   return (
-    <div className={`${styles.inputContainer} ${isOther ? (`${styles.otherInput} ${styles.slideUpEntranceInput}`):''} `}>
+    <div className={`${styles.inputContainer} ${isOther ? (`${styles.otherInput} ${styles.slideUpEntranceInput}`):''}` } style={name==='company_name' ? {width:"100%"}:{}}>
       <input
         data-lpignore="true"
         ref={ref}
