@@ -10,23 +10,11 @@ import Navbar from "../Components/Navbar/Navbar.jsx";
 import PartnerWith from "../Components/UI/PartnerWith";
 import ThankYouLayout from "../containers/ThankYouLayout";
 import ContentLayout from '../containers/ContentLayout'
-import useIsWideScreen from "../custom hooks/useIsWideScreen";
 function App() {
-  const { questionnaireCompleted, questionnaireStarted,currentQuestionCode } = useQuestionnaire();
-  const isWideScreen = useIsWideScreen();
-  const layoutRef = useRef(null);
-  const focusAndScrollIntoView = () => {
-    
-  };
-
-  useEffect(() => {
-    if (!isWideScreen && questionnaireStarted) {
-      focusAndScrollIntoView();
-    }
-  }, [currentQuestionCode, isWideScreen, questionnaireStarted]);
-
+  const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();
+ 
   return (
-    <div className="AppWrapper" ref={layoutRef}>
+    <div className="AppWrapper" >
       <Navbar />
       {!questionnaireCompleted ? (
         <>
