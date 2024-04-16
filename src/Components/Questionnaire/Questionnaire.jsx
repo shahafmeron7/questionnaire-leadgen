@@ -34,39 +34,33 @@ const Questionnaire = () => {
   const isEmailStep = currentQuestionCode === "email";
   
 
-  const titleRef = useRef(null);
-  const textRef = useRef(null);
-  const iconsRef = useRef(null);
-  const progressBarRef = useRef(null);
-  const answersContentRef = useRef(null);
-  const sslIconRef = useRef(null);
-  const legalMessageRef = useRef(null);
-  const buttonsRef = useRef(null);
+  const tl = useRef();
+
+
+  const layoutRef = useRef(null);
+
   useGSAP(() => {
     const progressBarWidth = Math.round(((currentQuestion.step - 1) / (4 - 1)) * 100) + '%';
+   
+   
 
-    const tl = gsap.timeline();
-
-    tl.fromTo(progressBarRef.current,
-        { width: "0%" }, // Assuming the initial state should be 0% or capture the initial width dynamically
-        { width: progressBarWidth, duration: 0.2, ease: 'none' },
-      ).fromTo(textRef.current, 
-        { opacity: 0, y: 30 }, 
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
-        .fromTo(answersContentRef.current,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, "-=0.3")
-        .fromTo(buttonsRef.current,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, "-=0.3");
+    tl.current = gsap.timeline()
+      .fromTo(".progressLine",
+      { width: "0%" }, 
+      { width: progressBarWidth, duration: 0.5, ease: 'none' })
+      .fromTo(".titleItem",
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.1, ease: 'power2.inOut' })
+      .fromTo(".answerItem", 
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, stagger: 0.1, duration: 0.5, ease: 'power2.inOut' })
+      .fromTo(".buttonsWrapper", 
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.inOut' })
+    
+    
+  }, {scope:layoutRef,dependencies:[currentQuestionCode]}); 
   
-      // return () => {
-      //   // Clean up animation
-      //   gsap.to([textRef.current, answersContentRef.current, buttonsRef.current], {
-      //     opacity: 0, y: -30, duration: 0.5, ease: 'power2.in'
-      //   });
-      // };
-  }, [currentQuestionCode]); 
   useEffect(() => {
     let timeoutId = null;
     if (currentQuestion.type === "loader") {
@@ -89,7 +83,7 @@ const Questionnaire = () => {
 
   const QuestionnaireTitle = () => {
     return (
-      <div ref={titleRef} className={styles.titleWrapper}>
+      <div className={styles.titleWrapper}>
         <h1 className={styles.title}>
           Find the right merchant service provider
         </h1>
@@ -102,7 +96,7 @@ const Questionnaire = () => {
 
   if (showLoader) {
     return (
-      <QuestionnaireLayout>
+      <QuestionnaireLayout ref={layoutRef}>
         <QuestionnaireWrapper>
           <Loader />
         </QuestionnaireWrapper>
@@ -111,7 +105,7 @@ const Questionnaire = () => {
   }
 
   return (
-    <QuestionnaireLayout>
+    <QuestionnaireLayout ref={layoutRef}>
       {!questionnaireStarted && (
         <>
           <QuestionnaireTitle />
@@ -122,9 +116,9 @@ const Questionnaire = () => {
 
       {isFormSequence && <FormProgress />}
       <QuestionnaireWrapper>
-        {!isFormSequence && <ProgressBar ref={progressBarRef} />}
+        {!isFormSequence && <ProgressBar />}
         {currentQuestion.text && (
-          <div ref={textRef} key={currentQuestionCode} className={`${styles.questionDescriptionText}`}>
+          <div key={currentQuestionCode} className={`titleItem ${styles.questionDescriptionText}`}>
             {currentQuestion.text}
             {currentQuestion.instructions && (
               <p className={styles.questionInstructions}>
@@ -134,7 +128,7 @@ const Questionnaire = () => {
           </div>
         )}
         <div className={styles.contentWrapper}>
-          <AnswersContent ref={answersContentRef} />
+          <AnswersContent  />
 
           {(isFinalStep || isZipCodeStep) && <ExtraInfo />}
 
@@ -145,7 +139,7 @@ const Questionnaire = () => {
             </>
           )}
 
-          <QuestionnaireButtons ref={buttonsRef} />
+          <QuestionnaireButtons />
         </div>
       </QuestionnaireWrapper>
     </QuestionnaireLayout>

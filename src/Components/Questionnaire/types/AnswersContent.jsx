@@ -19,7 +19,7 @@ const AnswersContent = React.forwardRef((props, ref) => {
     return <>Question type not supported</>;
   }
 
-  return <QuestionComponent ref={ref}/>;
+  return <QuestionComponent ref={ref} {...props}/>;
 });
 
 export default AnswersContent;

@@ -18,14 +18,17 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
   const otherInputRef = useRef(null);
   const [localSelectedIndex, setLocalSelectedIndex] = useState(
     responses[currentQuestionCode]?.answerIndexes?.[0] || undefined
-  );
-
-  const [delayNextQuestion, setDelayNextQuestion] = useState(false);
-  const [isOtherSelected, setIsOtherSelected] = useState(false);
-  const [otherInputValue, setOtherInputValue] = useState("");
-
-  const isDisplayDirectionCol =
+    );
+    
+    const [delayNextQuestion, setDelayNextQuestion] = useState(false);
+    const [isOtherSelected, setIsOtherSelected] = useState(false);
+    const [otherInputValue, setOtherInputValue] = useState("");
+    
+    const isDisplayDirectionCol =
     currentQuestion.display_list_direction === "col";
+   
+    
+  
   useEffect(() => {
     const response = responses[currentQuestionCode];
     if (!response){
@@ -106,7 +109,7 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
   return (
     <>
       <div
-        ref={ref}
+        
         key={currentQuestionCode}
         className={`${styles.answersContainer} ${
           isDisplayDirectionCol ? styles.listCol : styles.listRow
@@ -114,8 +117,9 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
       >
         {currentQuestion.answers.map((answer, index) => (
           <div
+            
             key={`${currentQuestion.code}-${index}`}
-            className={`${styles.answerItem} ${
+            className={`answerItem ${styles.answerItem} ${
               index === localSelectedIndex ? styles.selected : ""
             } ${
               isDisplayDirectionCol

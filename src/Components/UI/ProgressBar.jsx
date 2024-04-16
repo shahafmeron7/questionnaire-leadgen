@@ -11,7 +11,7 @@ const ProgressBar = React.forwardRef((props,ref) => {
       <div className={styles.progressWrapper}>
         <div className={styles.progressInfo}>Progress: {progressText}%</div>
         <div className={styles.lineWrapper}>
-          <div className={styles.lineContainer} ref={ref}>
+          <div className={`progressLine ${styles.lineContainer}`} ref={ref}>
 
           </div>
         </div>

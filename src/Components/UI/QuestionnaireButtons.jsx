@@ -87,7 +87,7 @@ const QuestionnaireButtons = React.forwardRef((props, ref) => {
     <div
       key={currentQuestionCode}
       ref={ref}
-      className={styles.buttonsWrapper}
+      className={`buttonsWrapper ${styles.buttonsWrapper}`}
       style={questionnaireStarted && !isWideScreen ? mobileButtonsStyle : {}}
     >
       {questionHistory.length > 1 && (

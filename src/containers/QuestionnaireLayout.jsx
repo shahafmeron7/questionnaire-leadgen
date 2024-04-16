@@ -2,7 +2,7 @@ import React from "react";
 import styles from './QuestionnaireLayout.module.css'
 import useIsWideScreen from "../custom hooks/useIsWideScreen";
 import { useQuestionnaire } from "../context/QuestionnaireContext";
-const QuestionnaireLayout = ({ children }) => {
+const QuestionnaireLayout = React.forwardRef(({ children }, ref) => {
   const { questionnaireStarted,currentQuestionCode } = useQuestionnaire();
   const isEmailStep = currentQuestionCode ==="email";
   const isWideScreen = useIsWideScreen();
@@ -15,11 +15,11 @@ const QuestionnaireLayout = ({ children }) => {
   }
  
   return (
-    <div  className={styles.questionnaireLayout} style={ questionnaireStarted&& !isWideScreen ? mobileStyle : {}}>
+    <div ref={ref}  className={styles.questionnaireLayout} style={ questionnaireStarted&& !isWideScreen ? mobileStyle : {}}>
       <div className={styles.questionnaireWrapper} style = { isEmailStep && !isWideScreen ? {paddingTop:"44px",width:"100%"}: !isWideScreen ? {width:"100%"} :{}}>{children}</div>
     </div>
   );
-};
+});
 
 
 export default QuestionnaireLayout;
