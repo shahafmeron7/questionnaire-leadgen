@@ -13,9 +13,9 @@ const QuestionnaireLayout = ({ children }) => {
     paddingBottom:" 80px", 
     paddingTop:"0px"
   }
-  
+ 
   return (
-    <div className={styles.questionnaireLayout} style={ questionnaireStarted&& !isWideScreen ? mobileStyle : {}}>
+    <div  className={styles.questionnaireLayout} style={ questionnaireStarted&& !isWideScreen ? mobileStyle : {}}>
       <div className={styles.questionnaireWrapper} style = { isEmailStep && !isWideScreen ? {paddingTop:"44px",width:"100%"}: !isWideScreen ? {width:"100%"} :{}}>{children}</div>
     </div>
   );

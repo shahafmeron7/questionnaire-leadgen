@@ -76,7 +76,7 @@ export const QuestionnaireProvider = ({ children }) => {
 
   useEffect(() => {
     if (!hasSentImpression.current) {
-      Impression();
+      // Impression();
       
       sendImpressions({}, FIRST_EVENT_NAME,STREAM_STEP_NAME);
       
@@ -101,7 +101,7 @@ export const QuestionnaireProvider = ({ children }) => {
 
    useEffect(() => {
      const handlePopState = (event) => {
-       event.preventDefault(); 
+      //  event.preventDefault(); 
        if (questionHistory.length > 1) {
          if(questionnaireCompleted){
            window.location.href = "https://sonary.com/";
