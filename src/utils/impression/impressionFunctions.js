@@ -45,13 +45,26 @@ export function setCookie(name, value, domain, days) {
     name + "=" + (value || "") + expires + "; domain=" + domain + "; path=/;";
 }
 
+// export function getDomain() {
+//   let fullDomain = window.location.hostname;
+//   let baseDomainRegex = /[^\.\/]+\.(co\.[^\/]+|com|fr|it|de|net)/i;
+//   let matches = fullDomain.match(baseDomainRegex);
+
+//   return matches[0];
+// }
 export function getDomain() {
   let fullDomain = window.location.hostname;
   let baseDomainRegex = /[^\.\/]+\.(co\.[^\/]+|com|fr|it|de|net)/i;
   let matches = fullDomain.match(baseDomainRegex);
 
-  return matches[0];
+  // Check if matches is not null before accessing it
+  if (matches && matches.length > 0) {
+    return matches[0];
+  } else {
+    return "defaultdomain.com";  // You can choose an appropriate default or error handling strategy
+  }
 }
+
 
 export function getToken(radix = 16) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {

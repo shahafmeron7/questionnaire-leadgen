@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import {
     setCookie,
     getCookie,
@@ -10,24 +11,29 @@ import {
   
   const Impression = () => {
     !(function () {
-      var b = new URLSearchParams(window.location.search),
-        c = {
-          gclid: "click_id",
-          vmcid: "click_id",
-          msclkid: "click_id",
-          network: "network",
-          device: "device",
-          creative: "creative",
-        },
-        e = window.location.hostname.match(
-          /[^\.\/]+\.(co\.[^\/]+|com|fr|it|de|net|dnc)/i
-        )[0];
-  
-      function d(a, b) {
-        document.cookie = a + "=" + (b || "") + "; domain=" + e + "; path=/;";
+      var searchParams = new URLSearchParams(window.location.search),
+          paramsToCookieMap = {
+            gclid: "click_id",
+            vmcid: "click_id",
+            msclkid: "click_id",
+            network: "network",
+            device: "device",
+            creative: "creative",
+          },
+          domainForCookie = getDomain();
+         
+    
+      function setCookie(name, value) {
+        document.cookie = name + "=" + (value || "") + "; domain=" + domainForCookie + "; path=/;";
       }
-      for (var a in c) b.has(a) && d(c[a], b.get(a));
+    
+      for (var param in paramsToCookieMap) {
+        if (searchParams.has(param)) {
+          setCookie(paramsToCookieMap[param], searchParams.get(param));
+        }
+      }
     })();
+    
     let queryParams = getParamsFromUrl(getApiUrl());
     if (!queryParams.gclid) {
       queryParams.gclid = getCookie("click_id");
@@ -68,6 +74,11 @@ import {
     async function send(inputs) {
       let token = getToken();
       let domain = getDomain();
+      if(domain.includes('defaultdomain')){
+        console.log('Failed sending impressions from localhost.')
+        return;
+      }
+        
       let apiUrl = getApiUrl();
       let brandsLists = inputs.brandsListsInfo || {};
   
