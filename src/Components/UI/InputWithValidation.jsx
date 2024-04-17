@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useRef, useEffect } from "react";
 import styles from "./InputWithValidation.module.css";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
+import gsap from 'gsap';
+
 const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,maxLength=null,isOther=false,errorMessage,isError }, ref) => {
+  gsap.config({
+    nullTargetWarn: false,
+  })
+ 
+  const inputRef = useRef(null);
 
   const { handleInputChange } = useQuestionnaire();
   const [inputValue, setInputValue] = useState(value);
@@ -9,13 +16,22 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,m
   useEffect(() => {
     setError(isError);
   }, [isError]);
+
+  useEffect(() => {
+    if (isOther && inputRef.current) {
+      gsap.fromTo(inputRef.current, 
+        { y: -136, opacity: 0 },
+        { y: 0, opacity: 1, delay:0.8, duration: 0.5, ease: "none" });
+    }
+  }, [isOther]);
+
   const handleChange = (e) => {
     const newValue = e.target.value;
     setInputValue(newValue);
     handleInputChange(name, newValue, isOther);
   };
   return (
-    <div className={`${styles.inputContainer} ${isOther ? (`${styles.otherInput} ${styles.slideUpEntranceInput}`):''}` } style={name==='company_name' ? {width:"100%"}:{}}>
+    <div ref={inputRef} className={`${styles.inputContainer} ${isOther ? `animateOtherInput ${styles.otherInput}`:''}` } style={name==='company_name' ? {width:"100%"}:{}}>
       <input
         data-lpignore="true"
         ref={ref}

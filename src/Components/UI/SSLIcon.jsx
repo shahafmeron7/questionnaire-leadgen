@@ -1,6 +1,4 @@
 import React from "react";
-import {motion,AnimatePresence} from 'framer-motion'
-import { defaultVariants } from "../../animations/animations";
 
 import { ReactComponent as SSLLogo } from '../../images/ssl_lock.svg'
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
@@ -22,19 +20,15 @@ const SSLIcon = () => {
       }
     const {currentQuestionCode} = useQuestionnaire
     return (
-      <AnimatePresence>
-        <motion.div
-          key={currentQuestionCode}
-          initial="initial"
-          animate="enter"
-          exit="exit"
+      <div
+      className="animateStaggerItem animateFadeOut"
+          key={currentQuestionCode} 
           style={stylesslWrapper}
-          variants={defaultVariants}
         >
           <SSLLogo />
           <p style={psslWrapper}>SSL Encrypted</p>
-        </motion.div>
-      </AnimatePresence>
+        </div>
+     
     );
   };
 

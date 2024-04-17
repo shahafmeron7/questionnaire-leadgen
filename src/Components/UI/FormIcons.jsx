@@ -3,7 +3,9 @@ import { ReactComponent as ClockIcon } from '../../images/form icons/clock.svg';
 import { ReactComponent as LockIcon } from '../../images/form icons/lock.svg';
 import { ReactComponent as TrustedIcon } from '../../images/form icons/trustedcheckmark.svg';
 import styles from './FormIcons.module.css';
+import { useQuestionnaire } from '../../context/QuestionnaireContext';
 const FormIcons = () => {
+    const {currentQuestionCode} = useQuestionnaire()
     const icons = [
         {
             text: "Secure Form",
@@ -23,7 +25,7 @@ const FormIcons = () => {
     ];
 
     return (
-        <div className={styles.formIconsContainer}>
+        <div key={currentQuestionCode} className={`animateItem animateFadeOut ${styles.formIconsContainer}`}>
             {icons.map((icon, index) => (
                 <div key={index} className={styles.IconContainer}>
                     <icon.Icon aria-label={icon.alt} /> 

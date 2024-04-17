@@ -17,11 +17,14 @@ import FormIcons from "../UI/FormIcons.jsx";
 import QuestionnaireButtons from "../UI/QuestionnaireButtons.jsx";
 
 const Questionnaire = () => {
+  gsap.config({
+    nullTargetWarn: false,
+  })
   gsap.registerPlugin(useGSAP);
 
   const {
     currentQuestion,
-    setCurrentQuestionCode,
+    handleNavigateNextQuestion,
     currentQuestionCode,
     navigate,
     questionnaireStarted,
@@ -40,24 +43,17 @@ const Questionnaire = () => {
   const layoutRef = useRef(null);
 
   useGSAP(() => {
-    const progressBarWidth = Math.round(((currentQuestion.step - 1) / (4 - 1)) * 100) + '%';
-   
-   
-
     tl.current = gsap.timeline()
-      .fromTo(".progressLine",
-      { width: "0%" }, 
-      { width: progressBarWidth, duration: 0.5, ease: 'none' })
-      .fromTo(".titleItem",
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 0.1, ease: 'power2.inOut' })
-      .fromTo(".answerItem", 
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, stagger: 0.1, duration: 0.5, ease: 'power2.inOut' })
-      .fromTo(".buttonsWrapper", 
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.inOut' })
+    .fromTo(".animateItem",
+    { opacity: 0, y: 100 },
+    { opacity: 1, y: 0,stagger: 0.1,duration: 0.3, ease: 'power2.inOut' })
     
+      .fromTo(".animateTitleItem",
+        { opacity: 0  },
+        { opacity: 1,duration: 0.3, ease: 'power2.inOut' })
+        .fromTo(".animateStaggerItem", 
+        { opacity: 0, y: 150 },
+        { opacity: 1, y: 0, stagger: 0.02 , duration: 0.8, ease: "back.inOut(2)" }, "staggerComplete")
     
   }, {scope:layoutRef,dependencies:[currentQuestionCode]}); 
   
@@ -69,8 +65,7 @@ const Questionnaire = () => {
         setShowLoader(false);
         const nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
         if (nextQuestionCode) {
-          setCurrentQuestionCode(nextQuestionCode);
-
+          handleNavigateNextQuestion(nextQuestionCode)
         }
       }, 3000);
     }
@@ -83,7 +78,7 @@ const Questionnaire = () => {
 
   const QuestionnaireTitle = () => {
     return (
-      <div className={styles.titleWrapper}>
+      <div key={currentQuestionCode} className={`animateItem animateFadeOut ${styles.titleWrapper}`}>
         <h1 className={styles.title}>
           Find the right merchant service provider
         </h1>
@@ -109,7 +104,7 @@ const Questionnaire = () => {
       {!questionnaireStarted && (
         <>
           <QuestionnaireTitle />
-          <FormIcons />
+          <FormIcons   />
         </>
       )}
       {isEmailStep && <LogoPOS />}
@@ -118,7 +113,7 @@ const Questionnaire = () => {
       <QuestionnaireWrapper>
         {!isFormSequence && <ProgressBar />}
         {currentQuestion.text && (
-          <div key={currentQuestionCode} className={`titleItem ${styles.questionDescriptionText}`}>
+          <div key={currentQuestionCode} className={`animateTitleItem animateFadeOut ${styles.questionDescriptionText}`}>
             {currentQuestion.text}
             {currentQuestion.instructions && (
               <p className={styles.questionInstructions}>

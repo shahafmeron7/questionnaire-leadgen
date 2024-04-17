@@ -5,9 +5,7 @@ import { ReactComponent as SelectedCheckboxSVG } from "../../../images/selectedb
 import { ReactComponent as CreditCardSVG } from "../../../images/multiselection/creditcard.svg";
 import { ReactComponent as CashSVG } from "../../../images/multiselection/cash.svg";
 import { ReactComponent as PhoneSVG } from "../../../images/multiselection/phone.svg";
-import { motion, AnimatePresence } from "framer-motion";
 import styles from "./AnswersContent.module.css";
-import  {slideUpBoxVariant}  from "../../../animations/animations";
 import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
 
 const icons = {
@@ -15,7 +13,7 @@ const icons = {
   2: CreditCardSVG,
   3: PhoneSVG,
 };
-const MultipleChoiceQuestion = React.forwardRef((props,ref) => {
+const MultipleChoiceQuestion = () => {
   const {
     currentQuestion,
     currentQuestionCode,
@@ -23,11 +21,11 @@ const MultipleChoiceQuestion = React.forwardRef((props,ref) => {
     changeNextBtnState,
     handleMultipleAnswerSelection,
     toggleNextButtonFunctionality,
+    isAnimatingOut
   } = useQuestionnaire();
   const [selectedIndexes, setSelectedIndexes] = useState(
     responses[currentQuestionCode]?.answerIndexes || []
   );
-  const [delayNextQuestion, setDelayNextQuestion] = useState(false);
   const isWideScreen = useIsWideScreen();
 
   const isDisplayDirectionCol =
@@ -41,51 +39,54 @@ const MultipleChoiceQuestion = React.forwardRef((props,ref) => {
         setSelectedIndexes([]);
       }
     }, [currentQuestionCode, responses]);
-  useEffect(() => {
-    if (delayNextQuestion) {
-      toggleNextButtonFunctionality(true);
-      const timer = setTimeout(() => {
-        handleMultipleAnswerSelection(currentQuestionCode, selectedIndexes);
-        setDelayNextQuestion(false);
-        toggleNextButtonFunctionality(false);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [
-    delayNextQuestion,
-    selectedIndexes,
-    currentQuestionCode,
-    handleMultipleAnswerSelection,
-    toggleNextButtonFunctionality,
-  ]);
-
+  // useEffect(() => {
+  //   if (delayNextQuestion) {
+  //     toggleNextButtonFunctionality(true);
+  //     const timer = setTimeout(() => {
+  //       handleMultipleAnswerSelection(currentQuestionCode, selectedIndexes);
+  //       setDelayNextQuestion(false);
+  //       toggleNextButtonFunctionality(false);
+  //     }, 1000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [
+  //   delayNextQuestion,
+  //   selectedIndexes,
+  //   currentQuestionCode,
+  //   handleMultipleAnswerSelection,
+  //   toggleNextButtonFunctionality,
+  // ]);
   const handleClick = (index) => {
-    if (delayNextQuestion) return; // Prevent interaction during delay
+    if(isAnimatingOut) return;
     const newSelectedIndexes = selectedIndexes.includes(index)
-      ? selectedIndexes.filter((i) => i !== index)
+      ? selectedIndexes.filter(i => i !== index)
       : [...selectedIndexes, index];
+
     setSelectedIndexes(newSelectedIndexes);
     changeNextBtnState(newSelectedIndexes.length > 0);
     handleMultipleAnswerSelection(currentQuestionCode, newSelectedIndexes);
   };
+  // const handleClick = (index) => {
+  //   if (delayNextQuestion) return; // Prevent interaction during delay
+  //   const newSelectedIndexes = selectedIndexes.includes(index)
+  //     ? selectedIndexes.filter((i) => i !== index)
+  //     : [...selectedIndexes, index];
+  //   setSelectedIndexes(newSelectedIndexes);
+  //   changeNextBtnState(newSelectedIndexes.length > 0);
+  //   handleMultipleAnswerSelection(currentQuestionCode, newSelectedIndexes);
+  // };
   return (
     <div
-      className={`${styles.answersContainer} ${
+      className={`animateFadeOut ${styles.answersContainer} ${
         isDisplayDirectionCol ? styles.listCol : styles.listRow
       } `}
     >
-      <AnimatePresence>
       {currentQuestion.answers.map((answer, index) => {
         const IconComponent = icons[index + 1];
         return (
-            <motion.div
-              custom={index} // Pass the index as a custom prop to the motion component
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={slideUpBoxVariant}
+         <div
               key={`${currentQuestionCode}-${index}`}
-              className={`
+              className={`animateStaggerItem
           ${styles.answerItem} 
           ${selectedIndexes.includes(index) ? styles.selected : ""}
           ${
@@ -105,12 +106,11 @@ const MultipleChoiceQuestion = React.forwardRef((props,ref) => {
               ) : (
                 <UnselectedCheckboxSVG />
               )}
-            </motion.div>
+            </div>
         );
       })}
-      </AnimatePresence>
     </div>
   );
-});
+};
 
 export default MultipleChoiceQuestion;

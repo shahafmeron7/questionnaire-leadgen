@@ -13,7 +13,9 @@ const FormProgress = () => {
 
   return (
 
-    <div className={styles.formProgressContainer}>
+    <div
+    key={currentQuestionCode} 
+    className={`animateItem animateFadeOut  ${styles.formProgressContainer}`}>
       {Object.entries(steps).map(([code, stepNumber]) => (
         <div
         key={code}

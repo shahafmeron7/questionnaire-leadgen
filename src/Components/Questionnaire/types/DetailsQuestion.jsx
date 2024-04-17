@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./AnswersContent.module.css";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import InputWithValidation from "../../UI/InputWithValidation";
-import { motion, AnimatePresence } from "framer-motion";
-import { slideUpBoxVariant } from "../../../animations/animations";
+
 import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
 
 const DetailsQuestion = React.forwardRef((props,ref) => {
@@ -25,21 +24,17 @@ const DetailsQuestion = React.forwardRef((props,ref) => {
  
   return (
     <div
-      className={`${styles.inputsContainer} ${
+    key={currentQuestionCode}
+      className={`animateFadeOut ${styles.inputsContainer} ${
         isPersonalAndBusinessInfo && isWideScreen ? styles.specialLayout : ""
       }`}
     >
-      {/* <AnimatePresence> */}
+   
       {currentQuestion.subquestions.map((sub, index) => (
-          // <motion.div
-          //   custom={index} // Pass the index as a custom prop to the motion component
-          //   initial="initial"
-          //   animate="animate"
-          //   exit="exit"
-          //   variants={slideUpBoxVariant}
+         
           <div
             key={`${sub.code}-${index}`}
-            className={`${styles.inputWrapper} ${
+            className={`animateStaggerItem ${styles.inputWrapper} ${
               isPersonalAndBusinessInfo && isWideScreen && index < 2
                 ? styles.rowChild
                 : ""
@@ -62,7 +57,7 @@ const DetailsQuestion = React.forwardRef((props,ref) => {
             />
             </div>
       ))}
-      {/* </AnimatePresence> */}
+    
     </div>
   );
 });

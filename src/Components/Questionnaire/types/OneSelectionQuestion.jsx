@@ -11,8 +11,10 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
     currentQuestion,
     responses,
     handleAnswerSelection,
+    isAnimatingOut,
     toggleNextButtonFunctionality,
     changeNextBtnState,
+    checkAndEnableNextButton,
     currentQuestionCode,
   } = useQuestionnaire();
   const otherInputRef = useRef(null);
@@ -52,34 +54,34 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
 
   }, [currentQuestion,responses]);
 
-  useEffect(() => {
-    let timer;
-    if (delayNextQuestion && !isOtherSelected) {
-      changeNextBtnState(true);
-      toggleNextButtonFunctionality(true);
-      timer = setTimeout(() => {
-        handleAnswerSelection(
-          currentQuestionCode,
-          localSelectedIndex,
-          otherInputValue,
-          isOtherSelected
-        );
-        setDelayNextQuestion(false);
-        changeNextBtnState(false);
-        toggleNextButtonFunctionality(false);
-      }, 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [
-    delayNextQuestion,
-    localSelectedIndex,
-    currentQuestionCode,
-    handleAnswerSelection,
-    isOtherSelected,
-    otherInputValue,
-    toggleNextButtonFunctionality,
-    changeNextBtnState,
-  ]);
+  // useEffect(() => {
+  //   let timer;
+  //   if (delayNextQuestion && !isOtherSelected) {
+  //     changeNextBtnState(true);
+  //     toggleNextButtonFunctionality(true);
+  //     timer = setTimeout(() => {
+  //       handleAnswerSelection(
+  //         currentQuestionCode,
+  //         localSelectedIndex,
+  //         otherInputValue,
+  //         isOtherSelected
+  //       );
+  //       setDelayNextQuestion(false);
+  //       changeNextBtnState(false);
+  //       toggleNextButtonFunctionality(false);
+  //     }, 1000);
+  //   }
+  //   return () => clearTimeout(timer);
+  // }, [
+  //   delayNextQuestion,
+  //   localSelectedIndex,
+  //   currentQuestionCode,
+  //   handleAnswerSelection,
+  //   isOtherSelected,
+  //   otherInputValue,
+  //   toggleNextButtonFunctionality,
+  //   changeNextBtnState,
+  // ]);
   const focusAndScrollIntoView = () => {
     setTimeout(() => {
       if (otherInputRef.current) {
@@ -92,26 +94,46 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
     }, 0);
   };
   const handleClick = (index) => {
-    if (delayNextQuestion) return;
-
+    if(isAnimatingOut) return;
     const selectedAnswer = currentQuestion.answers[index];
     if (!selectedAnswer.isOther) {
-      changeNextBtnState(true);
-      setDelayNextQuestion(true);
+      setLocalSelectedIndex(index);
+      setIsOtherSelected(false);
+      // changeNextBtnState(false);
+      // toggleNextButtonFunctionality(false);
+      handleAnswerSelection(
+        currentQuestionCode,
+        index
+      );
     } else {
-      changeNextBtnState(false);
+      // checkAndEnableNextButton();
       focusAndScrollIntoView();
+      changeNextBtnState(false);
+      setLocalSelectedIndex(index);
+      setIsOtherSelected(true);
     }
-    setLocalSelectedIndex(index);
-    setIsOtherSelected(selectedAnswer.isOther); // Set true if the selected answer has "isOther": true
   };
+  // const handleClick = (index) => {
+  //   if (delayNextQuestion) return;
+
+  //   const selectedAnswer = currentQuestion.answers[index];
+  //   if (!selectedAnswer.isOther) {
+  //     changeNextBtnState(true);
+  //     setDelayNextQuestion(true);
+  //   } else {
+  //     checkAndEnableNextButton();
+  //     focusAndScrollIntoView();
+  //   }
+  //   setLocalSelectedIndex(index);
+  //   setIsOtherSelected(selectedAnswer.isOther); // Set true if the selected answer has "isOther": true
+  // };
 
   return (
     <>
       <div
         
         key={currentQuestionCode}
-        className={`${styles.answersContainer} ${
+        className={`animateFadeOut ${styles.answersContainer} ${
           isDisplayDirectionCol ? styles.listCol : styles.listRow
         }`}
       >
@@ -119,7 +141,7 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
           <div
             
             key={`${currentQuestion.code}-${index}`}
-            className={`answerItem ${styles.answerItem} ${
+            className={`animateStaggerItem ${styles.answerItem} ${
               index === localSelectedIndex ? styles.selected : ""
             } ${
               isDisplayDirectionCol

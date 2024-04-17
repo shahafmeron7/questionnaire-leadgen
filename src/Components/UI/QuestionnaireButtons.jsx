@@ -10,7 +10,6 @@ const USER_EVENT_NAME = process.env.REACT_APP_USER_EVENT_NAME;
 
 const QuestionnaireButtons = React.forwardRef((props, ref) => {
   const isWideScreen = useIsWideScreen();
-  const [isNextButtonClicked, setIsNextButtonClicked] = useState(false);
 
   const {
     questionHistory,
@@ -23,30 +22,24 @@ const QuestionnaireButtons = React.forwardRef((props, ref) => {
     nextBtnEnabled,
     moveToPrevQuestion,
     responses,
+    isAnimatingOut,
     buildEventData,
     currentQuestion,
   } = useQuestionnaire();
   const isFinalStep = currentQuestionCode === "phone";
 
   const handleNextButtonClick = () => {
-    setIsNextButtonClicked(true);
+    if(!isAnimatingOut){
+      moveToNextQuestion();
+
+    }
+
   };
 
-  useEffect(() => {
-    let timerId;
-    if (isNextButtonClicked) {
-      timerId = setTimeout(() => {
-        moveToNextQuestion();
 
-        setIsNextButtonClicked(false);
-      }, 500);
-    }
-    return () => clearTimeout(timerId);
-  }, [isNextButtonClicked, moveToNextQuestion]);
-
-  useEffect(() => {
-    checkAndEnableNextButton();
-  }, [currentQuestion, responses]);
+   useEffect(() => {
+     checkAndEnableNextButton();
+   }, [currentQuestion, responses]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -87,11 +80,11 @@ const QuestionnaireButtons = React.forwardRef((props, ref) => {
     <div
       key={currentQuestionCode}
       ref={ref}
-      className={`buttonsWrapper ${styles.buttonsWrapper}`}
+      className={`animateStaggerItem animateFadeOut ${styles.buttonsWrapper}`}
       style={questionnaireStarted && !isWideScreen ? mobileButtonsStyle : {}}
     >
       {questionHistory.length > 1 && (
-        <button className={styles.prevBtn} onClick={handlePrevClick}>
+        <button className={styles.prevBtn} onClick={handlePrevClick} disabled={isAnimatingOut}>
           <PrevIcon />
         </button>
       )}
@@ -103,7 +96,7 @@ const QuestionnaireButtons = React.forwardRef((props, ref) => {
           !isNextButtonFunctionallyDisabled && handleNextButtonClick()
         }
         disabled={
-          !inputModified && !nextBtnEnabled && !isNextButtonFunctionallyDisabled
+          isAnimatingOut
         }
       >
         {isFinalStep ? "Get Results" : "Next"}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import {motion,AnimatePresence} from 'framer-motion'
+
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
-import { defaultVariants } from "../../animations/animations";
+
 const legalStyle = {
   position: "relative",
   cursor: " pointer",
@@ -90,13 +90,9 @@ const LegalMessage = () => {
     };
   }, []);
   return (
-    <AnimatePresence>
-      <motion.div
+    <div
         key={currentQuestionCode}
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={defaultVariants}
+        className="animateStaggerItem animateFadeOut"
         style={containerStyle}
       >
         By submitting this form, you provide us your consent to share your
@@ -134,8 +130,8 @@ const LegalMessage = () => {
         , however, once the information will be shared, it will be subject to
         the applicable supplier’s policies and marketing practice, which we do
         not monitor nor control`
-      </motion.div>
-    </AnimatePresence>
+      </div>
+ 
   );
 };
 

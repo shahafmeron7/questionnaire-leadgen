@@ -5,9 +5,9 @@ import React, {
   useContext,
   useState,
   useMemo,
-  useRef,
+  useRef
 } from "react";
-
+import { gsap } from "gsap";
 import questionnaireData from "./../utils/data/questionnaireData.json";
 import { sendImpressions, validateField } from "../utils/helperFunctions";
 import Impression from "../utils/impression/impression";
@@ -24,11 +24,15 @@ const USER_ACTION_CLICK_PREV_BROWSER =process.env.REACT_APP_USER_ACTION_CLICK_PR
 const STAX_FORM_ID = process.env.REACT_APP_STAX_FORM_ID;
 const PAYSAFE_FORM_ID = process.env.REACT_APP_PAYSAFE_FORM_ID;
 
+const TIME_DELAY_NEXT_QUESTION = 1
+
 const QuestionnaireContext = createContext();
+
 
 export const useQuestionnaire = () => useContext(QuestionnaireContext);
 
 export const QuestionnaireProvider = ({ children }) => {
+
 
 
   const hasSentImpression = useRef(false);
@@ -38,6 +42,8 @@ export const QuestionnaireProvider = ({ children }) => {
   const [currentQuestionCode, setCurrentQuestionCode] = useState(initialQuestionCode);
   const [questionHistory, setQuestionHistory] = useState([initialQuestionCode]);
 
+  const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+
   const [responses, setResponses] = useState({});
   const [errResponses, setErrResponses] = useState({});
   const [questionnaireStarted, setQuestionnaireStarted] = useState(false);
@@ -45,18 +51,18 @@ export const QuestionnaireProvider = ({ children }) => {
   const [targetFormID,setTargetFormID] = useState(undefined)
   const [inputModified, setInputModified] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
+  const [progressBarWidth,setProgressBarWidth] = useState(0)
   const [
     isNextButtonFunctionallyDisabled,
     setIsNextButtonFunctionallyDisabled,
   ] = useState(false);
-
   const currentQuestion = useMemo(() => {
     return questionnaireData.questions.find(
       (q) => q.code === currentQuestionCode
-    );
-  }, [currentQuestionCode]);
-
-
+      );
+    }, [currentQuestionCode]);
+    
+  
  
   
 
@@ -76,7 +82,7 @@ export const QuestionnaireProvider = ({ children }) => {
 
   useEffect(() => {
     if (!hasSentImpression.current) {
-      //  Impression();
+       Impression();
       
       sendImpressions({}, FIRST_EVENT_NAME,STREAM_STEP_NAME);
       
@@ -127,7 +133,10 @@ export const QuestionnaireProvider = ({ children }) => {
     (q) => q.code === currentQuestionCode
   );
   const totalQuestions = questionnaireData.questions.length;
-
+  const findStepNumber = (questionCode)=>{
+    console.log( questionnaireData.questions.find((q)=>q.code === questionCode).step);
+    return  questionnaireData.questions.find((q)=>q.code === questionCode).step;
+  }
   const buildEventData = (action = null) => {
     const { step, code, text, type, subquestions } = currentQuestion;
 
@@ -155,7 +164,29 @@ export const QuestionnaireProvider = ({ children }) => {
 
     return eventData;
   };
-
+ 
+  const animateAndNavigate = (navigate,nextProgressWidth, delay = 0) => {
+    setIsAnimatingOut(true);
+  
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setIsAnimatingOut(false);
+        navigate(); 
+      }
+    });
+  console.log(nextProgressWidth)
+    tl.to(".progressLine", {
+      width: `${nextProgressWidth}%`,
+      duration: 0.3,
+      ease: 'none'
+    })
+    tl.to(".animateFadeOut", {
+      opacity: 0,
+      delay: delay, 
+      duration: 0.1
+    },`+=0.1`);
+  };
+  
   const completeQuestionnaire = () => {
     //changing structure of code:'monthly_volume' to match their API.
     if(targetFormID === PAYSAFE_FORM_ID){
@@ -228,12 +259,20 @@ const moveToNextQuestion = () => {
 
   if (proceedToNext && nextQuestionCode) {
     sendImpressions(buildEventData(USER_ACTION_CLICK_NEXT), USER_EVENT_NAME, STREAM_STEP_NAME);
-    handleNavigateNextQuestion(nextQuestionCode);
-    setNextBtnEnabled(false);
+    changeNextBtnState(true)
+    const nextStep = findStepNumber(nextQuestionCode);
+    const newProgressBarWidth = Math.min(100, Math.round((nextStep - 1) / (4 - 1) * 100))
+    setProgressBarWidth(newProgressBarWidth)
+
+    animateAndNavigate(() => {
+      handleNavigateNextQuestion(nextQuestionCode);
+    }, newProgressBarWidth ,TIME_DELAY_NEXT_QUESTION);
    
-  } else {
+  }else{
     setNextBtnEnabled(false);
+
   }
+
 };
   const handleAnswerSelection = (questionCode, answerIndex) => {
     
@@ -269,12 +308,22 @@ const moveToNextQuestion = () => {
     // Navigate to the next question based on the selected answer's directive
     const nextQuestionCode = answer?.next_question_code;
     if (nextQuestionCode) {
-      handleNavigateNextQuestion(nextQuestionCode);
+      const nextStep = findStepNumber(nextQuestionCode);
+      const newProgressBarWidth = Math.min(100, Math.round((nextStep - 1) / (4 - 1) * 100))
+      setProgressBarWidth(newProgressBarWidth)
+  
+      animateAndNavigate(() => {
+        handleNavigateNextQuestion(nextQuestionCode);
+      }, newProgressBarWidth ,TIME_DELAY_NEXT_QUESTION);
+
+
      }
   
 };
  const handleNavigateNextQuestion = (nextQuestionCode) => {
-   setQuestionHistory((prevHistory) => [...prevHistory, nextQuestionCode]);
+  if(nextQuestionCode!=='loader'){
+    setQuestionHistory((prevHistory) => [...prevHistory, nextQuestionCode]);
+  }
    setCurrentQuestionCode(nextQuestionCode);
    window.history.pushState({},null, ' ');
  };
@@ -355,18 +404,42 @@ const moveToNextQuestion = () => {
  
   
   
-   const moveToPrevQuestion = () => {
-     setQuestionHistory(prevHistory => {
-       if (prevHistory.length > 1) {
-         const newHistory = prevHistory.slice(0, -1);
-         setCurrentQuestionCode(newHistory[newHistory.length - 1]);
-         return newHistory;
-       }
-       return prevHistory;
-     });
-   };
+  //  const moveToPrevQuestion = () => {
+  //   animateAndNavigate(()=>{
 
+  //     setQuestionHistory(prevHistory => {
+  //       if (prevHistory.length > 1) {
+  //         const newHistory = prevHistory.slice(0, -1);
+  //         const prevQuestionCode=newHistory[newHistory.length - 1]
+  //         setCurrentQuestionCode(prevQuestionCode);
+  //         return newHistory;
+  //       }
+  //       return prevHistory;
+  //     });
+  //   })
+  //   };
 
+  const moveToPrevQuestion = () => {
+    setQuestionHistory(prevHistory => {
+      if (prevHistory.length > 1) {
+        const newHistory = prevHistory.slice(0, -1);
+        const prevQuestionCode = newHistory[newHistory.length - 1];
+        console.log("moveToPrevQuestion > 1 ",prevQuestionCode);
+        const prevStep = findStepNumber(prevQuestionCode);
+
+        const newProgressBarWidth = Math.min(100, Math.round((prevStep - 1) / (4 - 1) * 100))
+        setProgressBarWidth(newProgressBarWidth)
+    
+        animateAndNavigate(() => {
+          setCurrentQuestionCode(prevQuestionCode);
+        }, newProgressBarWidth);
+       
+  
+        return newHistory;
+      }
+      return prevHistory;
+    });
+  };
  
   
  
@@ -392,11 +465,13 @@ const moveToNextQuestion = () => {
               isAnswered = response.other_text && response.other_text.trim() !== "";
             } else {
               // Regular answer is selected
+
               isAnswered = true;
             }
           }
         } else if (currentQuestion.type === "multi-selection") {
           isAnswered = response.answerIndexes.length > 0;
+
         }
       }
   
@@ -420,7 +495,8 @@ const moveToNextQuestion = () => {
       inputModified,
       nextBtnEnabled,
       isNextButtonFunctionallyDisabled,
-
+      isAnimatingOut,
+      progressBarWidth,
       toggleNextButtonFunctionality,
       checkAndEnableNextButton,
       changeNextBtnState,
@@ -433,6 +509,7 @@ const moveToNextQuestion = () => {
       completeQuestionnaire,
       handleAnswerSelection,
       setCurrentQuestionCode,
+      handleNavigateNextQuestion
     }),
     [
       currentQuestionCode,
@@ -447,7 +524,7 @@ const moveToNextQuestion = () => {
       inputModified,
       questionHistory,
       isNextButtonFunctionallyDisabled,
-      
+      isAnimatingOut
     ]
   );
 
