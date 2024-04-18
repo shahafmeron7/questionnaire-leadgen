@@ -25,7 +25,7 @@ const FormIcons = () => {
     ];
 
     return (
-        <div key={currentQuestionCode} className={`animateItem animateFadeOut ${styles.formIconsContainer}`}>
+        <div key={currentQuestionCode} className={`animateFadeOut ${styles.formIconsContainer}`}>
             {icons.map((icon, index) => (
                 <div key={index} className={styles.IconContainer}>
                     <icon.Icon aria-label={icon.alt} /> 

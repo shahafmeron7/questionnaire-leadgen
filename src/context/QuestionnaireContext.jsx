@@ -24,7 +24,7 @@ const USER_ACTION_CLICK_PREV_BROWSER =process.env.REACT_APP_USER_ACTION_CLICK_PR
 const STAX_FORM_ID = process.env.REACT_APP_STAX_FORM_ID;
 const PAYSAFE_FORM_ID = process.env.REACT_APP_PAYSAFE_FORM_ID;
 
-const TIME_DELAY_NEXT_QUESTION = 1
+const TIME_DELAY_NEXT_QUESTION = 0.2
 
 const QuestionnaireContext = createContext();
 
@@ -134,7 +134,6 @@ export const QuestionnaireProvider = ({ children }) => {
   );
   const totalQuestions = questionnaireData.questions.length;
   const findStepNumber = (questionCode)=>{
-    console.log( questionnaireData.questions.find((q)=>q.code === questionCode).step);
     return  questionnaireData.questions.find((q)=>q.code === questionCode).step;
   }
   const buildEventData = (action = null) => {
@@ -174,7 +173,6 @@ export const QuestionnaireProvider = ({ children }) => {
         navigate(); 
       }
     });
-  console.log(nextProgressWidth)
     tl.to(".progressLine", {
       width: `${nextProgressWidth}%`,
       duration: 0.3,
@@ -402,29 +400,12 @@ const moveToNextQuestion = () => {
 
   const resetInputModified = () => setInputModified(false);
  
-  
-  
-  //  const moveToPrevQuestion = () => {
-  //   animateAndNavigate(()=>{
-
-  //     setQuestionHistory(prevHistory => {
-  //       if (prevHistory.length > 1) {
-  //         const newHistory = prevHistory.slice(0, -1);
-  //         const prevQuestionCode=newHistory[newHistory.length - 1]
-  //         setCurrentQuestionCode(prevQuestionCode);
-  //         return newHistory;
-  //       }
-  //       return prevHistory;
-  //     });
-  //   })
-  //   };
 
   const moveToPrevQuestion = () => {
     setQuestionHistory(prevHistory => {
       if (prevHistory.length > 1) {
         const newHistory = prevHistory.slice(0, -1);
         const prevQuestionCode = newHistory[newHistory.length - 1];
-        console.log("moveToPrevQuestion > 1 ",prevQuestionCode);
         const prevStep = findStepNumber(prevQuestionCode);
 
         const newProgressBarWidth = Math.min(100, Math.round((prevStep - 1) / (4 - 1) * 100))

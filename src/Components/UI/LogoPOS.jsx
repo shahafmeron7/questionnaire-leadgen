@@ -5,7 +5,7 @@ import { useQuestionnaire } from "../../context/QuestionnaireContext"
 const LogoPOS = ()=>{
 const {currentQuestionCode} = useQuestionnaire();
   return (
-      <div key={currentQuestionCode} className={`animateItem animateFadeOut ${styles.logoPosContainer}`}>
+      <div key={currentQuestionCode} className={`animateStaggerItem animateFadeOut ${styles.logoPosContainer}`}>
         <div className={styles.logoPosWrapper}>
         <img src="https://assets.sonary.com/wp-content/uploads/2024/01/04101538/new.svg" width="91" height="39" alt="logo MS"/>
           <p className={styles.logoPosTitle}>We found you the best merchant services provider!</p>

@@ -11,7 +11,7 @@ const ProgressBar = () => {
     transition: 'width 0.2s linear 0s'
   };
   return (
-    <div  className={styles.progressContainer}>
+    <div  className={`${styles.progressContainer}`}>
       <div className={styles.progressWrapper}>
         <div className={styles.progressInfo}>Progress: {progressBarWidth}%</div>
         <div className={styles.lineWrapper}>

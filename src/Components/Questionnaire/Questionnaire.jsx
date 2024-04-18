@@ -46,14 +46,14 @@ const Questionnaire = () => {
     tl.current = gsap.timeline()
     .fromTo(".animateItem",
     { opacity: 0, y: 100 },
-    { opacity: 1, y: 0,stagger: 0.1,duration: 0.3, ease: 'power2.inOut' })
+    { opacity: 1, y: 0,stagger: 0.02,duration: 0.05, ease: 'power2.inOut' })
     
       .fromTo(".animateTitleItem",
         { opacity: 0  },
         { opacity: 1,duration: 0.3, ease: 'power2.inOut' })
         .fromTo(".animateStaggerItem", 
         { opacity: 0, y: 150 },
-        { opacity: 1, y: 0, stagger: 0.02 , duration: 0.8, ease: "back.inOut(2)" }, "staggerComplete")
+        { opacity: 1, y: 0, stagger: 0.03 , duration: 0.6, ease: "back.inOut(2)" })
     
   }, {scope:layoutRef,dependencies:[currentQuestionCode]}); 
   

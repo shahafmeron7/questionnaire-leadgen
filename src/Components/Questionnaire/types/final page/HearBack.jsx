@@ -1,13 +1,9 @@
 import React from "react";
 import styles from "./HearBack.module.css";
-import { useState } from "react";
 import { ReactComponent as SelectedCheckboxSVG } from "../../../../images/selectedbox.svg";
 import { ReactComponent as UnselectedCheckboxSVG } from "../../../../images/unselectedbox.svg";
 const HearBack = () => {
-  const [isSelected,setIsSelected] = useState(false);
-  const handleClick = ()=>{
-      setIsSelected(prevState=>!prevState)
-  }
+  
   return (
     <div className={styles.container}>
       <h2 className={styles.titleSection}>
@@ -39,12 +35,13 @@ const HearBack = () => {
         </div>
         <div className={styles.infoBottom}>
 
-          <div className={styles.checkBox} onClick={handleClick}>
-           {isSelected ? <SelectedCheckboxSVG/> : <UnselectedCheckboxSVG/>}
-          </div>
-          <p>
-          We’re happy to provide you with our services. We’ll email you here and there to keep you updated on relevant services. If you’re not interested, please select this box.
-          </p>
+          <p>We’re happy to provide you with our services. We’ll email
+                      you here and there to keep you updated on relevant
+                      services. If you’re not interested, you can unsubscribe at
+                      any time through the emails we will send you or contact us
+                      directly at:&#8194;
+                      <a href="mailto:service@sonary.com" target="_blank" rel="noopener noreferrer">service@sonary.com</a>.
+                    </p>
         </div>
       </div>
     </div>
