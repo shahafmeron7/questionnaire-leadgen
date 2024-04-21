@@ -1,6 +1,8 @@
 import React from "react";
 import LoaderSVG from "../../UI/LoaderSVG";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { defaultVariants } from "../../../animations/animations";
 import styles from "../Questionnaire.module.css";

@@ -1,20 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import styles from "./AnswersContent.module.css";
 import { ReactComponent as UnselectedCheckboxSVG } from "../../../images/unselectedCircleCheckbox.svg";
 import { ReactComponent as SelectedCheckboxSVG } from "../../../images/selectedCircleCheckbox.svg";
 
 import InputWithValidation from "../../UI/InputWithValidation";
 
-const OneSelectionQuestion = React.forwardRef((props, ref) => {
+const OneSelectionQuestion = () => {
   const {
     currentQuestion,
     responses,
     handleAnswerSelection,
     isAnimatingOut,
-    toggleNextButtonFunctionality,
     changeNextBtnState,
-    checkAndEnableNextButton,
     currentQuestionCode,
   } = useQuestionnaire();
   const otherInputRef = useRef(null);
@@ -22,7 +21,6 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
     responses[currentQuestionCode]?.answerIndexes?.[0] || undefined
     );
     
-    const [delayNextQuestion, setDelayNextQuestion] = useState(false);
     const [isOtherSelected, setIsOtherSelected] = useState(false);
     const [otherInputValue, setOtherInputValue] = useState("");
     
@@ -54,34 +52,6 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
 
   }, [currentQuestion,responses]);
 
-  // useEffect(() => {
-  //   let timer;
-  //   if (delayNextQuestion && !isOtherSelected) {
-  //     changeNextBtnState(true);
-  //     toggleNextButtonFunctionality(true);
-  //     timer = setTimeout(() => {
-  //       handleAnswerSelection(
-  //         currentQuestionCode,
-  //         localSelectedIndex,
-  //         otherInputValue,
-  //         isOtherSelected
-  //       );
-  //       setDelayNextQuestion(false);
-  //       changeNextBtnState(false);
-  //       toggleNextButtonFunctionality(false);
-  //     }, 1000);
-  //   }
-  //   return () => clearTimeout(timer);
-  // }, [
-  //   delayNextQuestion,
-  //   localSelectedIndex,
-  //   currentQuestionCode,
-  //   handleAnswerSelection,
-  //   isOtherSelected,
-  //   otherInputValue,
-  //   toggleNextButtonFunctionality,
-  //   changeNextBtnState,
-  // ]);
   const focusAndScrollIntoView = () => {
     setTimeout(() => {
       if (otherInputRef.current) {
@@ -99,34 +69,19 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
     if (!selectedAnswer.isOther) {
       setLocalSelectedIndex(index);
       setIsOtherSelected(false);
-      // changeNextBtnState(false);
-      // toggleNextButtonFunctionality(false);
+
       handleAnswerSelection(
         currentQuestionCode,
         index
       );
     } else {
-      // checkAndEnableNextButton();
       focusAndScrollIntoView();
       changeNextBtnState(false);
       setLocalSelectedIndex(index);
       setIsOtherSelected(true);
     }
   };
-  // const handleClick = (index) => {
-  //   if (delayNextQuestion) return;
 
-  //   const selectedAnswer = currentQuestion.answers[index];
-  //   if (!selectedAnswer.isOther) {
-  //     changeNextBtnState(true);
-  //     setDelayNextQuestion(true);
-  //   } else {
-  //     checkAndEnableNextButton();
-  //     focusAndScrollIntoView();
-  //   }
-  //   setLocalSelectedIndex(index);
-  //   setIsOtherSelected(selectedAnswer.isOther); // Set true if the selected answer has "isOther": true
-  // };
 
   return (
     <>
@@ -171,5 +126,5 @@ const OneSelectionQuestion = React.forwardRef((props, ref) => {
       )}
     </>
   );
-});
+};
 export default OneSelectionQuestion;

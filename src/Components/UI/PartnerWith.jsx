@@ -6,7 +6,8 @@ import { ReactComponent as CloverLogo } from "../../images/brands/Clover.svg";
 import { ReactComponent as HelcimLogo } from "../../images/brands/Helcim.svg";
 import { ReactComponent as MerchantOneLogo } from "../../images/brands/MerchantOne.svg";
 import { ReactComponent as PressPayLogo } from "../../images/brands/PressPay.svg";
-import { useQuestionnaire } from "../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import styles from './PartnerWith.module.css';
 import useIsWideScreen from "../../custom hooks/useIsWideScreen";
 

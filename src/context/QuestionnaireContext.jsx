@@ -163,7 +163,8 @@ export const QuestionnaireProvider = ({ children }) => {
 
     return eventData;
   };
- 
+  const resetInputModified = () => setInputModified(false);
+
   const animateAndNavigate = (navigate,nextProgressWidth, delay = 0) => {
     setIsAnimatingOut(true);
   
@@ -360,7 +361,6 @@ const moveToNextQuestion = () => {
         answerIndexes: []
       };
 
-      // console.log('handle input change')
       if (!isOther) {
         // Update the main answer for non-'other' inputs, treat it as a normal input.
         return {
@@ -371,7 +371,6 @@ const moveToNextQuestion = () => {
           }
         };
       } else {
-        // console.log('other input change')
 
         // Handle 'other' inputs, storing both the selected index if it exists, and the 'other' text.
         const otherIndex = currentQuestion.answers.findIndex(answer => answer.isOther);
@@ -388,7 +387,6 @@ const moveToNextQuestion = () => {
         };
       }
     });
-    // console.log("enabled next",inputValue.trim().length > 0)
     setNextBtnEnabled(inputValue.trim().length > 0);
     setErrResponses((prevErrResponses) => ({
       ...prevErrResponses,
@@ -398,7 +396,6 @@ const moveToNextQuestion = () => {
   
 
 
-  const resetInputModified = () => setInputModified(false);
  
 
   const moveToPrevQuestion = () => {
@@ -425,6 +422,7 @@ const moveToNextQuestion = () => {
   
  
   const checkAndEnableNextButton = () => {
+    console.log('old context')
     if (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") {
       // Check if all subquestions have been answered
       const allSubquestionsAnswered = currentQuestion.subquestions.every((sub) => {

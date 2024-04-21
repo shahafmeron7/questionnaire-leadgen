@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./AnswersContent.module.css";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
+
 import InputWithValidation from "../../UI/InputWithValidation";
 
 import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
 
-const DetailsQuestion = React.forwardRef((props,ref) => {
+const DetailsQuestion = () => {
   const { currentQuestion, responses, errResponses, currentQuestionCode } =
     useQuestionnaire();
   const isWideScreen = useIsWideScreen();
@@ -60,6 +62,6 @@ const DetailsQuestion = React.forwardRef((props,ref) => {
     
     </div>
   );
-});
+};
 
 export default DetailsQuestion;

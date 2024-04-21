@@ -1,6 +1,7 @@
-import React, { useEffect, useState,useRef,useLayoutEffect } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
-import { useQuestionnaire } from "../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import ProgressBar from "../UI/ProgressBar";
 import AnswersContent from "./types/AnswersContent.jsx";
 import gsap from 'gsap';
@@ -26,7 +27,7 @@ const Questionnaire = () => {
     currentQuestion,
     handleNavigateNextQuestion,
     currentQuestionCode,
-    navigate,
+    // navigate,
     questionnaireStarted,
   } = useQuestionnaire();
   const [showLoader, setShowLoader] = useState(false);
@@ -74,7 +75,7 @@ const Questionnaire = () => {
         clearTimeout(timeoutId);
       }
     };
-  }, [currentQuestion,navigate]);
+  }, [currentQuestion]);
 
   const QuestionnaireTitle = () => {
     return (

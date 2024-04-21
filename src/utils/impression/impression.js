@@ -7,7 +7,7 @@ import {
     getParamsFromUrl,
   } from "./impressionFunctions.js";
   
-  import inputs from "./impressionBrands.js";
+  import inputs from "../data/impressionBrands.js";
   
   const Impression = () => {
     !(function () {

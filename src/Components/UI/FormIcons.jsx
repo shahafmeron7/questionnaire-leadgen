@@ -3,7 +3,8 @@ import { ReactComponent as ClockIcon } from '../../images/form icons/clock.svg';
 import { ReactComponent as LockIcon } from '../../images/form icons/lock.svg';
 import { ReactComponent as TrustedIcon } from '../../images/form icons/trustedcheckmark.svg';
 import styles from './FormIcons.module.css';
-import { useQuestionnaire } from '../../context/QuestionnaireContext';
+// import { useQuestionnaire } from '../../context/QuestionnaireContext';
+import { useQuestionnaire } from '../../context/QuestionnaireContext/QuestionnaireContext.jsx';
 const FormIcons = () => {
     const {currentQuestionCode} = useQuestionnaire()
     const icons = [

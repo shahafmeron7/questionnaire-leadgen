@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./HearBack.module.css";
-import { ReactComponent as SelectedCheckboxSVG } from "../../../../images/selectedbox.svg";
-import { ReactComponent as UnselectedCheckboxSVG } from "../../../../images/unselectedbox.svg";
+
 const HearBack = () => {
   
   return (

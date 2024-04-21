@@ -1,5 +1,6 @@
 import React from "react";
-import { useQuestionnaire } from "../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import styles from "./ExtraInfo.module.css";
 
 const ExtraInfo = () => {

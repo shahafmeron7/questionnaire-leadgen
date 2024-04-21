@@ -1,7 +1,8 @@
-import React,{useEffect,useRef} from "react";
+import React from "react";
 
 import "./App.css";
-import { useQuestionnaire } from "../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../context/QuestionnaireContext";
+import { useQuestionnaire } from "../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import Questionnaire from "../Components/Questionnaire/Questionnaire.jsx";
 import BestMatch from "../Components/UI/BestMatch";
 import FAQ from "../Components/UI/FAQ";
@@ -11,7 +12,8 @@ import PartnerWith from "../Components/UI/PartnerWith";
 import ThankYouLayout from "../containers/ThankYouLayout";
 import ContentLayout from '../containers/ContentLayout'
 function App() {
-  const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();
+  
+   const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();
  
   return (
     <div className="AppWrapper" >

@@ -1,6 +1,7 @@
 import React from "react"
 import styles from './LogoPOS.module.css'
-import { useQuestionnaire } from "../../context/QuestionnaireContext"
+// import { useQuestionnaire } from "../../context/QuestionnaireContext"
+import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 
 const LogoPOS = ()=>{
 const {currentQuestionCode} = useQuestionnaire();

@@ -1,10 +1,11 @@
 import React from "react";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import OneSelectionQuestion from "./OneSelectionQuestion";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
 import DetailsQuestion from "./DetailsQuestion";
 
-const AnswersContent = React.forwardRef((props, ref) => {
+const AnswersContent = () => {
   const { currentQuestion } = useQuestionnaire();
   const questionComponents = {
     "one-selection": OneSelectionQuestion,
@@ -19,7 +20,7 @@ const AnswersContent = React.forwardRef((props, ref) => {
     return <>Question type not supported</>;
   }
 
-  return <QuestionComponent ref={ref} {...props}/>;
-});
+  return <QuestionComponent/>;
+};
 
 export default AnswersContent;

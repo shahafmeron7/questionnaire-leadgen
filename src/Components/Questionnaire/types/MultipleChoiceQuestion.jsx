@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+// import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
+
 import { ReactComponent as UnselectedCheckboxSVG } from "../../../images/unselectedbox.svg";
 import { ReactComponent as SelectedCheckboxSVG } from "../../../images/selectedbox.svg";
 import { ReactComponent as CreditCardSVG } from "../../../images/multiselection/creditcard.svg";
@@ -20,7 +22,6 @@ const MultipleChoiceQuestion = () => {
     responses,
     changeNextBtnState,
     handleMultipleAnswerSelection,
-    toggleNextButtonFunctionality,
     isAnimatingOut
   } = useQuestionnaire();
   const [selectedIndexes, setSelectedIndexes] = useState(
@@ -30,32 +31,20 @@ const MultipleChoiceQuestion = () => {
 
   const isDisplayDirectionCol =
     currentQuestion.display_list_direction === "col";
-  
+    useEffect(() => {
+      changeNextBtnState(selectedIndexes.length > 0);
+    }, [selectedIndexes]); 
+
     useEffect(() => {
       const response = responses[currentQuestionCode];
       if (response && response.answerIndexes) {
+        console.log('multi use effect')
         setSelectedIndexes(response.answerIndexes);
       } else {
         setSelectedIndexes([]);
       }
     }, [currentQuestionCode, responses]);
-  // useEffect(() => {
-  //   if (delayNextQuestion) {
-  //     toggleNextButtonFunctionality(true);
-  //     const timer = setTimeout(() => {
-  //       handleMultipleAnswerSelection(currentQuestionCode, selectedIndexes);
-  //       setDelayNextQuestion(false);
-  //       toggleNextButtonFunctionality(false);
-  //     }, 1000);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [
-  //   delayNextQuestion,
-  //   selectedIndexes,
-  //   currentQuestionCode,
-  //   handleMultipleAnswerSelection,
-  //   toggleNextButtonFunctionality,
-  // ]);
+
   const handleClick = (index) => {
     if(isAnimatingOut) return;
     const newSelectedIndexes = selectedIndexes.includes(index)
@@ -63,18 +52,12 @@ const MultipleChoiceQuestion = () => {
       : [...selectedIndexes, index];
 
     setSelectedIndexes(newSelectedIndexes);
-    changeNextBtnState(newSelectedIndexes.length > 0);
+    console.log("multiple handle click CHANGE_NEXT_BTN_STATE",newSelectedIndexes.length > 0)
+
+    // changeNextBtnState(newSelectedIndexes.length > 0);
     handleMultipleAnswerSelection(currentQuestionCode, newSelectedIndexes);
   };
-  // const handleClick = (index) => {
-  //   if (delayNextQuestion) return; // Prevent interaction during delay
-  //   const newSelectedIndexes = selectedIndexes.includes(index)
-  //     ? selectedIndexes.filter((i) => i !== index)
-  //     : [...selectedIndexes, index];
-  //   setSelectedIndexes(newSelectedIndexes);
-  //   changeNextBtnState(newSelectedIndexes.length > 0);
-  //   handleMultipleAnswerSelection(currentQuestionCode, newSelectedIndexes);
-  // };
+  
   return (
     <div
       className={`animateFadeOut ${styles.answersContainer} ${
