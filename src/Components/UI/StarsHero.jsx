@@ -1,9 +1,9 @@
 import React from "react"
-import styles from './LogoPOS.module.css'
+import styles from './StarsHero.module.css'
 // import { useQuestionnaire } from "../../context/QuestionnaireContext"
 import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 
-const LogoPOS = ()=>{
+const StarsHero = ()=>{
 const {currentQuestionCode} = useQuestionnaire();
   return (
       <div key={currentQuestionCode} className={`animateStaggerItem animateFadeOut ${styles.logoPosContainer}`}>
@@ -16,4 +16,4 @@ const {currentQuestionCode} = useQuestionnaire();
     )
   }
 
-  export default LogoPOS
+  export default StarsHero

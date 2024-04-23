@@ -2,7 +2,6 @@
 import { useEffect, useRef } from 'react';
 import { buildEventData,sendImpressions } from '../utils/impression/impressionUtils';
 import Impression from '../utils/impression/impression';
-import { useQuestionnaire } from '../context/QuestionnaireContext';
 export const useFirstImpression = () => {
     const hasSentImpression = useRef(false);
 

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './QuestionnaireLayout.module.css'
-import useIsWideScreen from "../custom hooks/useIsWideScreen";
+import useIsWideScreen from "../hooks/useIsWideScreen";
 // import { useQuestionnaire } from "../context/QuestionnaireContext";
 import { useQuestionnaire } from "../context/QuestionnaireContext/QuestionnaireContext.jsx";
 const QuestionnaireLayout = React.forwardRef(({ children }, ref) => {

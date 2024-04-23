@@ -3,20 +3,14 @@ import LoaderSVG from "../../UI/LoaderSVG";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { defaultVariants } from "../../../animations/animations";
 import styles from "../Questionnaire.module.css";
 const Loader = () => {
   const { currentQuestion,currentQuestionCode } = useQuestionnaire();
   return (
-    <AnimatePresence>
-      <motion.div
+    <div
         key={currentQuestionCode}
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={defaultVariants}
-        className={styles.loaderWrapper}
+    
+        className={`animateTitleItem animateFadeOut ${styles.loaderWrapper}`}
       >
         <LoaderSVG />
         <div style={{lineHeight:"48px"}}>
@@ -25,8 +19,7 @@ const Loader = () => {
             {currentQuestion.extra_info}
           </p>
         </div>
-      </motion.div>
-    </AnimatePresence>
+      </div>
   );
 };
 

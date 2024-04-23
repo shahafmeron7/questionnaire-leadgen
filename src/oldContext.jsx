@@ -8,9 +8,9 @@ import React, {
   useRef
 } from "react";
 import { gsap } from "gsap";
-import questionnaireData from "./../utils/data/questionnaireData.json";
-import { sendImpressions, validateField } from "../utils/helperFunctions";
-import Impression from "../utils/impression/impression";
+import questionnaireData from "./utils/data/questionnaireData.json";
+import { sendImpressions, validateField } from "./utils/helperFunctions";
+import Impression from "./utils/impression/impression";
 const STREAM_STEP_NAME = process.env.REACT_APP_STREAM_STEP_NAME;
 const STREAM_FINAL_NAME = process.env.REACT_APP_STREAM_FINAL_NAME;
 const FIRST_EVENT_NAME = process.env.REACT_APP_FIRST_EVENT_NAME;
@@ -237,7 +237,6 @@ const moveToNextQuestion = () => {
     });
     nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
   } else if (currentQuestion.type === "one-selection") {
-    // console.log('move to next question')
     const response = responses[currentQuestion.code];
     if (response && response.answerIndexes) {
       const selectedIndex = response.answerIndexes[0]; // Assuming 'answerIndexes' holds indices
@@ -422,7 +421,6 @@ const moveToNextQuestion = () => {
   
  
   const checkAndEnableNextButton = () => {
-    console.log('old context')
     if (currentQuestion.type === "details-question" || currentQuestion.type === "form-type") {
       // Check if all subquestions have been answered
       const allSubquestionsAnswered = currentQuestion.subquestions.every((sub) => {

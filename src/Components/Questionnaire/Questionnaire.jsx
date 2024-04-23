@@ -1,21 +1,21 @@
 import React, { useEffect, useState,useRef } from "react";
-import QuestionnaireLayout from "../../containers/QuestionnaireLayout.jsx";
+import QuestionnaireLayout from "../../Layouts/QuestionnaireLayout.jsx";
 // import { useQuestionnaire } from "../../context/QuestionnaireContext";
 import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import ProgressBar from "../UI/ProgressBar";
 import AnswersContent from "./types/AnswersContent.jsx";
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import SSLIcon from "../UI/SSLIcon.jsx";
+import SSLIcon from "../UI/Form/SSLIcon.jsx";
 import styles from "./Questionnaire.module.css";
 import Loader from "./types/Loader.jsx";
-import QuestionnaireWrapper from "../../containers/QuestionnaireWrapper.jsx";
-import FormProgress from "../UI/FormProgress.jsx";
-import LogoPOS from "../UI/LogoPOS.jsx";
-import ExtraInfo from "../UI/ExtraInfo.jsx";
-import LegalMessage from "../UI/LegalMessage.jsx";
-import FormIcons from "../UI/FormIcons.jsx";
-import QuestionnaireButtons from "../UI/QuestionnaireButtons.jsx";
+import QuestionnaireWrapper from "../../Layouts/QuestionnaireWrapper.jsx";
+import FormProgress from "../UI/Form/FormProgress.jsx";
+import StarsHero from "../UI/StarsHero.jsx";
+import ExtraInfo from "../UI/Promotional/ExtraInfo.jsx";
+import LegalMessage from "../UI/Form/Legal/LegalMessage.jsx";
+import FormIcons from "../UI/Form/FormIcons.jsx";
+import QuestionnaireButtons from "../UI/Form/QuestionnaireButtons.jsx";
 
 const Questionnaire = () => {
   gsap.config({
@@ -27,7 +27,6 @@ const Questionnaire = () => {
     currentQuestion,
     handleNavigateNextQuestion,
     currentQuestionCode,
-    // navigate,
     questionnaireStarted,
   } = useQuestionnaire();
   const [showLoader, setShowLoader] = useState(false);
@@ -108,7 +107,7 @@ const Questionnaire = () => {
           <FormIcons   />
         </>
       )}
-      {isEmailStep && <LogoPOS />}
+      {isEmailStep && <StarsHero />}
 
       {isFormSequence && <FormProgress />}
       <QuestionnaireWrapper>

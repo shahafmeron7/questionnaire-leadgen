@@ -8,7 +8,7 @@ export const initialState = () => {
   const flowName = questionnaireData.flow_name;
 
   return {
-    currentQuestion: currentQuestion || {}, // Fallback to an empty object if no question matches
+    currentQuestion: currentQuestion || {}, 
     currentQuestionCode: initialQuestionCode,
     questionHistory: [initialQuestionCode],
     isAnimatingOut: false,
@@ -20,7 +20,6 @@ export const initialState = () => {
     inputModified: false,
     nextBtnEnabled: false,
     progressBarWidth: 0,
-    // isNextButtonFunctionallyDisabled: false,
     flowID,
     flowName,
   };
@@ -86,9 +85,6 @@ export function reducer(state, action) {
 
     case "SET_INPUT_MODIFIED":
       return { ...state, inputModified: action.payload };
-
-    // case "TOGGLE_NEXT_BUTTON_FUNCTIONALITY":
-    //   return { ...state, isNextButtonFunctionallyDisabled: action.payload };
 
     default:
       return state;

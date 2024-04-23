@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './WhatsNext.module.css'
-import phoneIcon from '../../../../images/thank you/phone.svg'
-import discussionIcon from '../../../../images/thank you/discussion.svg'
-import handsIcon from '../../../../images/thank you/hands.svg'
+import phoneIcon from '../../images/thank you/phone.svg'
+import discussionIcon from '../../images/thank you/discussion.svg'
+import handsIcon from '../../images/thank you/hands.svg'
 
 const WhatsNext = () => {
     const cards = [

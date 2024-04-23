@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import styles from "../Questionnaire/Questionnaire.module.css";
-import { ReactComponent as PrevIcon } from "../../images/prevbutton.svg";
+import styles from "../../Questionnaire/Questionnaire.module.css";
+import { ReactComponent as PrevIcon } from "../../../images/prevbutton.svg";
 // import { useQuestionnaire } from "../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
-import useIsWideScreen from "../../custom hooks/useIsWideScreen";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
+import useIsWideScreen from "../../../hooks/useIsWideScreen";
 // import { sendImpressions } from "../../utils/helperFunctions";
-import { buildEventData,sendImpressions } from "../../utils/impression/impressionUtils";
+import { buildEventData,sendImpressions } from "../../../utils/impression/impressionUtils";
 const USER_ACTION_CLICK_PREV = process.env.REACT_APP_USER_ACTION_CLICK_PREV;
 const STREAM_STEP_NAME = process.env.REACT_APP_STREAM_STEP_NAME;
 const USER_EVENT_NAME = process.env.REACT_APP_USER_EVENT_NAME;

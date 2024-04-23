@@ -6,9 +6,9 @@ import { ReactComponent as UnselectedCheckboxSVG } from "../../../images/unselec
 import { ReactComponent as SelectedCheckboxSVG } from "../../../images/selectedbox.svg";
 import { ReactComponent as CreditCardSVG } from "../../../images/multiselection/creditcard.svg";
 import { ReactComponent as CashSVG } from "../../../images/multiselection/cash.svg";
-import { ReactComponent as PhoneSVG } from "../../../images/multiselection/phone.svg";
+import { ReactComponent as PhoneSVG } from '../../../images/multiselection/phone.svg'
 import styles from "./AnswersContent.module.css";
-import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
+import useIsWideScreen from "../../../hooks/useIsWideScreen.jsx";
 
 const icons = {
   1: CashSVG,
@@ -38,7 +38,6 @@ const MultipleChoiceQuestion = () => {
     useEffect(() => {
       const response = responses[currentQuestionCode];
       if (response && response.answerIndexes) {
-        console.log('multi use effect')
         setSelectedIndexes(response.answerIndexes);
       } else {
         setSelectedIndexes([]);
@@ -52,9 +51,7 @@ const MultipleChoiceQuestion = () => {
       : [...selectedIndexes, index];
 
     setSelectedIndexes(newSelectedIndexes);
-    console.log("multiple handle click CHANGE_NEXT_BTN_STATE",newSelectedIndexes.length > 0)
 
-    // changeNextBtnState(newSelectedIndexes.length > 0);
     handleMultipleAnswerSelection(currentQuestionCode, newSelectedIndexes);
   };
   

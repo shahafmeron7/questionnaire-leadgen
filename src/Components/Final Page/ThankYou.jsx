@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ThankYou.module.css";
-import { ReactComponent as TrohpyIcon } from "../../../../images/thank you/Trophy.svg";
+import { ReactComponent as TrohpyIcon } from "../../images/thank you/Trophy.svg";
 const ThankYou = () => {
   return (
     <div className={styles.thankYouContainer}>

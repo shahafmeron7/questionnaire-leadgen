@@ -1,24 +1,21 @@
 // src/context/questionnaire/eventHandlers.js
 import { useCallback } from "react";
-import { useQuestionnaire } from "./QuestionnaireContext";
-import { validateField } from "../../utils/validationUtils";
+import { validateField } from "../../../utils/validationUtils";
 import { gsap } from "gsap";
-import questionnaireData from "../../utils/data/questionnaireData.json";
+import questionnaireData from "../../../utils/data/questionnaireData.json";
 import {
   buildEventData,
   sendImpressions,
-} from "../../utils/impression/impressionUtils";
+} from "../../../utils/impression/impressionUtils";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
 
-export const useNavigationHandlers = (state, dispatch) => {
-  // const { state, dispatch } = useQuestionnaire();
+export const QuestionnaireHandlers = (state, dispatch) => {
   const findStepNumber = (questionCode) => {
     return questionnaireData.questions.find((q) => q.code === questionCode)
       .step;
   };
   const animateAndNavigate = (navigate, nextProgressWidth, delay = 0) => {
     dispatch({ type: "SET_IS_ANIMATING_OUT", payload: true });
-    console.log("SET_IS_ANIMATING_OUT")
     const tl = gsap.timeline({
       onComplete: () => {
         dispatch({ type: "SET_IS_ANIMATING_OUT", payload: false });
@@ -47,7 +44,6 @@ export const useNavigationHandlers = (state, dispatch) => {
     if (questionHistory.length > 1) {
       const newHistory = questionHistory.slice(0, -1);
       const prevQuestionCode = newHistory[newHistory.length - 1];
-      console.log(prevQuestionCode);
       const prevStep = findStepNumber(prevQuestionCode);
       const newProgressBarWidth = Math.min(
         100,
@@ -229,7 +225,6 @@ export const useNavigationHandlers = (state, dispatch) => {
           isAnswered = response.answerIndexes.length > 0;
         }
       }
-      console.log("checkandenable CHANGE_NEXT_BTN_STATE",isAnswered)
       dispatch({
         type: "CHANGE_NEXT_BTN_STATE",
         isEnabled: isAnswered,
@@ -331,12 +326,9 @@ export const useNavigationHandlers = (state, dispatch) => {
     });
      // Check if there's an existing error and clear it
      if (errResponses[questionCode]) {
-      console.log("errResponses[questionCode]",errResponses[questionCode])
       const newErrResponses = { ...errResponses };
-      console.log("before new error responses:", errResponses);
 
       delete newErrResponses[questionCode];  // Remove the error entry for this question
-      console.log("Dispatching new error responses:", newErrResponses);
 
       dispatch({
           type: "SET_ERR_RESPONSES",
@@ -359,8 +351,7 @@ export const useNavigationHandlers = (state, dispatch) => {
       acc[key] = responseWithoutIndexes;
       return acc;
     }, {});
-    console.log("completeQuestionnaire",finalResponses,process.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME,
-    process.env.REACT_APP_STREAM_FINAL_NAME,targetFormID)
+   
     sendImpressions(
       finalResponses,
       process.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME,

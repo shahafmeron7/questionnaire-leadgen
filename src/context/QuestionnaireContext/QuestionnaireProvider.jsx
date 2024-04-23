@@ -1,11 +1,10 @@
 import React, { useReducer, useMemo } from "react";
 import QuestionnaireContext from "./QuestionnaireContext";
 import { initialState, reducer } from "../../reducers/questionnaireReducer";
-import { useNavigationHandlers } from "./eventHandlers";
-import questionnaireData from "../../utils/data/questionnaireData.json";
-import { useFirstImpression,useQuestionImpressions,useUnloadImpressions } from "../../custom hooks/useImpressions";
-import { useQuestionnaireState } from "../../custom hooks/useQuestionnaireState";
-import { useNavigationEffects } from "../../custom hooks/useNavigationEffects";
+import { QuestionnaireHandlers } from "./handlers/QuestionnaireHandlers";
+import { useFirstImpression,useQuestionImpressions,useUnloadImpressions } from "../../hooks/useImpressions";
+import { useQuestionnaireState } from "../../hooks/useQuestionnaireState";
+import { useNavigationEffects } from "../../hooks/useNavigationEffects";
 
 
 export const QuestionnaireProvider = ({ children }) => {
@@ -24,9 +23,8 @@ export const QuestionnaireProvider = ({ children }) => {
     changeNextBtnState,
     checkAndUpdateFormID,
     checkAndEnableNextButton
-  } = useNavigationHandlers(state,dispatch);
+  } = QuestionnaireHandlers(state,dispatch);
 
-  // Custom hooks that manage side effects related to state changes
   useQuestionnaireState(state,dispatch,completeQuestionnaire);
   useFirstImpression();
   useQuestionImpressions(state);

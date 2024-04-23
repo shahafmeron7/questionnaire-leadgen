@@ -3,9 +3,9 @@ import styles from "./AnswersContent.module.css";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
 import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
 
-import InputWithValidation from "../../UI/InputWithValidation";
+import InputWithValidation from "../../UI/Form/InputWithValidation";
 
-import useIsWideScreen from "../../../custom hooks/useIsWideScreen";
+import useIsWideScreen from "../../../hooks/useIsWideScreen";
 
 const DetailsQuestion = () => {
   const { currentQuestion, responses, errResponses, currentQuestionCode } =

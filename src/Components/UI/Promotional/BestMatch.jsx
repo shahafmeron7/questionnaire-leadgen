@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./BestMatch.module.css";
-import { ReactComponent as ExpertsLogo } from "../../images/best matchs/experts.svg";
-import { ReactComponent as TailoredMatchesLogo } from "../../images/best matchs/tailored_matches.svg";
-import { ReactComponent as TrustedProvidedLogo } from "../../images/best matchs/trusted_providers.svg";
+import { ReactComponent as ExpertsLogo } from "../../../images/best matchs/experts.svg";
+import { ReactComponent as TailoredMatchesLogo } from "../../../images/best matchs/tailored_matches.svg";
+import { ReactComponent as TrustedProvidedLogo } from "../../../images/best matchs/trusted_providers.svg";
 const BestMatch = () => {
   const cards = [
     {

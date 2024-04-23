@@ -4,13 +4,13 @@ import "./App.css";
 // import { useQuestionnaire } from "../context/QuestionnaireContext";
 import { useQuestionnaire } from "../context/QuestionnaireContext/QuestionnaireContext.jsx";
 import Questionnaire from "../Components/Questionnaire/Questionnaire.jsx";
-import BestMatch from "../Components/UI/BestMatch";
-import FAQ from "../Components/UI/FAQ";
+import BestMatch from "../Components/UI/Promotional/BestMatch";
+import FAQ from "../Components/UI/Content/FAQ";
 import Footer from "../Components/Footer/Footer.jsx";
 import Navbar from "../Components/Navbar/Navbar.jsx";
-import PartnerWith from "../Components/UI/PartnerWith";
-import ThankYouLayout from "../containers/ThankYouLayout";
-import ContentLayout from '../containers/ContentLayout'
+import PartnerWith from "../Components/UI/Promotional/PartnerWith";
+import ThankYouLayout from "../Layouts/ThankYouLayout";
+import ContentLayout from '../Layouts/ContentLayout'
 function App() {
   
    const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();

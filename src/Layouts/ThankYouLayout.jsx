@@ -1,10 +1,11 @@
 import React from "react";
-import HearBack from "../Components/Questionnaire/types/final page/HearBack";
-import ThankYou from "../Components/Questionnaire/types/final page/ThankYou";
-import {BrandsLayout} from "../Components/Questionnaire/types/final page/BrandsLayout";
-import WhatsNext from "../Components/Questionnaire/types/final page/WhatsNext";
+
+import HearBack from "../Components/Final Page/HearBack";
+import ThankYou from "../Components/Final Page/ThankYou";
+import {BrandsLayout} from "../Components/Final Page/BrandsLayout";
 import ContentLayout from "./ContentLayout";
-import PartnerWith from "../Components/UI/PartnerWith";
+import PartnerWith from "../Components/UI/Promotional/PartnerWith";
+import WhatsNext from "../Components/Final Page/WhatsNext";
 
 const ThankYouLayout = () => {
   return (
@@ -16,7 +17,7 @@ const ThankYouLayout = () => {
         <PartnerWith />
       </ContentLayout>
       <ContentLayout bgColor={'#f6f6f6'}>
-        <WhatsNext />
+        <WhatsNext/>
       </ContentLayout>
       <ContentLayout bgColor={'rgba(0, 111, 255, 0.05)'}>
         <BrandsLayout />
