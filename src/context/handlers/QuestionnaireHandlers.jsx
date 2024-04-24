@@ -1,4 +1,5 @@
 // src/context/questionnaire/eventHandlers.js
+import * as actionTypes from  'reducers/actionTypes';
 import { useCallback } from "react";
 import { validateField } from "utils/validationUtils";
 import { gsap } from "gsap";
@@ -15,10 +16,10 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
       .step;
   };
   const animateAndNavigate = (onComplete, nextProgressWidth, delay = 0) => {
-    dispatch({ type: "SET_IS_ANIMATING_OUT", payload: true });
+    dispatch({ type: actionTypes.SET_IS_ANIMATING_OUT, payload: true });
     const tl = gsap.timeline({
       onComplete: () => {
-        dispatch({ type: "SET_IS_ANIMATING_OUT", payload: false });
+        dispatch({ type: actionTypes.SET_IS_ANIMATING_OUT, payload: false });
         onComplete();
       },
     });
@@ -51,19 +52,19 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
       );
 
       dispatch({
-        type: "SET_PROGRESS_BAR_WIDTH",
+        type: actionTypes.SET_PROGRESS_BAR_WIDTH,
         payload: newProgressBarWidth,
       });
       animateAndNavigate(() => {
          dispatch({
-           type: "SET_CURRENT_QUESTION_CODE",
+           type: actionTypes.SET_CURRENT_QUESTION_CODE,
            payload: prevQuestionCode,
          });
         // goToPrevious(prevQuestionCode,newHistory);  // Now purely handles the state and history update
 
       }, newProgressBarWidth);
       
-      dispatch({ type: "SET_QUESTION_HISTORY", payload: newHistory });
+      dispatch({ type: actionTypes.SET_QUESTION_HISTORY, payload: newHistory });
     }
   };
 
@@ -129,7 +130,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         process.env.REACT_APP_USER_EVENT_NAME,
         process.env.REACT_APP_STREAM_STEP_NAME
       );
-      dispatch({ type: "CHANGE_NEXT_BTN_STATE", isEnabled: true });
+      dispatch({ type: actionTypes.CHANGE_NEXT_BTN_STATE, isEnabled: true });
 
       const nextStep = findStepNumber(nextQuestionCode);
       const newProgressBarWidth = Math.min(
@@ -137,7 +138,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         Math.round(((nextStep - 1) / (4 - 1)) * 100)
       );
       dispatch({
-        type: "SET_PROGRESS_BAR_WIDTH",
+        type: actionTypes.SET_PROGRESS_BAR_WIDTH,
         payload: newProgressBarWidth,
       });
 
@@ -150,9 +151,9 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         TIME_DELAY_NEXT_QUESTION
       );
     } else {
-      dispatch({ type: "CHANGE_NEXT_BTN_STATE", payload: false });
+      dispatch({ type: actionTypes.CHANGE_NEXT_BTN_STATE, isEnabled: false });
       dispatch({
-        type: "SET_ERR_RESPONSES",
+        type: actionTypes.SET_ERR_RESPONSES,
         payload: newErrResponses,
       });
     }
@@ -160,9 +161,9 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
 
   const handleNavigateNextQuestion = (nextQuestionCode) => {
     if (nextQuestionCode !== "loader") {
-      dispatch({ type: "APPEND_TO_QUESTION_HISTORY", payload: nextQuestionCode });
+      dispatch({ type: actionTypes.APPEND_TO_QUESTION_HISTORY, payload: nextQuestionCode });
     }
-    dispatch({ type: "SET_CURRENT_QUESTION_CODE", payload: nextQuestionCode });
+    dispatch({ type: actionTypes.SET_CURRENT_QUESTION_CODE, payload: nextQuestionCode });
     window.history.pushState({}, null, " ");
   };
 
@@ -183,7 +184,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
     };
 
     dispatch({
-      type: "UPDATE_RESPONSES",
+      type: actionTypes.UPDATE_RESPONSES,
       questionCode: questionCode,
       response: response,
     });
@@ -202,7 +203,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         }
       );
       dispatch({
-        type: "CHANGE_NEXT_BTN_STATE",
+        type: actionTypes.CHANGE_NEXT_BTN_STATE,
         isEnabled: allSubquestionsAnswered,
       });
     } else {
@@ -216,8 +217,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
             const answerIndex = response.answerIndexes[0]; // Since one-selection should have only one index
             if (currentQuestion.answers[answerIndex].isOther) {
               // Check if other text is not empty when 'Other' option is selected
-              isAnswered =
-                response.other_text && response.other_text.trim() !== "";
+              isAnswered = response.other_text !== undefined && response.other_text !== null && response.other_text.trim() !== "";
             } else {
               // Regular answer is selected
 
@@ -229,7 +229,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         }
       }
       dispatch({
-        type: "CHANGE_NEXT_BTN_STATE",
+        type: actionTypes.CHANGE_NEXT_BTN_STATE,
         isEnabled: isAnswered,
       });
     }
@@ -259,7 +259,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
     }
 
     dispatch({
-      type: "UPDATE_RESPONSES",
+      type: actionTypes.UPDATE_RESPONSES,
       questionCode: questionCode,
       response: newResponse, // 'newResponse' is assumed to be another variable with response data
     });
@@ -271,7 +271,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         Math.round(((nextStep - 1) / (4 - 1)) * 100)
       );
       dispatch({
-        type: "SET_PROGRESS_BAR_WIDTH",
+        type: actionTypes.SET_PROGRESS_BAR_WIDTH,
         payload: newProgressBarWidth,
       });
 
@@ -318,14 +318,13 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         answerIndexes: [otherIndex],
       };
     }
-   
     dispatch({
-      type: "UPDATE_RESPONSES",
+      type: actionTypes.UPDATE_RESPONSES,
       questionCode: questionCode,
       response: updatedResponse,
     });
     dispatch({
-      type: "SET_NEXT_BUTTON_ENABLED",
+      type: actionTypes.CHANGE_NEXT_BTN_STATE,
       isEnabled: inputValue.trim().length > 0,
     });
      // Check if there's an existing error and clear it
@@ -335,7 +334,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
       delete newErrResponses[questionCode];  // Remove the error entry for this question
 
       dispatch({
-          type: "SET_ERR_RESPONSES",
+          type: actionTypes.SET_ERR_RESPONSES,
           payload: newErrResponses,
       });
   }
@@ -362,11 +361,11 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
       process.env.REACT_APP_STREAM_FINAL_NAME,
       targetFormID
     );
-    dispatch({ type: "TOGGLE_QUESTIONNAIRE_COMPLETED", payload: true });
+    dispatch({ type: actionTypes.TOGGLE_QUESTIONNAIRE_COMPLETED, payload: true });
   },[state.targetFormID,state.responses]);
 
   const changeNextBtnState = (isEnabled) => {
-    dispatch({ type: "CHANGE_NEXT_BTN_STATE", isEnabled: isEnabled });
+    dispatch({ type: actionTypes.CHANGE_NEXT_BTN_STATE, isEnabled: isEnabled });
   };
 
   
@@ -390,7 +389,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
           : probability <= 8
           ? process.env.REACT_APP_STAX_FORM_ID
           : process.env.REACT_APP_PAYSAFE_FORM_ID
-      dispatch({ type: "SET_TARGET_FORM_ID", payload: formID });
+      dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload: formID });
     }
   };
 

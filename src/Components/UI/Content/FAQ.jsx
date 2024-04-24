@@ -17,7 +17,6 @@ const FAQ = () => {
   ]
   const FaqItem = ({item})=>{
     return(
-      // <div className={styles.faqItem}>
             <details className={styles.faqItem}>
               <summary>
                 <h3>{item.text}</h3>
@@ -30,7 +29,6 @@ const FAQ = () => {
                 {item.details}
               </p>
             </details>
-          // </div>
     )
   }
   return (

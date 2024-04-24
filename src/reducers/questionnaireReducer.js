@@ -1,3 +1,4 @@
+import * as actionTypes from './actionTypes'
 import questionnaireData from "../utils/data/questionnaireData.json";
 export const initialState = () => {
   const initialQuestionCode = questionnaireData.questions[0]?.code;
@@ -27,7 +28,7 @@ export const initialState = () => {
 
 export function reducer(state, action) {
   switch (action.type) {
-    case "SET_CURRENT_QUESTION_CODE":
+    case actionTypes.SET_CURRENT_QUESTION_CODE:
       const newQuestion = questionnaireData.questions.find(
         (q) => q.code === action.payload
       );
@@ -36,25 +37,25 @@ export function reducer(state, action) {
         currentQuestionCode: action.payload,
         currentQuestion: newQuestion || {},
       };
-    case "APPEND_TO_QUESTION_HISTORY":
+    case actionTypes.APPEND_TO_QUESTION_HISTORY:
       return {
         ...state,
         questionHistory: [...state.questionHistory, action.payload],
       };
 
-    case "SET_QUESTION_HISTORY":
+    case actionTypes.SET_QUESTION_HISTORY:
       return {
         ...state,
         questionHistory: action.payload,
       };
-    case "SET_PROGRESS_BAR_WIDTH":
+    case actionTypes.SET_PROGRESS_BAR_WIDTH:
       return { ...state, progressBarWidth: action.payload };
-    case "SET_IS_ANIMATING_OUT":
+    case actionTypes.SET_IS_ANIMATING_OUT:
       return {
         ...state,
         isAnimatingOut: action.payload,
       };
-    case "UPDATE_RESPONSES":
+    case actionTypes.UPDATE_RESPONSES:
       return {
         ...state,
         responses: {
@@ -63,27 +64,27 @@ export function reducer(state, action) {
         },
       };
 
-    case "SET_ERR_RESPONSES":
+    case actionTypes.SET_ERR_RESPONSES:
       return {
         ...state,
         errResponses: action.payload,
       };
 
-    case "CHANGE_NEXT_BTN_STATE":
+    case actionTypes.CHANGE_NEXT_BTN_STATE:
       return {
         ...state,
         nextBtnEnabled: action.isEnabled,
       };
-    case "TOGGLE_QUESTIONNAIRE_STARTED":
+    case actionTypes.TOGGLE_QUESTIONNAIRE_STARTED:
       return { ...state, questionnaireStarted: action.payload };
 
-    case "TOGGLE_QUESTIONNAIRE_COMPLETED":
+    case actionTypes.TOGGLE_QUESTIONNAIRE_COMPLETED:
       return { ...state, questionnaireCompleted: action.payload };
 
-    case "SET_TARGET_FORM_ID":
+    case actionTypes.SET_TARGET_FORM_ID:
       return { ...state, targetFormID: action.payload };
 
-    case "SET_INPUT_MODIFIED":
+    case actionTypes.SET_INPUT_MODIFIED:
       return { ...state, inputModified: action.payload };
 
     default:

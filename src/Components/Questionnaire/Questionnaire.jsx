@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
-// Absolute imports for a cleaner structure
 import QuestionnaireLayout from "layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "context/QuestionnaireContext";
 import ProgressBar from "components/UI/ProgressBar";

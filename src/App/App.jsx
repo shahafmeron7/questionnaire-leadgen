@@ -16,7 +16,6 @@ import "./App.css";
 function App() {
   const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();
 
-  // Using early returns to simplify the rendering logic
   if (questionnaireCompleted) {
     return (
       <div className="AppWrapper">
