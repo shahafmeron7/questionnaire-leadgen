@@ -1,27 +1,29 @@
-import React, { useEffect, useState,useRef } from "react";
-import QuestionnaireLayout from "../../Layouts/QuestionnaireLayout.jsx";
-// import { useQuestionnaire } from "../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../context/QuestionnaireContext/QuestionnaireContext.jsx";
-import ProgressBar from "../UI/ProgressBar";
-import AnswersContent from "./types/AnswersContent.jsx";
-import gsap from 'gsap';
+import React, { useEffect, useState, useRef } from "react";
 import { useGSAP } from '@gsap/react';
-import SSLIcon from "../UI/Form/SSLIcon.jsx";
-import styles from "./Questionnaire.module.css";
-import Loader from "./types/Loader.jsx";
-import QuestionnaireWrapper from "../../Layouts/QuestionnaireWrapper.jsx";
-import FormProgress from "../UI/Form/FormProgress.jsx";
-import StarsHero from "../UI/StarsHero.jsx";
-import ExtraInfo from "../UI/Promotional/ExtraInfo.jsx";
-import LegalMessage from "../UI/Form/Legal/LegalMessage.jsx";
-import FormIcons from "../UI/Form/FormIcons.jsx";
-import QuestionnaireButtons from "../UI/Form/QuestionnaireButtons.jsx";
+import gsap from 'gsap';
 
+// Absolute imports for a cleaner structure
+import QuestionnaireLayout from "layouts/QuestionnaireLayout";
+import { useQuestionnaire } from "context/QuestionnaireContext";
+import ProgressBar from "components/UI/ProgressBar";
+import AnswersContent from "components/Questionnaire/types/AnswersContent";
+import Loader from "components/Questionnaire/types/Loader";
+import QuestionnaireWrapper from "layouts/QuestionnaireWrapper";
+import FormProgress from "components/UI/Form/FormProgress";
+import StarsHero from "components/UI/StarsHero";
+import ExtraInfo from "components/UI/Promotional/ExtraInfo";
+import LegalMessage from "components/UI/Form/Legal/LegalMessage";
+import FormIcons from "components/UI/Form/FormIcons";
+import QuestionnaireButtons from "components/UI/Form/QuestionnaireButtons";
+import SSLIcon from "components/UI/Form/SSLIcon";
+
+import styles from "./Questionnaire.module.css";
+
+gsap.config({
+  nullTargetWarn: false,
+})
+gsap.registerPlugin(useGSAP);
 const Questionnaire = () => {
-  gsap.config({
-    nullTargetWarn: false,
-  })
-  gsap.registerPlugin(useGSAP);
 
   const {
     currentQuestion,
@@ -30,6 +32,8 @@ const Questionnaire = () => {
     questionnaireStarted,
   } = useQuestionnaire();
   const [showLoader, setShowLoader] = useState(false);
+  const layoutRef = useRef(null);
+  const tl = useRef();
 
   const isFormSequence = currentQuestion.type === "form-type";
   const isFinalStep = currentQuestionCode === "phone";
@@ -37,25 +41,16 @@ const Questionnaire = () => {
   const isEmailStep = currentQuestionCode === "email";
   
 
-  const tl = useRef();
 
 
-  const layoutRef = useRef(null);
 
   useGSAP(() => {
     tl.current = gsap.timeline()
-    .fromTo(".animateItem",
-    { opacity: 0, y: 100 },
-    { opacity: 1, y: 0,stagger: 0.02,duration: 0.05, ease: 'power2.inOut' })
-    
-      .fromTo(".animateTitleItem",
-        { opacity: 0  },
-        { opacity: 1,duration: 0.3, ease: 'power2.inOut' })
-        .fromTo(".animateStaggerItem", 
-        { opacity: 0, y: 150 },
-        { opacity: 1, y: 0, stagger: 0.03 , duration: 0.6, ease: "back.inOut(2)" })
-    
-  }, {scope:layoutRef,dependencies:[currentQuestionCode]}); 
+      .fromTo(".animateItem", { opacity: 0, y: 100 }, { opacity: 1, y: 0, stagger: 0.02, duration: 0.05, ease: 'power2.inOut' })
+      .fromTo(".animateTitleItem", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.inOut' })
+      .fromTo(".animateStaggerItem", { opacity: 0, y: 150 }, { opacity: 1, y: 0, stagger: 0.03, duration: 0.6, ease: "back.inOut(2)" });
+  }, { scope: layoutRef, dependencies: [currentQuestionCode] });
+
   
   useEffect(() => {
     let timeoutId = null;
@@ -79,13 +74,9 @@ const Questionnaire = () => {
   const QuestionnaireTitle = () => {
     return (
       <div key={currentQuestionCode} className={`animateItem animateFadeOut ${styles.titleWrapper}`}>
-        <h1 className={styles.title}>
-          Find the right merchant service provider
-        </h1>
-        <h3 className={styles.titleDescription}>
-          Just a few questions to find your match
-        </h3>
-      </div>
+      <h1 className={styles.title}>Find the right merchant service provider</h1>
+      <h3 className={styles.titleDescription}>Just a few questions to find your match</h3>
+    </div>
     );
   };
 

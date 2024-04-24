@@ -1,11 +1,11 @@
 import React from "react";
 
-import HearBack from "../Components/Final Page/HearBack";
-import ThankYou from "../Components/Final Page/ThankYou";
-import {BrandsLayout} from "../Components/Final Page/BrandsLayout";
+import HearBack from "../components/finalPage/HearBack";
+import ThankYou from "../components/finalPage/ThankYou";
+import {BrandsLayout} from "../components/finalPage/BrandsLayout";
 import ContentLayout from "./ContentLayout";
-import PartnerWith from "../Components/UI/Promotional/PartnerWith";
-import WhatsNext from "../Components/Final Page/WhatsNext";
+import PartnerWith from "../components/UI/Promotional/PartnerWith";
+import WhatsNext from "../components/finalPage/WhatsNext";
 
 const ThankYouLayout = () => {
   return (

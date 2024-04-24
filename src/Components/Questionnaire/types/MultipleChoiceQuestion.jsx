@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext.jsx";
 
 import { ReactComponent as UnselectedCheckboxSVG } from "../../../images/unselectedbox.svg";
 import { ReactComponent as SelectedCheckboxSVG } from "../../../images/selectedbox.svg";

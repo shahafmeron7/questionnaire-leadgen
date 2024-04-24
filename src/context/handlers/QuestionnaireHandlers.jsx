@@ -1,25 +1,25 @@
 // src/context/questionnaire/eventHandlers.js
 import { useCallback } from "react";
-import { validateField } from "../../../utils/validationUtils";
+import { validateField } from "utils/validationUtils";
 import { gsap } from "gsap";
-import questionnaireData from "../../../utils/data/questionnaireData.json";
+import questionnaireData from "utils/data/questionnaireData.json";
 import {
   buildEventData,
   sendImpressions,
-} from "../../../utils/impression/impressionUtils";
+} from "utils/impression/impressionUtils";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
 
-export const QuestionnaireHandlers = (state, dispatch) => {
+export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => {
   const findStepNumber = (questionCode) => {
     return questionnaireData.questions.find((q) => q.code === questionCode)
       .step;
   };
-  const animateAndNavigate = (navigate, nextProgressWidth, delay = 0) => {
+  const animateAndNavigate = (onComplete, nextProgressWidth, delay = 0) => {
     dispatch({ type: "SET_IS_ANIMATING_OUT", payload: true });
     const tl = gsap.timeline({
       onComplete: () => {
         dispatch({ type: "SET_IS_ANIMATING_OUT", payload: false });
-        navigate();
+        onComplete();
       },
     });
 
@@ -55,12 +55,14 @@ export const QuestionnaireHandlers = (state, dispatch) => {
         payload: newProgressBarWidth,
       });
       animateAndNavigate(() => {
-        dispatch({
-          type: "SET_CURRENT_QUESTION_CODE",
-          payload: prevQuestionCode,
-        });
-      }, newProgressBarWidth);
+         dispatch({
+           type: "SET_CURRENT_QUESTION_CODE",
+           payload: prevQuestionCode,
+         });
+        // goToPrevious(prevQuestionCode,newHistory);  // Now purely handles the state and history update
 
+      }, newProgressBarWidth);
+      
       dispatch({ type: "SET_QUESTION_HISTORY", payload: newHistory });
     }
   };
@@ -141,7 +143,8 @@ export const QuestionnaireHandlers = (state, dispatch) => {
 
       animateAndNavigate(
         () => {
-          handleNavigateNextQuestion(nextQuestionCode);
+          // goToNext(nextQuestionCode)
+           handleNavigateNextQuestion(nextQuestionCode);
         },
         newProgressBarWidth,
         TIME_DELAY_NEXT_QUESTION
@@ -274,7 +277,8 @@ export const QuestionnaireHandlers = (state, dispatch) => {
 
       animateAndNavigate(
         () => {
-          handleNavigateNextQuestion(nextQuestionCode);
+        //goToNext(nextQuestionCode)
+           handleNavigateNextQuestion(nextQuestionCode);
         },
         newProgressBarWidth,
         TIME_DELAY_NEXT_QUESTION
@@ -367,13 +371,25 @@ export const QuestionnaireHandlers = (state, dispatch) => {
 
   
   const checkAndUpdateFormID = (questionCode, answerIndex) => {
+    // if (questionCode === "industry_type") {
+    //   let formID =
+    //     answerIndex === 2
+    //       ? process.env.REACT_APP_STAX_FORM_ID
+    //       : Math.random() < 0.9
+    //       ? process.env.REACT_APP_PAYSAFE_FORM_ID
+    //       : process.env.REACT_APP_STAX_FORM_ID;
+    //   dispatch({ type: "SET_TARGET_FORM_ID", payload: formID });
+    // }
     if (questionCode === "industry_type") {
+      let min=1;
+      let max=10;
+      let probability = Math.floor(Math.random() * (max - min + 1)) + min;  
       let formID =
         answerIndex === 2
           ? process.env.REACT_APP_STAX_FORM_ID
-          : Math.random() < 0.9
-          ? process.env.REACT_APP_PAYSAFE_FORM_ID
-          : process.env.REACT_APP_STAX_FORM_ID;
+          : probability <= 8
+          ? process.env.REACT_APP_STAX_FORM_ID
+          : process.env.REACT_APP_PAYSAFE_FORM_ID
       dispatch({ type: "SET_TARGET_FORM_ID", payload: formID });
     }
   };

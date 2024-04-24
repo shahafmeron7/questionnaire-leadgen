@@ -1,7 +1,7 @@
 import React from "react";
 import LoaderSVG from "../../UI/LoaderSVG";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext.jsx";
 
 import styles from "../Questionnaire.module.css";
 const Loader = () => {

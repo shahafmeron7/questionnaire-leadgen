@@ -1,9 +1,8 @@
 import React from "react";
-// import { useQuestionnaire } from "../../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
-import OneSelectionQuestion from "./OneSelectionQuestion";
-import MultipleChoiceQuestion from "./MultipleChoiceQuestion";
-import DetailsQuestion from "./DetailsQuestion";
+import { useQuestionnaire } from "context/QuestionnaireContext.jsx";
+import OneSelectionQuestion from "./OneSelectionQuestion.jsx";
+import MultipleChoiceQuestion from "./MultipleChoiceQuestion.jsx";
+import DetailsQuestion from "./DetailsQuestion.jsx";
 
 const AnswersContent = () => {
   const { currentQuestion } = useQuestionnaire();

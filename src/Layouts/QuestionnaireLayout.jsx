@@ -2,7 +2,7 @@ import React from "react";
 import styles from './QuestionnaireLayout.module.css'
 import useIsWideScreen from "../hooks/useIsWideScreen";
 // import { useQuestionnaire } from "../context/QuestionnaireContext";
-import { useQuestionnaire } from "../context/QuestionnaireContext/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "../context/QuestionnaireContext.jsx";
 const QuestionnaireLayout = React.forwardRef(({ children }, ref) => {
   const { questionnaireStarted,currentQuestionCode } = useQuestionnaire();
   const isEmailStep = currentQuestionCode ==="email";

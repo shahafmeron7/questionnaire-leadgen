@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./AnswersContent.module.css";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "../../../context/QuestionnaireContext.jsx";
 
 import InputWithValidation from "../../UI/Form/InputWithValidation";
 

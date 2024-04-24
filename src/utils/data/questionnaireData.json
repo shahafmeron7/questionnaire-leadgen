@@ -126,7 +126,7 @@
       "type": "form-type",
       "subquestions": [
         {
-          "text": "What is your email address?",
+          "text": "What is your work email address?",
           "code": "email",
           "example": "e.g: abc@gmail.com",
           "error": "Please enter a valid email address"
