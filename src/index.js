@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./index.css";
 import App from "./App/App.jsx";
- import { QuestionnaireProvider } from "./context/QuestionnaireProvider";  // This path assumes your export setup in the context questionnaire index.js
+ import { QuestionnaireProvider } from "./context/QuestionnaireProvider.jsx";  // This path assumes your export setup in the context questionnaire index.js
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

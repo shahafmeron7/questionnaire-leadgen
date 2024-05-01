@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "context/QuestionnaireContext.jsx";
 import styles from "./AnswersContent.module.css";
-import { ReactComponent as UnselectedCheckboxSVG } from "../../../images/unselectedCircleCheckbox.svg";
-import { ReactComponent as SelectedCheckboxSVG } from "../../../images/selectedCircleCheckbox.svg";
+import { ReactComponent as UnselectedCheckboxSVG } from "images/unselectedCircleCheckbox.svg";
+import { ReactComponent as SelectedCheckboxSVG } from "images/selectedCircleCheckbox.svg";
 
 import InputWithValidation from "../../UI/Form/InputWithValidation.jsx";
 

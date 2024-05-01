@@ -1,19 +1,19 @@
 import React from "react";
 import styles from "./BestMatch.module.css";
-import { ReactComponent as ExpertsLogo } from "../../../images/best matchs/experts.svg";
-import { ReactComponent as TailoredMatchesLogo } from "../../../images/best matchs/tailored_matches.svg";
-import { ReactComponent as TrustedProvidedLogo } from "../../../images/best matchs/trusted_providers.svg";
+import { ReactComponent as ExpertsLogo } from "images/best matchs/experts.svg";
+import { ReactComponent as TailoredMatchesLogo } from "images/best matchs/tailored_matches.svg";
+import { ReactComponent as TrustedProvidedLogo } from "images/best matchs/trusted_providers.svg";
 const BestMatch = () => {
   const cards = [
     {
       title: "Expert Insight",
-      info: "Utilize our expertise to quickly and easily find the best merchant service provider for your business.",
+      info: "Utilize our expertise to quickly and easily find the merchant service provider for your business.",
       Logo: ExpertsLogo,
       alt: "Experts Logo",
     },
     {
       title: "Trusted Providers",
-      info: "We exclusively partner with reputable merchant service providers to ensure quality and reliability.",
+      info: "We partner with trusted merchant service providers to ensure quality and reliability.",
       Logo: TrustedProvidedLogo,
       alt: "Trusted Providers Logo",
     },
@@ -40,7 +40,7 @@ const BestMatch = () => {
   return (
     <div className={styles.bestMatchWrapper}>
       <div className={styles.bestMatchContainer}>
-        <h3 className={styles.bestMatchTitle}>How we find you the best match</h3>
+        <h3 className={styles.bestMatchTitle}>How we find you a match</h3>
         <div className={styles.bestMatchCardsContainer}>
           {cards.map((card) => (
             <Card key={card.alt} card={card} />

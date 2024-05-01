@@ -26,15 +26,17 @@ export const useQuestionImpressions = (state) => {
             process.env.REACT_APP_STEP_EVENT_NAME,
             process.env.REACT_APP_STREAM_STEP_NAME
         );
-    }, [currentQuestionCode, sendImpressions, buildEventData]);
+    }, [currentQuestionCode]);
 };
 
-export const useUnloadImpressions = () => {
+export const useUnloadImpressions = (state) => {
+    const  { currentQuestion,flowID,flowName } = state 
+
     useEffect(() => {
-        const handleUnload = () => {
+        const handleUnload = (e) => {
+            // e.preventDefault();
             sendImpressions(
-                {},
-                process.env.REACT_APP_USER_ACTION_NAME,
+                buildEventData(currentQuestion,flowID,flowName,process.env.REACT_APP_USER_ACTION_EXIT),
                 process.env.REACT_APP_USER_EVENT_NAME,
                 process.env.REACT_APP_STREAM_STEP_NAME
             );

@@ -8,8 +8,8 @@ const ThankYou = () => {
       <div className={styles.titleWrapper}>
         <h1 className={styles.thankYouTitle}>Thank You!</h1>
         <p className={styles.thankYouDesc}>
-          Based on the information you provided us with, we found you the best
-          merchant services provider for your needs.
+          Based on the information you provided us with, we found you a
+          merchant service provider match for your needs.
         </p>
       </div>
     </div>

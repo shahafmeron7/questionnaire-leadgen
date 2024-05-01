@@ -8,9 +8,9 @@ const WhatsNext = () => {
     const cards = [
         {
           title: "Wait for a call from the relevant provider(s)",
-          info: "Please expect a call from the provider (or providers) we matched you with shortly. You are even likely to hear back from them within one business day! The number of providers will depend on your specific business requirements but can be 1-5.",
+          info: "Please expect a call from the provider (or providers) we matched you with shortly. You are even likely to hear back from them within one business day! The number of providers will depend on your business requirements and our matching process but can be 1-3.",
           src: phoneIcon,
-          bolds:["within one business day!","1-5"],
+          bolds:["within one business day!","1-3"],
           alt: "Phone icon",
         },
         {

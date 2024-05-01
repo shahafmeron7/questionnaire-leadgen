@@ -79,7 +79,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
       flowID,
       flowName,
     } = state;
-    const newErrResponses = {}; // Object to collect new error states
+    const newErrResponses = {};
     if (
       currentQuestion.type === "details-question" ||
       currentQuestion.type === "form-type"
@@ -261,7 +261,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
     dispatch({
       type: actionTypes.UPDATE_RESPONSES,
       questionCode: questionCode,
-      response: newResponse, // 'newResponse' is assumed to be another variable with response data
+      response: newResponse,
     });
     const nextQuestionCode = answer?.next_question_code;
     if (nextQuestionCode) {
@@ -343,6 +343,9 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
   const completeQuestionnaire = useCallback(() => {
     const { targetFormID, responses } = state;
     let finalResponses = {};
+    Object.keys(responses).forEach(key => {
+      responses[key].users_answer = responses[key].answer;
+  });
     if (targetFormID === process.env.REACT_APP_PAYSAFE_FORM_ID) {
       const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
       const monthly_volume = responses.monthly_volume;
@@ -354,7 +357,7 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
       acc[key] = responseWithoutIndexes;
       return acc;
     }, {});
-   
+   console.log(finalResponses)
     sendImpressions(
       finalResponses,
       process.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME,
@@ -387,8 +390,8 @@ export const QuestionnaireHandlers = (state, dispatch,goToNext,goToPrevious) => 
         answerIndex === 2
           ? process.env.REACT_APP_STAX_FORM_ID
           : probability <= 8
-          ? process.env.REACT_APP_STAX_FORM_ID
-          : process.env.REACT_APP_PAYSAFE_FORM_ID
+        ? process.env.REACT_APP_STAX_FORM_ID
+          : process.env.REACT_APP_STAX_FORM_ID
       dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload: formID });
     }
   };

@@ -129,6 +129,7 @@
 @media only screen and (max-width: 450px) {
   .layout-footer {
     padding-bottom: 16px;
+    padding-top:0px;
   }
   .sonary-container {
     /* width: calc(100% - 24px); */
