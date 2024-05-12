@@ -2,36 +2,63 @@
 <html lang="en">
 
 <head>
-  <script src="https://assets.trafficpointltd.com/js/lg_logger.js"></script>
+  <!-- <script src="https://assets.trafficpointltd.com/js/lg_logger.js"></script> -->
     <!-- Google Analytics -->
-  <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+  <!-- <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script> -->
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7RW4YR5YBB"></script>
-  <script>
+  <!-- <script>
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: "activityEvent", send_to: 'G-7RW4YR5YBB' });
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-7RW4YR5YBB');
-  </script>
+  </script> -->
   <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-5VNPHSL');</script>
+  <script>
+    (function(w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+    });
+    var f = d.getElementsByTagName(s)[0]
+      , j = d.createElement(s)
+      , dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.defer = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+    console.log('gtm loaded');
+    var eventsTypes = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'touchmove']
+    var addEventToLayerFn = function(e) {
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        dataLayer.push({
+            'event': 'activityEvent'
+        })
+        window.activityEvent = true;
+        document.dispatchEvent(new CustomEvent("activityEvent",{
+            cancelable: true
+        }));
+        for (var i = 0; i < eventsTypes.length; i++) {
+            window.removeEventListener(eventsTypes[i], addEventToLayerFn)
+        }
+    }
+    for (var i = 0; i < eventsTypes.length; i++) {
+        window.addEventListener(eventsTypes[i], addEventToLayerFn)
+    }
+}
+)(window, document, 'script', 'dataLayer', 'GTM-5VNPHSL');</script>
   <meta charset="utf-8" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/fonts/inter-v13-latin/fonts.css">
+
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="icon" href="https://sonary.com/favicon.ico" sizes="48x48" />
-  <!--
+  <meta name="description" content="Manage your merchant services efficiently and securely with Sonary Leadgen." />
+  <link rel="icon" href="/icons/favicon.ico" sizes="16x16">
+  <link rel="icon" href="/icons/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/icons/favicon.ico" sizes="48x48">  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
@@ -53,6 +80,7 @@
   
   <div id="root"></div>
   <script type="module" src="/src/index.jsx"></script>
+  <script type="module" src="/logger/lg_logger.js" ></script>
 
   <!--
       This HTML file is a template.
