@@ -1,13 +1,13 @@
 // src/context/questionnaire/eventHandlers.js
-import * as actionTypes from "reducers/actionTypes";
+import * as actionTypes from "@/reducers/actionTypes";
 import { useCallback } from "react";
-import { validateField } from "utils/validationUtils";
+import { validateField } from "@/utils/validationUtils";
 import { gsap } from "gsap";
-import questionnaireData from "utils/data/questionnaireData.json";
+import questionnaireData from "@/utils/data/questionnaireData.json";
 import {
   buildEventData,
   sendImpressions,
-} from "utils/impression/impressionUtils";
+} from "@/utils/impression/impressionUtils";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
 
 export const QuestionnaireHandlers = (
@@ -126,12 +126,12 @@ export const QuestionnaireHandlers = (
         currentQuestion,
         flowID,
         flowName,
-        process.env.REACT_APP_USER_ACTION_CLICK_NEXT
+        import.meta.env.REACT_APP_USER_ACTION_CLICK_NEXT
       );
       sendImpressions(
         eventData,
-        process.env.REACT_APP_USER_EVENT_NAME,
-        process.env.REACT_APP_STREAM_STEP_NAME
+        import.meta.env.REACT_APP_USER_EVENT_NAME,
+        import.meta.env.REACT_APP_STREAM_STEP_NAME
       );
       dispatch({ type: actionTypes.CHANGE_NEXT_BTN_STATE, isEnabled: true });
 
@@ -357,7 +357,7 @@ export const QuestionnaireHandlers = (
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
     });
-    if (targetFormID === process.env.REACT_APP_PAYSAFE_FORM_ID) {
+    if (targetFormID === import.meta.env.REACT_APP_PAYSAFE_FORM_ID) {
       const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
       const monthly_volume = responses.monthly_volume;
       monthly_volume.answer =
@@ -371,8 +371,8 @@ export const QuestionnaireHandlers = (
     //  console.log(finalResponses)
     sendImpressions(
       finalResponses,
-      process.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME,
-      process.env.REACT_APP_STREAM_FINAL_NAME,
+      import.meta.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME,
+      import.meta.env.REACT_APP_STREAM_FINAL_NAME,
       targetFormID
     );
     dispatch({
@@ -389,10 +389,10 @@ export const QuestionnaireHandlers = (
     // if (questionCode === "industry_type") {
     //   let formID =
     //     answerIndex === 2
-    //       ? process.env.REACT_APP_STAX_FORM_ID
+    //       ? import.meta.env.REACT_APP_STAX_FORM_ID
     //       : Math.random() < 0.9
-    //       ? process.env.REACT_APP_PAYSAFE_FORM_ID
-    //       : process.env.REACT_APP_STAX_FORM_ID;
+    //       ? import.meta.env.REACT_APP_PAYSAFE_FORM_ID
+    //       : import.meta.env.REACT_APP_STAX_FORM_ID;
     //   dispatch({ type: "SET_TARGET_FORM_ID", payload: formID });
     // }
     if (questionCode === "industry_type") {
@@ -401,10 +401,10 @@ export const QuestionnaireHandlers = (
       let probability = Math.floor(Math.random() * (max - min + 1)) + min;
       let formID =
         answerIndex === 2
-          ? process.env.REACT_APP_STAX_FORM_ID
+          ? import.meta.env.REACT_APP_STAX_FORM_ID
           : probability <= 5
-          ? process.env.REACT_APP_PAYSAFE_FORM_ID
-          : process.env.REACT_APP_STAX_FORM_ID;
+          ? import.meta.env.REACT_APP_PAYSAFE_FORM_ID
+          : import.meta.env.REACT_APP_STAX_FORM_ID;
       dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload: formID });
     }
   };

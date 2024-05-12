@@ -1,12 +1,12 @@
 import React, { useReducer, useMemo } from "react";
 import QuestionnaireContext from "./QuestionnaireContext";
-import { initialState, reducer } from "reducers/questionnaireReducer";
+import { initialState, reducer } from "@/reducers/questionnaireReducer";
 import { QuestionnaireHandlers } from "./handlers/QuestionnaireHandlers"
-import { useFirstImpression,useQuestionImpressions,useUnloadImpressions } from "hooks/useImpressions";
-import { useQuestionnaireState } from "hooks/useQuestionnaireState";
-import { useNavigationEffects } from "hooks/useNavigationEffects";
-import {useHistoryStack} from 'hooks/useHistoryStack'
-import { useLocalStorage } from "hooks/useLocalStorage";
+import { useFirstImpression,useQuestionImpressions,useUnloadImpressions } from "@/hooks/useImpressions";
+import { useQuestionnaireState } from "@/hooks/useQuestionnaireState";
+import { useNavigationEffects } from "@/hooks/useNavigationEffects";
+import {useHistoryStack} from '@/hooks/useHistoryStack'
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export const QuestionnaireProvider = ({ children }) => {
 

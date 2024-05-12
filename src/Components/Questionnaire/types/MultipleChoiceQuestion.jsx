@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
-import { useQuestionnaire } from "context/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 
-import { ReactComponent as UnselectedCheckboxSVG } from "images/unselectedbox.svg";
-import { ReactComponent as SelectedCheckboxSVG } from "images/selectedbox.svg";
-import { ReactComponent as CreditCardSVG } from "images/multiselection/creditcard.svg";
-import { ReactComponent as CashSVG } from "images/multiselection/cash.svg";
-import { ReactComponent as PhoneSVG } from 'images/multiselection/phone.svg'
+import  UnselectedCheckboxSVG  from "@/images/unselectedbox.svg";
+import  SelectedCheckboxSVG  from "@/images/selectedbox.svg";
+import  CreditCardSVG  from "@/images/multiselection/creditcard.svg";
+import  CashSVG  from "@/images/multiselection/cash.svg";
+import  PhoneSVG  from '@/images/multiselection/phone.svg'
 import styles from "./AnswersContent.module.css";
-import useIsWideScreen from "hooks/useIsWideScreen.jsx";
+import useIsWideScreen from "@/hooks/useIsWideScreen.jsx";
 
 const icons = {
   1: CashSVG,

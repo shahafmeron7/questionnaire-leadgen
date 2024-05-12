@@ -1,7 +1,7 @@
 import React from "react";
 
-import { ReactComponent as SSLLogo } from 'images/ssl_lock.svg'
-import { useQuestionnaire } from "context/QuestionnaireContext";
+import  SSLLogo  from '@/images/ssl_lock.svg'
+import { useQuestionnaire } from "@/context/QuestionnaireContext";
 const SSLIcon = () => {
     const stylesslWrapper = {
         display: "flex",

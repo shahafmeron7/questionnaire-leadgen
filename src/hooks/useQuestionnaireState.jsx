@@ -1,5 +1,5 @@
 // useQuestionnaireState.js
-import * as actionTypes from 'reducers/actionTypes'
+import * as actionTypes from '@/reducers/actionTypes'
 import { useEffect } from 'react';
 
 export const useQuestionnaireState = (state,dispatch,completeQuestionnaire) => {

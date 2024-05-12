@@ -22,6 +22,8 @@ const BrandCard = ({ card }) => {
                       src={listDetails.icon}
                       alt={`${listName} icon`}
                       className={styles.prosConsIcon}
+                      loading="lazy"
+
                     />
 
                     <p>{listItem}</p>

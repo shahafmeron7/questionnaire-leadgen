@@ -10,8 +10,8 @@ export const useFirstImpression = () => {
             Impression();
             sendImpressions(
                 {},
-                process.env.REACT_APP_FIRST_EVENT_NAME,
-                process.env.REACT_APP_STREAM_STEP_NAME
+                import.meta.env.REACT_APP_FIRST_EVENT_NAME,
+                import.meta.env.REACT_APP_STREAM_STEP_NAME
             );
             hasSentImpression.current = true;
         }
@@ -23,8 +23,8 @@ export const useQuestionImpressions = (state) => {
     useEffect(() => {
         sendImpressions(
             buildEventData(currentQuestion,flowID,flowName),
-            process.env.REACT_APP_STEP_EVENT_NAME,
-            process.env.REACT_APP_STREAM_STEP_NAME
+            import.meta.env.REACT_APP_STEP_EVENT_NAME,
+            import.meta.env.REACT_APP_STREAM_STEP_NAME
         );
     }, [currentQuestionCode]);
 };
@@ -36,9 +36,9 @@ export const useUnloadImpressions = (state) => {
         const handleUnload = (e) => {
             // e.preventDefault();
             sendImpressions(
-                buildEventData(currentQuestion,flowID,flowName,process.env.REACT_APP_USER_ACTION_EXIT),
-                process.env.REACT_APP_USER_EVENT_NAME,
-                process.env.REACT_APP_STREAM_STEP_NAME
+                buildEventData(currentQuestion,flowID,flowName,import.meta.env.REACT_APP_USER_ACTION_EXIT),
+                import.meta.env.REACT_APP_USER_EVENT_NAME,
+                import.meta.env.REACT_APP_STREAM_STEP_NAME
             );
         };
 

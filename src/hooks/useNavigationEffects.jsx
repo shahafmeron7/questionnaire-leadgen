@@ -14,9 +14,9 @@ export const useNavigationEffects = (state,dispatch,moveToPrevQuestion) => {
                      window.location.href = "https://sonary.com/";
                  } else if (currentQuestionCode !== "loader") {
                      sendImpressions(
-                         buildEventData(currentQuestion,flowID,flowName,process.env.REACT_APP_USER_ACTION_CLICK_PREV_BROWSER),
-                         process.env.REACT_APP_USER_EVENT_NAME,
-                         process.env.REACT_APP_STREAM_STEP_NAME
+                         buildEventData(currentQuestion,flowID,flowName,import.meta.env.REACT_APP_USER_ACTION_CLICK_PREV_BROWSER),
+                         import.meta.env.REACT_APP_USER_EVENT_NAME,
+                         import.meta.env.REACT_APP_STREAM_STEP_NAME
                      );
                      moveToPrevQuestion();
                  }

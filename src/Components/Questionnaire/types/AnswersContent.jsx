@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuestionnaire } from "context/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 import OneSelectionQuestion from "./OneSelectionQuestion.jsx";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion.jsx";
 import DetailsQuestion from "./DetailsQuestion.jsx";

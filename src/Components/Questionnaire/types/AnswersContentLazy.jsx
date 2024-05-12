@@ -1,5 +1,5 @@
 import React, { Suspense,useEffect } from 'react';
-import { useQuestionnaire } from "context/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 
 const OneSelectionQuestion = React.lazy(() => import('./OneSelectionQuestion'));
 const MultipleChoiceQuestion = React.lazy(() => import('./MultipleChoiceQuestion'));
