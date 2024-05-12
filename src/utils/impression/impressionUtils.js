@@ -48,6 +48,6 @@ function sendLeadgenImpression(data, eventName,stream,formID=null) {
     bubbles: true,
     composed: false,
   });
-     console.log(to_send)
+    //  console.log(to_send)
     window.dispatchEvent(logEvent);
 }

@@ -6,7 +6,7 @@ const containerStyle = {
   position: "relative",
   color: "#99A5C5",
   maxWidth: "600px",
-  textAlign: "justify",
+  textAlign: "center",
   fontSize: "12px",
   fontStyle: "normal",
   fontWeight: "400",
@@ -15,6 +15,7 @@ const containerStyle = {
 
 const linkStyle = {
   color: "#99A5C5",
+  whiteSpace: "nowrap",
 };
 const MiniLegalMessage = () => {
   const {currentQuestionCode} = useQuestionnaire();
@@ -26,7 +27,7 @@ const MiniLegalMessage = () => {
         className="animateStaggerItem animateFadeOut"
         style={containerStyle}
       >
-        your information will be handled as detailed in our&#8194;
+        your information will be handled as detailed in our&nbsp;
         <a
           style={linkStyle}
           href="https://sonary.com/privacy-policy/"
