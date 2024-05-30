@@ -7,8 +7,11 @@ import {
     getParamsFromUrl,
   } from "./impressionFunctions.js";
   
-  import inputs from "../data/impressionBrands.js";
-  
+  const inputs = {
+    siteName: "Sonary",
+    pageId:10000,
+    siteId:1000
+  };
   const Impression = () => {
     !(function () {
       var searchParams = new URLSearchParams(window.location.search),
@@ -23,13 +26,12 @@ import {
           domainForCookie = getDomain();
          
     
-      function setCookie(name, value) {
-        document.cookie = name + "=" + (value || "") + "; domain=" + domainForCookie + "; path=/;";
-      }
+      
+        // document.cookie = name + "=" + (value || "") + "; domain=" + domainForCookie + "; path=/;";
     
       for (var param in paramsToCookieMap) {
         if (searchParams.has(param)) {
-          setCookie(paramsToCookieMap[param], searchParams.get(param));
+          setCookie(paramsToCookieMap[param], searchParams.get(param),domainForCookie,1);
         }
       }
     })();
@@ -94,10 +96,11 @@ import {
       let data = {
         referrer: document.referrer,
         url: window.location.href,
+        siteId:inputs.siteId,
         siteName: inputs.siteName,
+        pageId:inputs.pageId,
         pageName: window.location.pathname,
         pageVersion: JSON.stringify(getPageVersion(inputs)),
-        brandsListsInfo: JSON.stringify(brandsLists),
         queryParams: JSON.stringify(queryParams),
         impressionToken: token,
       };

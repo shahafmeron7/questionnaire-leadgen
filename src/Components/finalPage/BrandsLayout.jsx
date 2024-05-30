@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./BrandsLayout.module.css";
 
-import { brandsCards } from "../../utils/data/brandsData";
+import { brandsCards } from "@/utils/data/brandsData";
 const BrandCard = ({ card }) => {
   const outlink = `https://out.sonary.com/track/click/?pid=${card.pid}&internal=true&page=${window.location.pathname}&action=ms_leadgen`
   return (
@@ -38,7 +38,7 @@ const BrandCard = ({ card }) => {
   );
 };
 
-export const BrandsLayout = () => {
+const BrandsLayout = () => {
   return (
     <div className={styles.brandsLayoutContainer}>
       <h2 className={styles.titleSection}>
@@ -55,3 +55,5 @@ export const BrandsLayout = () => {
     </div>
   );
 };
+
+export default BrandsLayout

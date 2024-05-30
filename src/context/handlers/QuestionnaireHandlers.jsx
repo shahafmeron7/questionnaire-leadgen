@@ -357,12 +357,12 @@ export const QuestionnaireHandlers = (
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
     });
-    if (targetFormID === import.meta.env.REACT_APP_PAYSAFE_FORM_ID) {
-      const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
-      const monthly_volume = responses.monthly_volume;
-      monthly_volume.answer =
-        paysafe_monthly_volume[monthly_volume.answerIndexes[0]];
-    }
+     if (targetFormID === import.meta.env.REACT_APP_PAYSAFE_FORM_ID) {
+       const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
+       const monthly_volume = responses.monthly_volume;
+       monthly_volume.answer =
+         paysafe_monthly_volume[monthly_volume.answerIndexes[0]];
+     }
     finalResponses = Object.keys(responses).reduce((acc, key) => {
       const { answerIndexes, ...responseWithoutIndexes } = responses[key];
       acc[key] = responseWithoutIndexes;
@@ -386,27 +386,21 @@ export const QuestionnaireHandlers = (
   };
 
   const checkAndUpdateFormID = (questionCode, answerIndex) => {
-    // if (questionCode === "industry_type") {
-    //   let formID =
-    //     answerIndex === 2
-    //       ? import.meta.env.REACT_APP_STAX_FORM_ID
-    //       : Math.random() < 0.9
-    //       ? import.meta.env.REACT_APP_PAYSAFE_FORM_ID
-    //       : import.meta.env.REACT_APP_STAX_FORM_ID;
-    //   dispatch({ type: "SET_TARGET_FORM_ID", payload: formID });
-    // }
+
     if (questionCode === "industry_type") {
-      let min = 1;
-      let max = 10;
-      let probability = Math.floor(Math.random() * (max - min + 1)) + min;
-      let formID =
-        answerIndex === 2
-          ? import.meta.env.REACT_APP_STAX_FORM_ID
-          : probability <= 5
-          ? import.meta.env.REACT_APP_PAYSAFE_FORM_ID
-          : import.meta.env.REACT_APP_STAX_FORM_ID;
-      dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload: formID });
+      // let min = 1;
+      // let max = 10;
+      // let probability = Math.floor(Math.random() * (max - min + 1)) + min;
+      // let formID =
+      //   answerIndex === 2
+      //     ? import.meta.env.REACT_APP_STAX_FORM_ID
+      //     : probability <= 5
+      //     ? import.meta.env.REACT_APP_PAYSAFE_FORM_ID
+      //     : import.meta.env.REACT_APP_STAX_FORM_ID;
+      const formID=import.meta.env.REACT_APP_PAYSAFE_FORM_ID;
+      dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload:formID  });
     }
+    
   };
 
   return {

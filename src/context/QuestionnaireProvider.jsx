@@ -5,12 +5,12 @@ import { QuestionnaireHandlers } from "./handlers/QuestionnaireHandlers"
 import { useFirstImpression,useQuestionImpressions,useUnloadImpressions } from "@/hooks/useImpressions";
 import { useQuestionnaireState } from "@/hooks/useQuestionnaireState";
 import { useNavigationEffects } from "@/hooks/useNavigationEffects";
-import {useHistoryStack} from '@/hooks/useHistoryStack'
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+// import {useHistoryStack} from '@/hooks/useHistoryStack'
+// import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export const QuestionnaireProvider = ({ children }) => {
 
-  const localState = JSON.parse(localStorage.getItem('questionnaireState'));
+  // const localState = JSON.parse(localStorage.getItem('questionnaireState'));
   // const initial = localState || initialState();
   const initial =initialState();
 
@@ -19,20 +19,7 @@ export const QuestionnaireProvider = ({ children }) => {
   // useLocalStorage(state, 'questionnaireState');
   // const { goToNext, goToPrevious } = useHistoryStack(dispatch, state.currentQuestionCode, state);
 
-  //  const {
-  //    animateAndNavigate,
-  //    moveToPrevQuestion,
-  //    moveToNextQuestion,
-  //    handleNavigateNextQuestion,
-  //    handleMultipleAnswerSelection,
-  //    handleAnswerSelection,
-  //    handleInputChange,
-  //    completeQuestionnaire,
-  //    changeNextBtnState,
-  //    checkAndUpdateFormID,
-  //    checkAndEnableNextButton
-  //  } = QuestionnaireHandlers(state,dispatch);
-  // const handlers = QuestionnaireHandlers(state, dispatch, goToNext, goToPrevious);
+
    const handlers = QuestionnaireHandlers(state, dispatch);
 
 
@@ -46,19 +33,7 @@ export const QuestionnaireProvider = ({ children }) => {
     () => ({
       ...state,
       dispatch,
-      ...handlers,
-
-      // animateAndNavigate,
-      // moveToPrevQuestion,
-      // moveToNextQuestion,
-      // handleNavigateNextQuestion,
-      // handleMultipleAnswerSelection,
-      // handleAnswerSelection,
-      // handleInputChange,
-      // completeQuestionnaire,
-      // changeNextBtnState,
-      // checkAndUpdateFormID,
-      // checkAndEnableNextButton,
+      ...handlers
       
     }),
     [state, dispatch]

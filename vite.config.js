@@ -4,13 +4,15 @@ import svgrPlugin from "vite-plugin-svgr";
 import envCompatible from "vite-plugin-env-compatible";
 import { fileURLToPath, URL } from "node:url";
 
-const productionBaseURL = "/compare/quotes/payroll-services/";
+const productionBaseURL = "/compare/quotes/merchant-services/";
 const developmentBaseURL = "/";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-  const base = env.NODE_ENV === "production" ? productionBaseURL : developmentBaseURL;
+  const isProduction = process.env.NODE_ENV === 'production';
+  console.log(isProduction)
+  const base = isProduction ? productionBaseURL : developmentBaseURL
 
   return {
     envPrefix: "REACT_APP_",

@@ -1,5 +1,5 @@
-import lightspeedIcon from "../../images/thank you/lightspeed.svg"
-import toastIcon from "../../images/thank you/toast.svg";
+import lightspeedIcon from "@/images/thank you/lightspeed.svg?url"
+import toastIcon from "@/images/thank you/toast.svg?url";
 const prosIcon =
   "https://assets.sonary.com/wp-content/uploads/2024/01/18084718/Icon-Name.svg";
 const consIcon =

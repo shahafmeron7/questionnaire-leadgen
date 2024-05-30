@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./ThankYou.module.css";
-import  TrohpyIcon  from "@/images/thank you/Trophy.svg";
+import  TrohpyIcon  from "@/images/thank you/Trophy.svg?url";
 const ThankYou = () => {
   return (
     <div className={styles.thankYouContainer}>
-      <TrohpyIcon aria-label={"Trophy Icon"}/>
+      <img src={TrohpyIcon} aria-label={"Trophy Icon"} alt="Trohpy Icon"/>
       <div className={styles.titleWrapper}>
         <h1 className={styles.thankYouTitle}>Thank You!</h1>
         <p className={styles.thankYouDesc}>

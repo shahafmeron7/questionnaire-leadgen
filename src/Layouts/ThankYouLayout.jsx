@@ -3,13 +3,10 @@ import Loading from '@/components/UI/LazyLoading/Loading'
 import ContentLayout from "./ContentLayout";
 import ThankYou from "@/components/finalPage/ThankYou";
 
-const PartnerWith =React.lazy(() => import("@/components//UI/Promotional/PartnerWith"));
-const WhatsNext = React.lazy(() => import("@/components//finalPage/WhatsNext"));
-const BrandsLayout = React.lazy(() =>
-  import("@/components//finalPage/BrandsLayout")
-);
-const HearBack = React.lazy(() => import("@/components//finalPage/HearBack"));
-
+const PartnerWith = React.lazy(() => import("@/components/UI/Promotional/PartnerWith"));
+const WhatsNext = React.lazy(() => import("@/components/finalPage/WhatsNext"));
+const BrandsLayout = React.lazy(() => import("@/components/finalPage/BrandsLayout"));
+const HearBack = React.lazy(() => import("@/components/finalPage/HearBack"));
 const ThankYouLayout = () => {
   return (
     <>
