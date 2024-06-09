@@ -5,7 +5,7 @@ import  StaxLogo  from "@/images/brands/Stax.svg";
 import  CloverLogo  from "@/images/brands/Clover.svg";
 import  HelcimLogo  from "@/images/brands/Helcim.svg";
 import  MerchantOneLogo  from "@/images/brands/MerchantOne.svg";
-import  PressPayLogo  from "@/images/brands/PressPay.svg";
+import  PressPayLogo  from "@/images/brands/PressPayLogo2.svg";
 import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 import styles from './PartnerWith.module.css';
 import useIsWideScreen from "@/hooks/useIsWideScreen";

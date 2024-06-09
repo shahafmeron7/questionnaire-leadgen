@@ -41,8 +41,10 @@ export function setCookie(name, value, domain, days) {
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     expires = "; expires=" + date.toUTCString();
   }
+
   document.cookie =
     name + "=" + (value || "") + expires + "; domain=" + domain + "; path=/;";
+    
 }
 
 // export function getDomain() {
@@ -61,7 +63,7 @@ export function getDomain() {
   if (matches && matches.length > 0) {
     return matches[0];
   } else {
-    return "defaultdomain.com";  // You can choose an appropriate default or error handling strategy
+    return "defaultdomain.com"; 
   }
 }
 

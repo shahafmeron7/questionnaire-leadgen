@@ -9,7 +9,8 @@ import {
   sendImpressions,
 } from "@/utils/impression/impressionUtils";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
-
+const stax_form_id = import.meta.env.REACT_APP_STAX_FORM_ID;
+const paysafe_form_id = import.meta.env.REACT_APP_PAYSAFE_FORM_ID;
 export const QuestionnaireHandlers = (
   state,
   dispatch,
@@ -357,7 +358,7 @@ export const QuestionnaireHandlers = (
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
     });
-     if (targetFormID === import.meta.env.REACT_APP_PAYSAFE_FORM_ID) {
+     if (targetFormID === paysafe_form_id) {
        const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
        const monthly_volume = responses.monthly_volume;
        monthly_volume.answer =
@@ -386,18 +387,17 @@ export const QuestionnaireHandlers = (
   };
 
   const checkAndUpdateFormID = (questionCode, answerIndex) => {
-
     if (questionCode === "industry_type") {
-      // let min = 1;
-      // let max = 10;
-      // let probability = Math.floor(Math.random() * (max - min + 1)) + min;
-      // let formID =
-      //   answerIndex === 2
-      //     ? import.meta.env.REACT_APP_STAX_FORM_ID
-      //     : probability <= 5
-      //     ? import.meta.env.REACT_APP_PAYSAFE_FORM_ID
-      //     : import.meta.env.REACT_APP_STAX_FORM_ID;
-      const formID=import.meta.env.REACT_APP_PAYSAFE_FORM_ID;
+       let min = 1;
+       let max = 10;
+       let probability = Math.floor(Math.random() * (max - min + 1)) + min;
+       let formID =
+         answerIndex === 2
+           ? stax_form_id
+           : probability <= 5
+           ? paysafe_form_id
+           : stax_form_id;
+      // const formID=import.meta.env.REACT_APP_PAYSAFE_FORM_ID;
       dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload:formID  });
     }
     

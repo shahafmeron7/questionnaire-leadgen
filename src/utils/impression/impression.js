@@ -13,28 +13,24 @@ import {
     siteId:1000
   };
   const Impression = () => {
-    !(function () {
-      var searchParams = new URLSearchParams(window.location.search),
-          paramsToCookieMap = {
-            gclid: "click_id",
-            vmcid: "click_id",
-            msclkid: "click_id",
-            network: "network",
-            device: "device",
-            creative: "creative",
-          },
-          domainForCookie = getDomain();
-         
-    
-      
-        // document.cookie = name + "=" + (value || "") + "; domain=" + domainForCookie + "; path=/;";
-    
-      for (var param in paramsToCookieMap) {
-        if (searchParams.has(param)) {
-          setCookie(paramsToCookieMap[param], searchParams.get(param),domainForCookie,1);
-        }
-      }
-    })();
+    // !(function () {
+    //   var searchParams = new URLSearchParams(window.location.search),
+    //       paramsToCookieMap = {
+    //         gclid: "click_id",
+    //         vmcid: "click_id",
+    //         msclkid: "click_id",
+    //         network: "network",
+    //         device: "device",
+    //         creative: "creative",
+    //       },
+    //       domainForCookie = getDomain();
+    //     // document.cookie = name + "=" + (value || "") + "; domain=" + domainForCookie + "; path=/;";
+    //   for (var param in paramsToCookieMap) {
+    //     if (searchParams.has(param)) {
+    //       setCookie(paramsToCookieMap[param], searchParams.get(param),domainForCookie,1);
+    //     }
+    //   }
+    // })();
     
     let queryParams = getParamsFromUrl(getApiUrl());
     if (!queryParams.gclid) {
