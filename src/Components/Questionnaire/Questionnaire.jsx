@@ -1,14 +1,16 @@
-import React, { lazy,useEffect, useState, useRef,Suspense } from "react";
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import React, { useContext } from "react";
+
 
 import QuestionnaireLayout from "@/layouts/QuestionnaireLayout";
 import { useQuestionnaire } from "@/context/QuestionnaireContext";
+import useIsWideScreen from "@/hooks/useIsWideScreen";
+
+import OsanoVisibilityContext from "@/context/OsanoVisibilityContext";
+
 import useLoader from "@/hooks/useLoader";
 import useAnimations from "@/hooks/useAnimations";
 import ProgressBar from "@/components/UI/ProgressBar";
  import AnswersContent from "@/components/Questionnaire/types/AnswersContent";
-//  import AnswersContent from "@/components/Questionnaire/types/AnswersContentLazy";
 
 import Loader from "@/components/Questionnaire/types/Loader";
 import QuestionnaireWrapper from "@/layouts/QuestionnaireWrapper";
@@ -24,17 +26,17 @@ import QuestionnaireTitle from "@/components/UI/QuestionnaireTitle";
 import SSLIcon from "@/components/UI/Form/SSLIcon";
 
 import styles from "./Questionnaire.module.css";
-// const AnswersContent = lazy(() => import("@/components/Questionnaire/types/AnswersContent"));
 
 
 const Questionnaire = () => {
 
   const {
     currentQuestion,
-    handleNavigateNextQuestion,
     currentQuestionCode,
     questionnaireStarted,
   } = useQuestionnaire();
+  const {osanoShown} = useContext(OsanoVisibilityContext);
+  const isWideScreen = useIsWideScreen();
   const showLoader = useLoader();
   const layoutRef = useAnimations();
 
@@ -46,7 +48,9 @@ const Questionnaire = () => {
   const isEmailStep = currentQuestionCode === "email";
   
 
-
+  const mobileStyle = {
+    paddingBottom: osanoShown ? "170px":"88px", 
+  }
 
 
 
@@ -86,9 +90,8 @@ const Questionnaire = () => {
             )}
           </div>
         )}
-        <div className={styles.contentWrapper}>
+        <div className={styles.contentWrapper} style={questionnaireStarted&& !isWideScreen ? mobileStyle : {}}>
           <AnswersContent  />
-          {/* <AnswersContent onComponentLoaded={() => setComponentLoaded(true)} /> */}
 
           {(isFinalStep || isZipCodeStep) && <ExtraInfo />}
           {(isZipCodeStep || isEmailStep || isPersonalInfoStep) && <MiniLegalMessage/>}

@@ -14,7 +14,7 @@ line-height: 24px;
 .answersContainer {
   display: flex;
   width: 100%;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   gap: 8px;
 }
@@ -34,9 +34,9 @@ line-height: 24px;
   outline: 2px solid var(--blue-color-1);
   background-color: var(--selected-bg-color);
 }
-.answerItem:hover {
+/* .answerItem:hover {
   outline: 2px solid var(--blue-color-1);
-}
+} */
 .listRow {
   flex-direction: row;
   flex-wrap: wrap;
@@ -116,7 +116,11 @@ line-height: 24px;
 .inputItem {
   /* width: 100%; */
 }
-
+@media (min-width: 768px) {
+  .answerItem:hover {
+    outline: 2px solid var(--blue-color-1);
+  }
+}
 @media only screen and (min-width: 375px) and (max-width: 767px) {
 .inputsContainer{
   gap:24px;

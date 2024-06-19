@@ -8,10 +8,10 @@ const QuestionnaireLayout = React.forwardRef(({ children }, ref) => {
   const isEmailStep = currentQuestionCode ==="email";
   const isWideScreen = useIsWideScreen();
   const mobileStyle = {
-    height: "80vh",
-    minHeight: "100%",
-    overflowY: "scroll",
-    paddingBottom:" 80px", 
+    // height: "80vh",
+    // minHeight: "100%",
+    // overflowY: "scroll",
+    // paddingBottom:" 80px", 
     paddingTop:"0px"
   }
  

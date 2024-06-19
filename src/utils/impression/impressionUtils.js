@@ -29,15 +29,17 @@ export const buildEventData = (currentQuestion, flowID,flowName, action = null) 
   };
 export const sendImpressions = (data,eventName,stream,formID=null)=>{
    
-  sendLeadgenImpression(data,eventName,stream,formID);
+  sendLeadgenImpression(data,eventName,stream,formID,'A');
   
 }
 
-function sendLeadgenImpression(data, eventName,stream,formID=null) {
+function sendLeadgenImpression(data, eventName,stream,formID=null,tid=null) {
   var to_send = {
     extra: {
       extra_data: data,
-      ...(formID !== null && { form: formID })
+      ...(formID !== null && { form: formID }),
+      ...(tid !== null && { tid: tid })
+
     },
     event: eventName,
     api: "sonary.com",
@@ -48,6 +50,6 @@ function sendLeadgenImpression(data, eventName,stream,formID=null) {
     bubbles: true,
     composed: false,
   });
-    //  console.log(to_send)
-    window.dispatchEvent(logEvent);
+  // console.log(to_send)
+  window.dispatchEvent(logEvent);
 }

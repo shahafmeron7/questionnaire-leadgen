@@ -8,14 +8,11 @@ import {
   buildEventData,
   sendImpressions,
 } from "@/utils/impression/impressionUtils";
+import env from "@/utils/data/env";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
-const stax_form_id = import.meta.env.REACT_APP_STAX_FORM_ID;
-const paysafe_form_id = import.meta.env.REACT_APP_PAYSAFE_FORM_ID;
 export const QuestionnaireHandlers = (
   state,
   dispatch,
-  goToNext,
-  goToPrevious
 ) => {
   const findStepNumber = (questionCode) => {
     return questionnaireData.questions.find((q) => q.code === questionCode)
@@ -66,7 +63,6 @@ export const QuestionnaireHandlers = (
           type: actionTypes.SET_CURRENT_QUESTION_CODE,
           payload: prevQuestionCode,
         });
-        // goToPrevious(prevQuestionCode,newHistory);  // Now purely handles the state and history update
       }, newProgressBarWidth);
 
       dispatch({ type: actionTypes.SET_QUESTION_HISTORY, payload: newHistory });
@@ -92,7 +88,7 @@ export const QuestionnaireHandlers = (
       currentQuestion.subquestions.forEach((sub) => {
         if (!validateField(sub.code, responses[sub.code]?.answer)) {
           proceedToNext = false;
-          newErrResponses[sub.code] = true; // Set error for this sub-question
+          newErrResponses[sub.code] = true; 
         }
       });
       nextQuestionCode = currentQuestion.answers[0]?.next_question_code;
@@ -127,12 +123,12 @@ export const QuestionnaireHandlers = (
         currentQuestion,
         flowID,
         flowName,
-        import.meta.env.REACT_APP_USER_ACTION_CLICK_NEXT
-      );
+        env.USER_ACTION_CLICK_NEXT
+              );
       sendImpressions(
         eventData,
-        import.meta.env.REACT_APP_USER_EVENT_NAME,
-        import.meta.env.REACT_APP_STREAM_STEP_NAME
+        env.USER_EVENT_NAME,
+        env.STREAM_STEP_NAME
       );
       dispatch({ type: actionTypes.CHANGE_NEXT_BTN_STATE, isEnabled: true });
 
@@ -358,7 +354,7 @@ export const QuestionnaireHandlers = (
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
     });
-     if (targetFormID === paysafe_form_id) {
+     if (targetFormID === env.PAYSAFE_FORM_ID) {
        const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
        const monthly_volume = responses.monthly_volume;
        monthly_volume.answer =
@@ -372,8 +368,8 @@ export const QuestionnaireHandlers = (
     //  console.log(finalResponses)
     sendImpressions(
       finalResponses,
-      import.meta.env.REACT_APP_FINAL_SUBMIT_EVENT_NAME,
-      import.meta.env.REACT_APP_STREAM_FINAL_NAME,
+      env.FINAL_SUBMIT_EVENT_NAME,
+      env.STREAM_FINAL_NAME,
       targetFormID
     );
     dispatch({
@@ -393,11 +389,11 @@ export const QuestionnaireHandlers = (
        let probability = Math.floor(Math.random() * (max - min + 1)) + min;
        let formID =
          answerIndex === 2
-           ? stax_form_id
+           ? env.STAX_FORM_ID
            : probability <= 5
-           ? paysafe_form_id
-           : stax_form_id;
-      // const formID=import.meta.env.REACT_APP_PAYSAFE_FORM_ID;
+           ? env.PAYSAFE_FORM_ID
+           : env.STAX_FORM_ID;
+      // const formID=env.REACT_APP_PAYSAFE_FORM_ID;
       dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload:formID  });
     }
     

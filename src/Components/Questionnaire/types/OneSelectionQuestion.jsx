@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-// import { useQuestionnaire } from "../../../context/QuestionnaireContext";
+
 import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 import styles from "./AnswersContent.module.css";
-// import { ReactComponent as UnselectedCheckboxSVG } from "@/images/unselectedCircleCheckbox.svg";
-// import { ReactComponent as SelectedCheckboxSVG } from "@/images/selectedCircleCheckbox.svg";
+
 import  UnselectedCheckboxSVG  from "@/images/unselectedCircleCheckbox.svg";
 import  SelectedCheckboxSVG  from "@/images/selectedCircleCheckbox.svg";
-import InputWithValidation from "../../UI/Form/InputWithValidation.jsx";
+import InputWithValidation from "@/components/UI/Form/InputWithValidation.jsx";
 
 const OneSelectionQuestion = () => {
   const {
@@ -42,7 +41,6 @@ const OneSelectionQuestion = () => {
     if (response.hasOwnProperty("other_text")) {
    
       setIsOtherSelected(true);
-      // changeNextBtnState(true);
       setOtherInputValue(response.other_text);
       focusAndScrollIntoView();
     } else {
@@ -76,6 +74,10 @@ const OneSelectionQuestion = () => {
         index
       );
     } else {
+        //if user selected other and clicks other again no need to doing anything.
+        if(localSelectedIndex  === index){
+          return;
+        }
       focusAndScrollIntoView();
       changeNextBtnState(false);
       setLocalSelectedIndex(index);
@@ -114,7 +116,6 @@ const OneSelectionQuestion = () => {
             )}
           </div>
         ))}
-      </div>
       {isOtherSelected && (
         <InputWithValidation
           ref={otherInputRef}
@@ -125,6 +126,7 @@ const OneSelectionQuestion = () => {
           isOther={true}
         />
       )}
+      </div>
     </>
   );
 };

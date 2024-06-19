@@ -1,7 +1,7 @@
 // useNavigationEffects.js
 import { useEffect } from 'react';
 import { buildEventData,sendImpressions } from '../utils/impression/impressionUtils';
-
+import env from '@/utils/data/env';
 export const useNavigationEffects = (state,dispatch,moveToPrevQuestion) => {
     const { questionHistory, currentQuestion,flowID,flowName, currentQuestionCode, questionnaireCompleted } = state;
 
@@ -14,9 +14,9 @@ export const useNavigationEffects = (state,dispatch,moveToPrevQuestion) => {
                      window.location.href = "https://sonary.com/";
                  } else if (currentQuestionCode !== "loader") {
                      sendImpressions(
-                         buildEventData(currentQuestion,flowID,flowName,import.meta.env.REACT_APP_USER_ACTION_CLICK_PREV_BROWSER),
-                         import.meta.env.REACT_APP_USER_EVENT_NAME,
-                         import.meta.env.REACT_APP_STREAM_STEP_NAME
+                         buildEventData(currentQuestion,flowID,flowName,env.REACT_APP_USER_ACTION_CLICK_PREV_BROWSER),
+                         env.REACT_APP_USER_EVENT_NAME,
+                         env.REACT_APP_STREAM_STEP_NAME
                      );
                      moveToPrevQuestion();
                  }

@@ -53,7 +53,7 @@
   box-shadow: 0px 0px 4px 0px var(--blue-color-1);
 }
 .otherInput{
- 
+ margin-top: 8px;
   width: 100%;
 }
 .slideUpEntranceInput{

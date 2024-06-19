@@ -2,19 +2,9 @@
 <html lang="en">
 
 <head>
-  <!-- <script src="https://assets.trafficpointltd.com/js/lg_logger.js"></script> -->
-    <!-- Google Analytics -->
-  <!-- <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script> -->
-  <!-- Google tag (gtag.js) -->
+  
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7RW4YR5YBB"></script>
-  <!-- <script>
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: "activityEvent", send_to: 'G-7RW4YR5YBB' });
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-7RW4YR5YBB');
-  </script> -->
-  <!-- Google Tag Manager -->
+
   <script>
     (function(w, d, s, l, i) {
     w[l] = w[l] || [];
@@ -46,7 +36,7 @@
         }
     }
     for (var i = 0; i < eventsTypes.length; i++) {
-        window.addEventListener(eventsTypes[i], addEventToLayerFn)
+        window.addEventListener(eventsTypes[i], addEventToLayerFn,{passive:false})
     }
 }
 )(window, document, 'script', 'dataLayer', 'GTM-5VNPHSL');</script>
@@ -55,6 +45,8 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
+  <meta name="robots" content="noindex">
+
   <meta name="description" content="Manage your merchant services efficiently and securely with Sonary Leadgen." />
   <link rel="icon" href="/icons/favicon.ico" sizes="16x16">
   <link rel="icon" href="/icons/favicon.ico" sizes="32x32">

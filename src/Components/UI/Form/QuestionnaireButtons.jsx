@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState,useContext } from "react";
 import styles from "../../Questionnaire/Questionnaire.module.css";
 import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 import useIsWideScreen from "@/hooks/useIsWideScreen";
 import { buildEventData,sendImpressions } from "@/utils/impression/impressionUtils";
-const USER_ACTION_CLICK_PREV = import.meta.env.REACT_APP_USER_ACTION_CLICK_PREV;
-const STREAM_STEP_NAME = import.meta.env.REACT_APP_STREAM_STEP_NAME;
-const USER_EVENT_NAME = import.meta.env.REACT_APP_USER_EVENT_NAME;
+import env from "@/utils/data/env";
+import OsanoVisibilityContext from "@/context/OsanoVisibilityContext";
+
 
 const QuestionnaireButtons = () => {
   const isWideScreen = useIsWideScreen();
+  const { osanoShown } = useContext(OsanoVisibilityContext);
+
 
   const {
     questionHistory,
@@ -32,9 +34,14 @@ const QuestionnaireButtons = () => {
       moveToNextQuestion();
     }
   };
+
+
+
     useEffect(() => {
       checkAndEnableNextButton();
     }, [checkAndEnableNextButton,currentQuestion, responses]);
+
+    
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -58,16 +65,17 @@ const QuestionnaireButtons = () => {
     nextBtnEnabled,
   ]);
   const handlePrevClick =()=>{
-    sendImpressions(buildEventData(currentQuestion,flowID,flowName,USER_ACTION_CLICK_PREV), USER_EVENT_NAME, STREAM_STEP_NAME);
+    sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.REACT_APP_USER_ACTION_CLICK_PREV), env.REACT_APP_USER_EVENT_NAME, env.REACT_APP_STREAM_STEP_NAME);
     moveToPrevQuestion();
   }
 
   const mobileButtonsStyle = {
     position: "fixed",
-    bottom: "0",
+    bottom: (osanoShown && questionnaireStarted && !isWideScreen) ? '88px' : '0px',
     width: "100%",
     backgroundColor: "#fff",
     padding: "16px",
+
   };
   return (
     <div

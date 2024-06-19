@@ -1,6 +1,14 @@
 import React from "react";
 import "./Footer.css";
 const Footer = () => {
+  const handleCookiesSettingsClick = (e) => {
+    // Check if the openSidebarListener function is available
+    if (typeof window.openSidebarListener === 'function') {
+      window.openSidebarListener(e);
+    } else {
+      console.error('openSidebarListener function is not defined on window');
+    }
+  };
   return (
     <div className="layout-footer">
       <div className="footer sonary-container">
@@ -38,7 +46,7 @@ const Footer = () => {
               CCPA Privacy Notice
             </a>
 
-            <a className="text cookie_settings">Cookie Settings</a>
+            <a onClick={handleCookiesSettingsClick} className="text cookie_settings">Cookie Settings</a>
           </div>
         </div>
         <div className="right-text">
@@ -115,7 +123,7 @@ const Footer = () => {
             terms might change at any time. We do not compare or include all
             service providers, brands and offers available in the market.
             </p>
-            <div className="right-reserved">All rights reserved © 2023</div>
+            <div className="right-reserved">All rights reserved © 2024</div>
           </div>
         </div>
       </div>
