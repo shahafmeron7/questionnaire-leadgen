@@ -42,17 +42,17 @@ export const OsanoVisibilityProvider = ({ children }) => {
 
        const handleAcceptClick = () => {
          sendImpressions(
-           buildEventData(currentQuestionRef.current, flowID, flowName, env.REACT_APP_USER_ACTION_CLICK_ACCEPT_COOKIES),
-           env.REACT_APP_USER_EVENT_NAME,
-           env.REACT_APP_STREAM_STEP_NAME
+           buildEventData(currentQuestionRef.current, flowID, flowName, env.USER_ACTION_CLICK_ACCEPT_COOKIES),
+           env.USER_EVENT_NAME,
+           env.STREAM_STEP_NAME
          );
        };
 
        const handleDenyClick = () => {
          sendImpressions(
-           buildEventData(currentQuestionRef.current, flowID, flowName, env.REACT_APP_USER_ACTION_CLICK_DENY_COOKIES),
-           env.REACT_APP_USER_EVENT_NAME,
-           env.REACT_APP_STREAM_STEP_NAME
+           buildEventData(currentQuestionRef.current, flowID, flowName, env.USER_ACTION_CLICK_DENY_COOKIES),
+           env.USER_EVENT_NAME,
+           env.STREAM_STEP_NAME
          );
        };
 

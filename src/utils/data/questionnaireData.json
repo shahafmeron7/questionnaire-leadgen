@@ -1,6 +1,16 @@
 {
   "flow_id": 1,
   "flow_name": "merchant_services",
+  "brands": [
+    {
+      "name": "stax",
+      "form_id": "5"
+    },
+    {
+      "name": "paycor",
+      "form_id": "6"
+    }
+  ],
   "questions": [
     {
       "text": "What type of business do you have?",
@@ -27,7 +37,7 @@
         },
         {
           "text": "Other",
-          "isOther":true,
+          "isOther": true,
           "next_question_code": "monthly_volume"
         }
       ]
@@ -63,22 +73,22 @@
       "step": 3,
       "type": "multi-selection",
       "display_list_direction": "row",
-      "instructions":"Select all that apply",
+      "instructions": "Select all that apply",
       "answers": [
         {
           "text": "In person",
-          "iconSrc":"https://assets.sonary.com/wp-content/uploads/2024/04/11084238/cash.svg",
+          "iconSrc": "https://assets.sonary.com/wp-content/uploads/2024/04/11084238/cash.svg",
           "next_question_code": "zip_code"
         },
         {
           "text": "Online",
-          "iconSrc":"https://assets.sonary.com/wp-content/uploads/2024/04/11084239/creditcard.svg",
+          "iconSrc": "https://assets.sonary.com/wp-content/uploads/2024/04/11084239/creditcard.svg",
 
           "next_question_code": "zip_code"
         },
         {
           "text": "By phone",
-          "iconSrc":"https://assets.sonary.com/wp-content/uploads/2024/04/11084237/phone.svg",
+          "iconSrc": "https://assets.sonary.com/wp-content/uploads/2024/04/11084237/phone.svg",
           "next_question_code": "zip_code"
         }
       ]
@@ -94,16 +104,15 @@
           "code": "zip_code",
           "error": "Please enter a valid 5-digit ZIP code.",
           "example": "e.g: 90210",
-          "maxLength":"5"
+          "maxLength": "5"
         }
       ],
       "answers": [
         {
-          "next_question_code":"loader" 
+          "next_question_code": "loader"
         }
       ],
       "extra_info": "This will help us find relevant providers in your location."
-      
     },
     {
       "text": "Hold on...",
@@ -116,7 +125,7 @@
           "next_question_code": "email"
         }
       ],
-      "extra_info":"Our experts are working their magic"
+      "extra_info": "Our experts are working their magic"
     },
     {
       "code": "email",
@@ -130,7 +139,6 @@
           "code": "email",
           "example": "e.g: abc@gmail.com",
           "error": "Please enter a valid email address"
-
         }
       ],
       "answers": [
@@ -156,14 +164,14 @@
           "text": "Last name",
           "code": "last_name",
           "error": "Your last name must contain at least 2 characters",
-        "example": "e.g: Smith"
+          "example": "e.g: Smith"
         },
         {
           "text": "What is your business name?",
           "code": "company_name",
           "error": "Your business name must contain at least 2 characters",
-        "example": "e.g: Acme Marketing",
-        "maxLength":"50"
+          "example": "e.g: Acme Marketing",
+          "maxLength": "50"
         }
       ],
       "answers": [
@@ -183,8 +191,8 @@
           "text": "What is your phone number?",
           "code": "phone",
           "error": "Please enter a valid phone number",
-           "example": "e.g: 2345678901",
-           "maxLength":"10"
+          "example": "e.g: 2345678901",
+          "maxLength": "10"
         }
       ],
       "answers": [
@@ -192,12 +200,12 @@
           "next_question_code": "thank_you"
         }
       ],
-      "extra_info":"This will be used for relevant providers to call you by phone."
+      "extra_info": "This will be used for relevant providers to call you by phone."
     },
     {
       "text": "Thank you",
       "code": "thank_you",
-      "step": 9,
+      "step": 99999,
       "type": "thank you",
       "display_list_direction": "col",
       "answers": []

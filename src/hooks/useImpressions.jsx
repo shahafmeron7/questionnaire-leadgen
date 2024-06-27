@@ -5,14 +5,14 @@ import Impression from '@/utils/impression/impression';
 import env from '@/utils/data/env';
 export const useFirstImpression = () => {
     const hasSentImpression = useRef(false);
-
+    
     useEffect(() => {
         if (!hasSentImpression.current) {
             Impression();
             sendImpressions(
                 {},
-                env.REACT_APP_FIRST_EVENT_NAME,
-                env.REACT_APP_STREAM_STEP_NAME
+                env.FIRST_EVENT_NAME,
+                env.STREAM_STEP_NAME
             );
             hasSentImpression.current = true;
         }
@@ -24,8 +24,8 @@ export const useQuestionImpressions = (state) => {
     useEffect(() => {
         sendImpressions(
             buildEventData(currentQuestion,flowID,flowName),
-            env.REACT_APP_STEP_EVENT_NAME,
-            env.REACT_APP_STREAM_STEP_NAME
+            env.STEP_EVENT_NAME,
+            env.STREAM_STEP_NAME
         );
     }, [currentQuestionCode]);
 };
@@ -37,9 +37,9 @@ export const useUnloadImpressions = (state) => {
         const handleUnload = (e) => {
             // e.preventDefault();
             sendImpressions(
-                buildEventData(currentQuestion,flowID,flowName,env.REACT_APP_USER_ACTION_EXIT),
-                env.REACT_APP_USER_EVENT_NAME,
-                env.REACT_APP_STREAM_STEP_NAME
+                buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_EXIT),
+                env.USER_EVENT_NAME,
+                env.STREAM_STEP_NAME
             );
         };
 

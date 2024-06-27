@@ -14,7 +14,7 @@ line-height: 24px;
 .answersContainer {
   display: flex;
   width: 100%;
-  /* justify-content: center; */
+  justify-content: center;
   align-items: center;
   gap: 8px;
 }

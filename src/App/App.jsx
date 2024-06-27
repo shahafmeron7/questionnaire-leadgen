@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar/Navbar.jsx";
 import ThankYouLayout from "@/layouts/ThankYouLayout.jsx";
 import ContentLayout from '@/layouts/ContentLayout.jsx';
 import Loading from "@/components/UI/LazyLoading/Loading";
+import ScrollToTopButton from "@/components/UI/ScrollToTopButton";
 
 import "./App.css";
 const Footer = React.lazy(() => import("@/components/Footer/Footer.jsx"));
@@ -49,6 +50,7 @@ function App() {
           <Suspense fallback={<Loading />}>
             <Footer />
           </Suspense>
+          <ScrollToTopButton/>
         </>
       )}
     </div>

@@ -29,7 +29,9 @@ export const buildEventData = (currentQuestion, flowID,flowName, action = null) 
   };
 export const sendImpressions = (data,eventName,stream,formID=null)=>{
    
-  sendLeadgenImpression(data,eventName,stream,formID,'A');
+  // sendLeadgenImpression(data,eventName,stream,formID,'A');
+  sendLeadgenImpression(data,eventName,stream,formID);
+
   
 }
 
@@ -51,5 +53,5 @@ function sendLeadgenImpression(data, eventName,stream,formID=null,tid=null) {
     composed: false,
   });
   // console.log(to_send)
-  window.dispatchEvent(logEvent);
+   window.dispatchEvent(logEvent);
 }

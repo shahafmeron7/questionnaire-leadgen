@@ -65,7 +65,7 @@ const QuestionnaireButtons = () => {
     nextBtnEnabled,
   ]);
   const handlePrevClick =()=>{
-    sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.REACT_APP_USER_ACTION_CLICK_PREV), env.REACT_APP_USER_EVENT_NAME, env.REACT_APP_STREAM_STEP_NAME);
+    sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_CLICK_PREV), env.USER_EVENT_NAME, env.STREAM_STEP_NAME);
     moveToPrevQuestion();
   }
 

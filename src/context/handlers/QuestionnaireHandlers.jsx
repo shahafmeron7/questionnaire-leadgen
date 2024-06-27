@@ -3,11 +3,12 @@ import * as actionTypes from "@/reducers/actionTypes";
 import { useCallback } from "react";
 import { validateField } from "@/utils/validationUtils";
 import { gsap } from "gsap";
-import questionnaireData from "@/utils/data/questionnaireData.json";
+import questionnaireData from "@/utils/data/questionnaireData.js";
 import {
   buildEventData,
   sendImpressions,
 } from "@/utils/impression/impressionUtils";
+import { chooseBrand } from "@/utils/scoring/newScoring";
 import env from "@/utils/data/env";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
 export const QuestionnaireHandlers = (
@@ -96,7 +97,7 @@ export const QuestionnaireHandlers = (
       const response = responses[currentQuestion.code];
       if (response && response.answerIndexes) {
         const selectedIndex = response.answerIndexes[0];
-        checkAndUpdateFormID(currentQuestionCode, selectedIndex);
+        // checkAndUpdateFormID(currentQuestionCode, selectedIndex);
 
         nextQuestionCode =
           currentQuestion.answers[selectedIndex]?.next_question_code;
@@ -249,7 +250,7 @@ export const QuestionnaireHandlers = (
     const answer = currentQuestion.answers[answerIndex];
     const answerText = answer?.text;
     const existingResponse = responses[questionCode] || {};
-    checkAndUpdateFormID(questionCode, answerIndex);
+    // checkAndUpdateFormID(questionCode, answerIndex);
 
     const newResponse = {
       ...existingResponse,
@@ -354,7 +355,10 @@ export const QuestionnaireHandlers = (
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
     });
-     if (targetFormID === env.PAYSAFE_FORM_ID) {
+    const selectedBrand = chooseBrand(responses);
+
+     if (selectedBrand === env.PAYSAFE_FORM_ID) {
+      // console.log('paysafe structure changing')
        const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
        const monthly_volume = responses.monthly_volume;
        monthly_volume.answer =
@@ -365,12 +369,12 @@ export const QuestionnaireHandlers = (
       acc[key] = responseWithoutIndexes;
       return acc;
     }, {});
-    //  console.log(finalResponses)
+      // console.log(finalResponses)
     sendImpressions(
       finalResponses,
       env.FINAL_SUBMIT_EVENT_NAME,
       env.STREAM_FINAL_NAME,
-      targetFormID
+      selectedBrand
     );
     dispatch({
       type: actionTypes.TOGGLE_QUESTIONNAIRE_COMPLETED,
@@ -390,10 +394,10 @@ export const QuestionnaireHandlers = (
        let formID =
          answerIndex === 2
            ? env.STAX_FORM_ID
-           : probability <= 5
+           : probability <= 8
            ? env.PAYSAFE_FORM_ID
            : env.STAX_FORM_ID;
-      // const formID=env.REACT_APP_PAYSAFE_FORM_ID;
+      // const formID=env.PAYSAFE_FORM_ID;
       dispatch({ type: actionTypes.SET_TARGET_FORM_ID, payload:formID  });
     }
     
