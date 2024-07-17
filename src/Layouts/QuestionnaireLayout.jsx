@@ -17,7 +17,14 @@ const QuestionnaireLayout = React.forwardRef(({ children }, ref) => {
  
   return (
     <div ref={ref}  className={styles.questionnaireLayout} style={ questionnaireStarted&& !isWideScreen ? mobileStyle : {}}>
-      <div className={styles.questionnaireWrapper} style = { isEmailStep && !isWideScreen ? {paddingTop:"44px",width:"100%"}: !isWideScreen ? {width:"100%"} :{}}>{children}</div>
+      {/* <div className={styles.questionnaireWrapper} style = { isEmailStep && !isWideScreen ? {paddingTop:"44px",width:"100%"}: !isWideScreen ? {width:"100%"} :{}}> */}
+      <div className={styles.questionnaireWrapper} >
+        
+      <div className={styles.questionnaireContent}>
+
+      {children}
+      </div>
+      </div>
     </div>
   );
 });
