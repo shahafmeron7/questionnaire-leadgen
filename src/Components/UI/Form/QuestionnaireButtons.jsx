@@ -1,10 +1,11 @@
-import React, { useEffect,useState,useContext } from "react";
-import styles from "../../Questionnaire/Questionnaire.module.css";
+import React, { useContext } from "react";
+import styles from "@/components/Questionnaire/Questionnaire.module.css";
 import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 import useIsWideScreen from "@/hooks/useIsWideScreen";
 import { buildEventData,sendImpressions } from "@/utils/impression/impressionUtils";
 import env from "@/utils/data/env";
 import OsanoVisibilityContext from "@/context/OsanoVisibilityContext";
+import NextButton from "./NextButton";
 
 
 const QuestionnaireButtons = () => {
@@ -27,43 +28,8 @@ const QuestionnaireButtons = () => {
     flowID,
     flowName,
   } = useQuestionnaire();
-  const isFinalStep = currentQuestionCode === "phone";
 
-  const handleNextButtonClick = () => {
-    if(!isAnimatingOut){
-      moveToNextQuestion();
-    }
-  };
-
-
-
-    useEffect(() => {
-      checkAndEnableNextButton();
-    }, [checkAndEnableNextButton,currentQuestion, responses]);
-
-    
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (
-        event.key === "Enter" &&
-               (inputModified || nextBtnEnabled)
-      ) {
-        handleNextButtonClick();
-        event.preventDefault();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [
-    handleNextButtonClick,
-    inputModified,
-    nextBtnEnabled,
-  ]);
+ 
   const handlePrevClick =()=>{
     sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_CLICK_PREV), env.USER_EVENT_NAME, env.STREAM_STEP_NAME);
     moveToPrevQuestion();
@@ -89,7 +55,8 @@ const QuestionnaireButtons = () => {
 
         </button>
       )}
-      <button
+      <NextButton/>
+      {/* <button
         className={`${styles.nextBtn} ${
           inputModified || nextBtnEnabled ? styles.enabled : ""
         }`}
@@ -101,7 +68,7 @@ const QuestionnaireButtons = () => {
         }
       >
         {isFinalStep ? "Get Results" : "Next"}
-      </button>
+      </button> */}
     </div>
   );
 };

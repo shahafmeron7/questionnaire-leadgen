@@ -3,12 +3,13 @@ import * as actionTypes from "@/reducers/actionTypes";
 import { useCallback } from "react";
 import { validateField } from "@/utils/validationUtils";
 import { gsap } from "gsap";
-import questionnaireData from "@/utils/data/questionnaireData.js";
+import { chooseBrand } from "@/utils/scoring/newScoring";
+
+import {questionnaireData} from "@/utils/data/questionnaire/index"
 import {
   buildEventData,
   sendImpressions,
 } from "@/utils/impression/impressionUtils";
-import { chooseBrand } from "@/utils/scoring/newScoring";
 import env from "@/utils/data/env";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
 export const QuestionnaireHandlers = (
@@ -84,7 +85,9 @@ export const QuestionnaireHandlers = (
     const newErrResponses = {};
     if (
       currentQuestion.type === "details-question" ||
-      currentQuestion.type === "form-type"
+      currentQuestion.type === "form-type" ||
+      currentQuestion.type === "form-result"
+
     ) {
       currentQuestion.subquestions.forEach((sub) => {
         if (!validateField(sub.code, responses[sub.code]?.answer)) {
@@ -200,7 +203,8 @@ export const QuestionnaireHandlers = (
     const { currentQuestion, responses } = state;
     if (
       currentQuestion.type === "details-question" ||
-      currentQuestion.type === "form-type"
+      currentQuestion.type === "form-type"||
+      currentQuestion.type === "form-result"
     ) {
       // Check if all subquestions have been answered
       const allSubquestionsAnswered = currentQuestion.subquestions.every(
@@ -301,7 +305,8 @@ export const QuestionnaireHandlers = (
       step: currentQuestion.step,
       question:
         currentQuestion.type === "details-question" ||
-        currentQuestion.type === "form-type"
+        currentQuestion.type === "form-type"||
+      currentQuestion.type === "form-result"
           ? currentQuestion.subquestions.find(
               (sub) => sub.code === questionCode
             ).text
@@ -349,21 +354,20 @@ export const QuestionnaireHandlers = (
       });
     }
   };
-  const completeQuestionnaire = useCallback(() => {
-    const { targetFormID, responses } = state;
+  const completeQuestionnaire = () => {
+    const { formBrand,responses } = state;
     let finalResponses = {};
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
     });
-    const selectedBrand = chooseBrand(responses);
-
-     if (selectedBrand === env.PAYSAFE_FORM_ID) {
-      // console.log('paysafe structure changing')
-       const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
-       const monthly_volume = responses.monthly_volume;
-       monthly_volume.answer =
-         paysafe_monthly_volume[monthly_volume.answerIndexes[0]];
-     }
+    console.log('final form brand ',formBrand);
+    //  if (formBrand === env.PAYSAFE_FORM_ID) {
+      
+    //    const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
+    //    const monthly_volume = responses.monthly_volume;
+    //    monthly_volume.answer =
+    //      paysafe_monthly_volume[monthly_volume.answerIndexes[0]];
+    //  }
     finalResponses = Object.keys(responses).reduce((acc, key) => {
       const { answerIndexes, ...responseWithoutIndexes } = responses[key];
       acc[key] = responseWithoutIndexes;
@@ -374,13 +378,13 @@ export const QuestionnaireHandlers = (
       finalResponses,
       env.FINAL_SUBMIT_EVENT_NAME,
       env.STREAM_FINAL_NAME,
-      selectedBrand
+      formBrand
     );
-    dispatch({
-      type: actionTypes.TOGGLE_QUESTIONNAIRE_COMPLETED,
-      payload: true,
-    });
-  }, [state.targetFormID, state.responses]);
+    // dispatch({
+    //   type: actionTypes.TOGGLE_QUESTIONNAIRE_COMPLETED,
+    //   payload: true,
+    // });
+  }
 
   const changeNextBtnState = (isEnabled) => {
     dispatch({ type: actionTypes.CHANGE_NEXT_BTN_STATE, isEnabled: isEnabled });
@@ -402,6 +406,16 @@ export const QuestionnaireHandlers = (
     }
     
   };
+  const setFormBrand = ()=>{
+    const {formBrand,responses} = state;
+    //if we brand was choosen we dont need to update it.
+    if(!formBrand){
+      const selectedFormBrand = chooseBrand(responses);
+      console.log('in handler questionnaire before dispatch brand is:',selectedFormBrand);
+      dispatch({ type: actionTypes.SET_FORM_BRAND, payload:selectedFormBrand  });
+    }
+
+  }
 
   return {
     animateAndNavigate,
@@ -415,5 +429,6 @@ export const QuestionnaireHandlers = (
     completeQuestionnaire,
     changeNextBtnState,
     checkAndUpdateFormID,
+    setFormBrand
   };
 };

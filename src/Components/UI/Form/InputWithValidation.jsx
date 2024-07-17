@@ -1,7 +1,8 @@
 import React, { useState,useRef, useEffect } from "react";
-import styles from "./InputWithValidation.module.css";
-// import { useQuestionnaire } from "../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext.jsx";
+import stylesA from "./InputWithValidation.module.css";
+import stylesB from "./inputWithValidationB.module.css";
+
+import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 import gsap from 'gsap';
 
 const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,maxLength=null,isOther=false,errorMessage,isError }, ref) => {
@@ -11,7 +12,8 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,m
  
   const inputRef = useRef(null);
 
-  const { handleInputChange } = useQuestionnaire();
+  const { handleInputChange,questionnaireVariation,currentQuestionCode } = useQuestionnaire();
+  
   const [inputValue, setInputValue] = useState(value);
   const [error, setError] = useState(isError);
   useEffect(() => {
@@ -31,6 +33,8 @@ const InputWithValidation = React.forwardRef(({ type, name, value, placeholder,m
     setInputValue(newValue);
     handleInputChange(name, newValue, isOther);
   };
+  
+  let styles = questionnaireVariation ==='B' && currentQuestionCode==='form_result' ? stylesB : stylesA;
   return (
     <div ref={inputRef} className={`${styles.inputContainer} ${isOther ? `animateOtherInput ${styles.otherInput}`:''}` } style={name==='company_name' ? {width:"100%"}:{}}>
       <input

@@ -1,4 +1,4 @@
-import questionnaireData from "@/utils/data/questionnaireData.js";
+import {questionnaireData} from "@/utils/data/questionnaire/index"
 
 function chooseRandomlyIfTied(scores, excludePaycor, brandIds) {
    const brands = excludePaycor ? [brandIds.Paychex] : Object.keys(scores);

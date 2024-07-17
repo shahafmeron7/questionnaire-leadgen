@@ -21,6 +21,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development vite",
     "build": "cross-env NODE_ENV=production vite build",
+    "build:app":"cross-env NODE_ENV=production VITE_BASE_URL=/compare/quotes/merchant-services/ vite build",
+    "preview:app": "cross-env NODE_ENV=production VITE_BASE_URL=/compare/quotes/merchant-services/ vite preview --port 8080",
     "preview": "vite preview --port 8080",
     "minify": "terser public/logger/lg_logger.js -o public/logger/lg_logger.min.js -c -m",
     "build:minify": "npm run minify && vite build"

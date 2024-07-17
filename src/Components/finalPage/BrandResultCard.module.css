@@ -1,0 +1,32 @@
+.brandCard{
+   display: flex;
+   padding: 40px;
+   flex-direction: column;
+   align-items: flex-start;
+   gap: 32px;
+   border-radius: 12px;
+border: 2px solid #33B249;
+background:  #fff;
+max-width: 472px;
+}
+.brandCard img{
+   
+}
+.sellingList{
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+}
+.sellingList img{
+   width: 32px;
+   height: 32px;
+}
+.sellingLine{
+   align-items: center;
+   display: flex;
+   gap: 8px;
+   list-style-type:none;
+   font-size: 20px;
+font-weight: 500;
+line-height: 24px;
+}

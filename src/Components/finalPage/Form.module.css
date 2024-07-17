@@ -1,0 +1,48 @@
+.formTitle{
+   font-size: 24px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px;
+text-align: center;
+color: var(--black-color-1);
+}
+.inputsContainer {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   width: 100%;
+ }
+ .inputWrapper {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   align-items:flex-start;
+   
+   /* justify-self: center; */
+   /* width: 100%; */
+ }
+ 
+ .rowChild {
+   width: 240px !important; 
+ }
+
+ .inputTitle {
+   color: var(--black-color-1);
+   font-size: 14px;
+   line-height: 24px;
+   font-weight: 500;
+   text-align: center;
+ }
+ .inputItem {
+   /* width: 100%; */
+ }
+ @media (min-width: 768px) {
+   .answerItem:hover {
+     outline: 2px solid var(--blue-color-1);
+   }
+ }
+ @media only screen and (min-width: 375px) and (max-width: 767px) {
+ .inputsContainer{
+   gap:24px;
+ }
+ }

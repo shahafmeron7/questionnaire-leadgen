@@ -1,4 +1,4 @@
-import questionnaireData from '@/utils/data/questionnaireData.js';
+import {questionnaireData} from "@/utils/data/questionnaire/index"
 
 // Helper function to perform weighted random selection
 function weightedRandom(data) {
@@ -36,7 +36,7 @@ function prepareWeightData(supported_brands) {
    
    // Sort the normalized brands
    normalizedBrands.sort((a, b) => a.normalizedWeight - b.normalizedWeight);
-   //  console.log('after sorting', normalizedBrands);
+    //  console.log('after sorting', normalizedBrands);
 
 
   return {

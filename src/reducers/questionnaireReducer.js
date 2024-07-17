@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes'
-import questionnaireData from "../utils/data/questionnaireData.js";
+import {questionnaireData,questionnaireVariation} from "@/utils/data/questionnaire/index"
 export const initialState = () => {
   const initialQuestionCode = questionnaireData.questions[0]?.code;
   const currentQuestion = questionnaireData.questions.find(
@@ -9,6 +9,7 @@ export const initialState = () => {
   const flowName = questionnaireData.flow_name;
 
   return {
+    questionnaireVariation,
     currentQuestion: currentQuestion || {}, 
     currentQuestionCode: initialQuestionCode,
     questionHistory: [initialQuestionCode],
@@ -17,7 +18,7 @@ export const initialState = () => {
     errResponses: {},
     questionnaireStarted: false,
     questionnaireCompleted: false,
-    // targetFormID: undefined,
+    formBrand: undefined,
     inputModified: false,
     nextBtnEnabled: false,
     progressBarWidth: 0,
@@ -81,8 +82,8 @@ export function reducer(state, action) {
     case actionTypes.TOGGLE_QUESTIONNAIRE_COMPLETED:
       return { ...state, questionnaireCompleted: action.payload };
 
-    // case actionTypes.SET_TARGET_FORM_ID:
-    //   return { ...state, targetFormID: action.payload };
+     case actionTypes.SET_FORM_BRAND:
+       return { ...state, formBrand: action.payload };
 
     case actionTypes.SET_INPUT_MODIFIED:
       return { ...state, inputModified: action.payload };

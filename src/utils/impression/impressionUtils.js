@@ -4,7 +4,7 @@ export const buildEventData = (currentQuestion, flowID,flowName, action = null) 
     const { step, code, text, type, subquestions } = currentQuestion;
 
     let questionsData;
-    if (type === "details-question" || type === "form-type") {
+    if (type === "details-question" || type === "form-type" || type==="form-result") {
       questionsData = subquestions.map((sub) => ({
         code: sub.code,
         text: sub.text,
@@ -53,5 +53,11 @@ function sendLeadgenImpression(data, eventName,stream,formID=null,tid=null) {
     composed: false,
   });
   // console.log(to_send)
-   window.dispatchEvent(logEvent);
+  //  window.dispatchEvent(logEvent);
+  if (import.meta.env.PROD) {
+    window.dispatchEvent(logEvent);
+  }
+  else{
+      console.log(to_send)
+  }
 }

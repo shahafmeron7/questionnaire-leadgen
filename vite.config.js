@@ -10,9 +10,12 @@ const developmentBaseURL = "/";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-  const isProduction = process.env.NODE_ENV === 'production';
-  console.log(isProduction)
-  const base = isProduction ? productionBaseURL : developmentBaseURL
+  const base = env.VITE_BASE_URL || "/";
+  console.log(env)
+
+  // const isProduction = process.env.NODE_ENV === 'production';
+  // console.log(isProduction)
+  // const base = isProduction ? productionBaseURL : developmentBaseURL
 
   return {
     envPrefix: "REACT_APP_",

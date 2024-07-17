@@ -11,7 +11,7 @@ import useLoader from "@/hooks/useLoader";
 import useAnimations from "@/hooks/useAnimations";
 import ProgressBar from "@/components/UI/ProgressBar";
  import AnswersContent from "@/components/Questionnaire/types/AnswersContent";
-
+import FormResult from "@/components/finalPage/FormResult";
 import Loader from "@/components/Questionnaire/types/Loader";
 import QuestionnaireWrapper from "@/layouts/QuestionnaireWrapper";
 import FormProgress from "@/components/UI/Form/FormProgress";
@@ -40,7 +40,7 @@ const Questionnaire = () => {
   const showLoader = useLoader();
   const layoutRef = useAnimations();
 
-
+const showFormResult = currentQuestionCode === "form_result";
   const isFormSequence = currentQuestion.type === "form-type";
   const isFinalStep = currentQuestionCode === "phone";
   const isZipCodeStep = currentQuestionCode === "zip_code";
@@ -61,6 +61,15 @@ const Questionnaire = () => {
       <QuestionnaireLayout ref={layoutRef}>
         <QuestionnaireWrapper>
           <Loader />
+        </QuestionnaireWrapper>
+      </QuestionnaireLayout>
+    );
+  }
+  if(showFormResult){
+    return (
+      <QuestionnaireLayout ref={layoutRef}>
+        <QuestionnaireWrapper>
+          <FormResult/>
         </QuestionnaireWrapper>
       </QuestionnaireLayout>
     );

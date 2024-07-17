@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import {useQuestionnaire} from '@/context/QuestionnaireContext.jsx';
+
 // Custom hook to check if the questionnaire is at loader step.
 const useLoader = () => {
-    const {currentQuestion,handleNavigateNextQuestion} = useQuestionnaire();
+    const {currentQuestion,handleNavigateNextQuestion,setFormBrand,responses} = useQuestionnaire();
     const [showLoader, setShowLoader] = useState(false);
 
     useEffect(() => {
         let timeoutId = null;
         if (currentQuestion.type === "loader") {
           setShowLoader(true);
+          setFormBrand();
           timeoutId = setTimeout(() => {
             setShowLoader(false);
             const nextQuestionCode = currentQuestion.answers[0]?.next_question_code;

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-// import { useQuestionnaire } from "../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../../context/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 
 const legalStyle = {
   position: "relative",

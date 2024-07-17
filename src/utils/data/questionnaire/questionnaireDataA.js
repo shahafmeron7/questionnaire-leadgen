@@ -1,15 +1,14 @@
 import env from "@/utils/data/env";
-
-const questionnaireData = {
+const questionnaireDataA = {
   flow_id: 1,
   flow_name: "merchant_services",
   supported_brands: [
      {
-        weight: 0.5,
+        weight: 0.75,
         form_id: env.PAYSAFE_FORM_ID,
       },
       {
-        weight: 0.5,
+        weight: 0.25,
         form_id: env.STAX_FORM_ID,
       },
   ],
@@ -227,4 +226,4 @@ const questionnaireData = {
     },
   ],
 };
-export default questionnaireData;
+export  {questionnaireDataA};

@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./AnswersContent.module.css";
 // import { useQuestionnaire } from "../../../context/QuestionnaireContext";
-import { useQuestionnaire } from "../../../context/QuestionnaireContext.jsx";
+import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 
-import InputWithValidation from "../../UI/Form/InputWithValidation";
+import InputWithValidation from "@/components/UI/Form/InputWithValidation";
 
-import useIsWideScreen from "../../../hooks/useIsWideScreen";
+import useIsWideScreen from "@/hooks/useIsWideScreen";
 
 const DetailsQuestion = () => {
   const { currentQuestion, responses, errResponses, currentQuestionCode } =
