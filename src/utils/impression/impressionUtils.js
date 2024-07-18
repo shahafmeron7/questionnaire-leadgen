@@ -27,10 +27,10 @@ export const buildEventData = (currentQuestion, flowID,flowName, action = null) 
 
     return eventData;
   };
-export const sendImpressions = (data,eventName,stream,formID=null)=>{
+export const sendImpressions = (data,eventName,stream,formID=null,tid=null)=>{
    
   // sendLeadgenImpression(data,eventName,stream,formID,'A');
-  sendLeadgenImpression(data,eventName,stream,formID);
+  sendLeadgenImpression(data,eventName,stream,formID,tid);
 
   
 }
@@ -52,8 +52,7 @@ function sendLeadgenImpression(data, eventName,stream,formID=null,tid=null) {
     bubbles: true,
     composed: false,
   });
-  // console.log(to_send)
-  //  window.dispatchEvent(logEvent);
+
   if (import.meta.env.PROD) {
     window.dispatchEvent(logEvent);
   }

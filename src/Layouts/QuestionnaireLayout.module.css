@@ -24,6 +24,14 @@
   gap: 32px;
   flex-direction: column;
 }
+.styleFormResult {
+  padding: 64px 24px !important;
+  max-width: 944px !important;
+}
+.formResultDesk{
+  max-width: 1140px !important;
+
+}
 @media only screen and (min-width: 768px) {
    .questionnaireWrapper {
     max-width: 700px;
@@ -37,7 +45,7 @@
     width: 897px;
     } */
   /* .questionnaireWrapper {
-    max-width: 700px;
+    max-width: 944px;
   } */
 }
 @media only screen and (min-width: 1200px) {

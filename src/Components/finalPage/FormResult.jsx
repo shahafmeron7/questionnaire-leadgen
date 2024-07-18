@@ -7,7 +7,7 @@ import Form from './Form'
 import useIsWideScreen from "@/hooks/useIsWideScreen";
 
 const FormResult = () => {
-   const isWideScreen = useIsWideScreen();
+   const {isWideScreen,isTabletScreen} = useIsWideScreen();
 
   return (
     <div className={styles.formResultContainer}>
@@ -15,12 +15,12 @@ const FormResult = () => {
       <div className={styles.formResultLeft}>
          <h3>According to your answers, our<br/>recommendation is:</h3>
          <BrandResultCard/>
-         {isWideScreen && <LegalMessage/>}
+         {isTabletScreen && <LegalMessage/>}
       </div>
       <div className={styles.formResultRight}>
          <Form/>
       </div>
-      {!isWideScreen && <LegalMessage/>}
+      {!isTabletScreen && <LegalMessage/>}
 
     </div>
   )

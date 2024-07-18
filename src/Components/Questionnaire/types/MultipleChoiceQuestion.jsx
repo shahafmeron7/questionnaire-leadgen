@@ -27,7 +27,7 @@ const MultipleChoiceQuestion = () => {
   const [selectedIndexes, setSelectedIndexes] = useState(
     responses[currentQuestionCode]?.answerIndexes || []
   );
-  const isWideScreen = useIsWideScreen();
+  const {isWideScreen} = useIsWideScreen();
 
   const isDisplayDirectionCol =
     currentQuestion.display_list_direction === "col";

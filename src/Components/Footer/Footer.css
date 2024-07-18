@@ -2,11 +2,11 @@
   background-color: #001c41;
   color: #fff;
   font-size: 30px;
-  display: flex;
+  /* display: flex;
   padding: 40px 0px;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  justify-content: center; */
+  /* width: 100%; */
 }
 .footer {
   display: flex;
@@ -16,6 +16,7 @@
 }
 .sonary-container {
   margin: 0 auto;
+  padding: 40px 24px;
   /* width: 98%; */
   /* width: 1140px; */
 }
@@ -90,37 +91,55 @@
 .right-reserved {
   padding-top: 15px;
 }
+@media only screen and (min-width: 768px){
+  .sonary-container {
+    max-width: 700px;
+    padding: 64px 0px !important;
+  }
+}
+@media only screen and (min-width: 992px){
+  .sonary-container {
+    max-width: 944px;
+  }
+}
 
 @media only screen and (min-width: 1200px) {
   .sonary-container {
-    width: 1140px;
+    max-width: 1140px;
   }
 }
-@media only screen and (min-width: 1024px) and (max-width: 1199px) {
+/* @media only screen and (min-width: 1024px) and (max-width: 1199px) {
   .sonary-container {
     width: 945px;
   }
-}
+} */
 @media only screen and (min-width: 992px) and (max-width: 1023px) {
-  .sonary-container {
+  /* .sonary-container {
     width: 897px;
-  }
+  } */
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  .sonary-container {
+  /* .sonary-container {
     width: 721px;
     flex-direction: column;
     padding: 40px 24px;
-  }
+  } */
+   .title-logos{
+    flex-direction: column;
+    align-items: flex-start;
+   }
   .right-text {
     width: 100%;
   }
 }
 @media only screen and (min-width: 451px) and (max-width: 768px) {
-  .sonary-container {
+  /* .sonary-container {
     width: calc(100% - 24px);
     flex-direction: column;
     padding: 40px 24px;
+  } */
+  .footer{
+    flex-direction: column;
   }
   .right-text {
     width: 100%;
@@ -131,7 +150,10 @@
     padding-bottom: 16px;
     padding-top:0px;
   }
-  .sonary-container {
+  .sonary-container{
+    padding: 40px 0px !important;
+  }
+  .footer {
     /* width: calc(100% - 24px); */
     flex-direction: column;
     /* padding: 0px 24px; */

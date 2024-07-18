@@ -21,13 +21,13 @@ const PartnerWith = () => {
     { Logo: PressPayLogo, alt: "PressPay Logo" },
   ];
 const {questionnaireCompleted} = useQuestionnaire();
-const isWideScreen = useIsWideScreen();
+const {isWideScreen} = useIsWideScreen();
 
 const finalStyle = {
   padding:"80px 0px 0px 0px",
 }
 const finalMobileStyle={
-  padding:"24px 16px 0px",
+  padding:"40px 0px 0px",
 
 }
   return (

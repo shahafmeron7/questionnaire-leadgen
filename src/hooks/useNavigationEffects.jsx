@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { buildEventData,sendImpressions } from '../utils/impression/impressionUtils';
 import env from '@/utils/data/env';
+import { questionnaireVariation } from '@/utils/data/questionnaire';
 export const useNavigationEffects = (state,dispatch,moveToPrevQuestion) => {
     const { questionHistory, currentQuestion,flowID,flowName, currentQuestionCode, questionnaireCompleted } = state;
 
@@ -16,7 +17,9 @@ export const useNavigationEffects = (state,dispatch,moveToPrevQuestion) => {
                      sendImpressions(
                          buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_CLICK_PREV_BROWSER),
                          env.USER_EVENT_NAME,
-                         env.STREAM_STEP_NAME
+                         env.STREAM_STEP_NAME,
+                         null,
+                         questionnaireVariation
                      );
                      moveToPrevQuestion();
                  }

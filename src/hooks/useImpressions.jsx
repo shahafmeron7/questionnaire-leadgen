@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { buildEventData,sendImpressions } from '@/utils/impression/impressionUtils';
 import Impression from '@/utils/impression/impression';
 import env from '@/utils/data/env';
+import { questionnaireVariation } from '@/utils/data/questionnaire';
 export const useFirstImpression = () => {
     const hasSentImpression = useRef(false);
     
@@ -12,7 +13,9 @@ export const useFirstImpression = () => {
             sendImpressions(
                 {},
                 env.FIRST_EVENT_NAME,
-                env.STREAM_STEP_NAME
+                env.STREAM_STEP_NAME,
+                null,
+                questionnaireVariation
             );
             hasSentImpression.current = true;
         }
@@ -25,7 +28,9 @@ export const useQuestionImpressions = (state) => {
         sendImpressions(
             buildEventData(currentQuestion,flowID,flowName),
             env.STEP_EVENT_NAME,
-            env.STREAM_STEP_NAME
+            env.STREAM_STEP_NAME ,
+            null,
+            questionnaireVariation
         );
     }, [currentQuestionCode]);
 };
@@ -39,7 +44,9 @@ export const useUnloadImpressions = (state) => {
             sendImpressions(
                 buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_EXIT),
                 env.USER_EVENT_NAME,
-                env.STREAM_STEP_NAME
+                env.STREAM_STEP_NAME,
+                null,
+                questionnaireVariation
             );
         };
 

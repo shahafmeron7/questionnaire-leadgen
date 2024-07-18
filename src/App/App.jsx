@@ -16,7 +16,8 @@ const PartnerWith = React.lazy(
   () => import("@/components/UI/Promotional/PartnerWith.jsx")
 );
 function App() {
-  const { questionnaireCompleted, questionnaireStarted } = useQuestionnaire();
+  const { questionnaireCompleted, questionnaireStarted,currentQuestionCode } = useQuestionnaire();
+  const showFormResult = currentQuestionCode === "form_result";
 
   if (questionnaireCompleted) {
     return (
@@ -52,6 +53,11 @@ function App() {
           </Suspense>
           <ScrollToTopButton/>
         </>
+      )}
+      {showFormResult && (
+        <Suspense fallback={<Loading />}>
+            <Footer />
+          </Suspense>
       )}
     </div>
   );

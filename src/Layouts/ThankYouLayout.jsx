@@ -1,6 +1,7 @@
 import React ,{Suspense}from "react";
 import Loading from '@/components/UI/LazyLoading/Loading'
 import ContentLayout from "./ContentLayout";
+import QuestionnaireLayout from "./QuestionnaireLayout";
 import ThankYou from "@/components/finalPage/ThankYou";
 
 const PartnerWith = React.lazy(() => import("@/components/UI/Promotional/PartnerWith"));

@@ -36,7 +36,7 @@ const Questionnaire = () => {
     questionnaireStarted,
   } = useQuestionnaire();
   const {osanoShown} = useContext(OsanoVisibilityContext);
-  const isWideScreen = useIsWideScreen();
+  const {isWideScreen} = useIsWideScreen();
   const showLoader = useLoader();
   const layoutRef = useAnimations();
 

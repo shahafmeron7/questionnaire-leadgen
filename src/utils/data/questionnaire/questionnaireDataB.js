@@ -14,7 +14,7 @@ const questionnaireDataB = {
   ],
   questions: [
     {
-      text: "What type of business do you have? BBBBB",
+      text: "What type of business do you have?",
       code: "industry_type",
       step: 1,
       type: "one-selection",
@@ -24,8 +24,8 @@ const questionnaireDataB = {
       answers: [
         {
           text: "Food and Catering",
-         //  next_question_code: "monthly_volume",
-         next_question_code: "zip_code",
+          next_question_code: "monthly_volume",
+         
 
         },
         {

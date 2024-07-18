@@ -35,6 +35,6 @@ line-height: 28px;
 
 @media only screen and (min-width:375px) and (max-width:768px) {
     .thankYouContainer{
-        padding: 24px 16px 0px;
+        padding: 40px 16px ;
     }
 }

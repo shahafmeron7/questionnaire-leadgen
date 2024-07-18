@@ -11,6 +11,7 @@ import {
   sendImpressions,
 } from "@/utils/impression/impressionUtils";
 import env from "@/utils/data/env";
+import { questionnaireVariation } from "@/utils/data/questionnaire";
 const TIME_DELAY_NEXT_QUESTION = 0.2;
 export const QuestionnaireHandlers = (
   state,
@@ -132,7 +133,9 @@ export const QuestionnaireHandlers = (
       sendImpressions(
         eventData,
         env.USER_EVENT_NAME,
-        env.STREAM_STEP_NAME
+        env.STREAM_STEP_NAME,
+        null,
+        questionnaireVariation
       );
       dispatch({ type: actionTypes.CHANGE_NEXT_BTN_STATE, isEnabled: true });
 
@@ -355,7 +358,7 @@ export const QuestionnaireHandlers = (
     }
   };
   const completeQuestionnaire = () => {
-    const { formBrand,responses } = state;
+    const { formBrand,responses,questionnaireVariation } = state;
     let finalResponses = {};
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
@@ -378,7 +381,8 @@ export const QuestionnaireHandlers = (
       finalResponses,
       env.FINAL_SUBMIT_EVENT_NAME,
       env.STREAM_FINAL_NAME,
-      formBrand
+      formBrand,
+      questionnaireVariation
     );
     // dispatch({
     //   type: actionTypes.TOGGLE_QUESTIONNAIRE_COMPLETED,

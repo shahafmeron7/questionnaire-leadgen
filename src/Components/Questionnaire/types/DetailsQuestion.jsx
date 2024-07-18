@@ -10,7 +10,7 @@ import useIsWideScreen from "@/hooks/useIsWideScreen";
 const DetailsQuestion = () => {
   const { currentQuestion, responses, errResponses, currentQuestionCode } =
     useQuestionnaire();
-  const isWideScreen = useIsWideScreen();
+  const {isWideScreen} = useIsWideScreen();
     const isFinalStep = currentQuestionCode === "phone";
 
   const isPersonalAndBusinessInfo =

@@ -1,6 +1,7 @@
 .bestMatchWrapper {
   display: flex;
-  padding: 80px 0px;
+  /* padding-bottom: 40px; */
+  padding: 40px 0px;
   flex-direction: column;
   align-items: center;
 }
@@ -64,7 +65,7 @@ line-height: 32px;
 @media only screen and (min-width: 768px) and (max-width:992px){
   .bestMatchCardsContainer{
     flex-direction: column;
-    gap: 48px;
+    /* gap: 48px; */
   }
   .bestMatchCard{
     padding:  24px 64px;
@@ -80,6 +81,9 @@ line-height: 32px;
 }
 
 @media only screen and (max-width: 768px){
+  .bestMatchWrapper{
+    padding: 0px 0px 40px 0px;
+  }
   .bestMatchCardsContainer{
     flex-direction: column;
     gap: 16px;
@@ -87,7 +91,5 @@ line-height: 32px;
 }
 
 @media only screen and (max-width:600px){
-  .bestMatchWrapper{
-      padding: 40px 16px 0px;
-  }
+ 
 }

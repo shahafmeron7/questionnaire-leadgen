@@ -50,9 +50,5 @@ line-height: 36px;
     justify-content: center;
 }
 }
-@media only screen and (max-width:600px){
-    .partnerWithWrapper{
-        padding: 0px 16px;
-    }
-}
+
 

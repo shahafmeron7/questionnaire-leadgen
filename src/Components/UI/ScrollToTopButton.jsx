@@ -6,12 +6,13 @@ import useIsWideScreen from '@/hooks/useIsWideScreen'
 import { sendImpressions,buildEventData } from '@/utils/impression/impressionUtils';
 import {useQuestionnaire} from '@/context/QuestionnaireContext.jsx';
 import env from '@/utils/data/env';
+import { questionnaireVariation } from '@/utils/data/questionnaire';
 const ScrollToTopButton = () => {
   const [isVisible, setIsVisible] = useState(false);
   const {currentQuestion,flowID,flowName} = useQuestionnaire();
 
   const {osanoShown} = useContext(OsanoVisibilityContext)
-  const isWideScreen = useIsWideScreen();
+  const {isWideScreen} = useIsWideScreen();
 
   const toggleVisibility = () => {
     if (window.scrollY > window.innerHeight * 0.2) {
@@ -26,7 +27,7 @@ const ScrollToTopButton = () => {
       top: 0,
       behavior: 'smooth',
     });
-    sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_CLICK_SCROLL_BTN), env.USER_EVENT_NAME, env.STREAM_STEP_NAME);
+    sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_CLICK_SCROLL_BTN), env.USER_EVENT_NAME, env.STREAM_STEP_NAME,null,questionnaireVariation);
 
   };
 

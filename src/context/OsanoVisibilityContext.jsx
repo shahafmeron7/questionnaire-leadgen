@@ -3,6 +3,7 @@ import React, { createContext, useState, useEffect,useRef } from 'react';
 import { buildEventData,sendImpressions } from '@/utils/impression/impressionUtils';
 import { useQuestionnaire } from './QuestionnaireContext';
 import env from '@/utils/data/env';
+import { questionnaireVariation } from '@/utils/data/questionnaire';
 
 export const OsanoVisibilityContext = createContext({
   osanoShown: false,
@@ -44,7 +45,10 @@ export const OsanoVisibilityProvider = ({ children }) => {
          sendImpressions(
            buildEventData(currentQuestionRef.current, flowID, flowName, env.USER_ACTION_CLICK_ACCEPT_COOKIES),
            env.USER_EVENT_NAME,
-           env.STREAM_STEP_NAME
+           env.STREAM_STEP_NAME,
+           null,
+           questionnaireVariation
+
          );
        };
 
@@ -52,7 +56,9 @@ export const OsanoVisibilityProvider = ({ children }) => {
          sendImpressions(
            buildEventData(currentQuestionRef.current, flowID, flowName, env.USER_ACTION_CLICK_DENY_COOKIES),
            env.USER_EVENT_NAME,
-           env.STREAM_STEP_NAME
+           env.STREAM_STEP_NAME,
+           null,
+           questionnaireVariation
          );
        };
 

@@ -11,7 +11,8 @@ const Footer = () => {
   };
   return (
     <div className="layout-footer">
-      <div className="footer sonary-container">
+      <div className="sonary-container">
+      <div className="footer">
         <div className="links-wrapper">
           <div className="links-container menu-links">
             <div className="menu-links-title">Menu Links</div>
@@ -126,6 +127,7 @@ const Footer = () => {
             <div className="right-reserved">All rights reserved © 2024</div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

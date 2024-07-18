@@ -6,10 +6,11 @@ import { buildEventData,sendImpressions } from "@/utils/impression/impressionUti
 import env from "@/utils/data/env";
 import OsanoVisibilityContext from "@/context/OsanoVisibilityContext";
 import NextButton from "./NextButton";
+import { questionnaireVariation } from "@/utils/data/questionnaire";
 
 
 const QuestionnaireButtons = () => {
-  const isWideScreen = useIsWideScreen();
+  const {isWideScreen} = useIsWideScreen();
   const { osanoShown } = useContext(OsanoVisibilityContext);
 
 
@@ -31,7 +32,7 @@ const QuestionnaireButtons = () => {
 
  
   const handlePrevClick =()=>{
-    sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_CLICK_PREV), env.USER_EVENT_NAME, env.STREAM_STEP_NAME);
+    sendImpressions(buildEventData(currentQuestion,flowID,flowName,env.USER_ACTION_CLICK_PREV), env.USER_EVENT_NAME, env.STREAM_STEP_NAME,null,questionnaireVariation);
     moveToPrevQuestion();
   }
 

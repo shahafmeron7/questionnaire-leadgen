@@ -2,8 +2,7 @@ import React from "react";
 import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 import { brandInfo } from "@/utils/data/brandInfo";
 import styles from './BrandResultCard.module.css'
-const prosIcon =
-  "https://assets.sonary.com/wp-content/uploads/2024/01/18084718/Icon-Name.svg";
+import prosIcon from '@/images/bluecheckmark.svg?url'
 const BrandResultCard = () => {
   const { formBrand } = useQuestionnaire();
   console.log(brandInfo);
@@ -24,6 +23,8 @@ const BrandResultCard = () => {
                       alt={`Checkmark Icon`}
                       className={styles.prosIcon}
                       loading="lazy"
+                      width="28"
+                      height="28"
 
                     />
                     <p>{line}</p>
