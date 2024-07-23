@@ -11,9 +11,9 @@ function chooseRandomlyIfTied(scores, excludePaycor, brandIds) {
 export function calculateScores(responseData) {
    // Map environment variables to brand IDs
    const brandIds = {
-       // ADP: import.meta.env.REACT_APP_ADP_FORM_ID,
-       Paychex: import.meta.env.REACT_APP_PAYCHEX_FORM_ID,
-       Paycor: import.meta.env.REACT_APP_PAYCOR_FORM_ID
+       // ADP: import.meta.env.VITE_ADP_FORM_ID,
+       Paychex: import.meta.env.VITE_PAYCHEX_FORM_ID,
+       Paycor: import.meta.env.VITE_PAYCOR_FORM_ID
    };
 
    let brandScores = {

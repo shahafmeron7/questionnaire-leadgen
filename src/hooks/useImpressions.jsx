@@ -9,7 +9,7 @@ export const useFirstImpression = () => {
     
     useEffect(() => {
         if (!hasSentImpression.current) {
-            Impression();
+            Impression(questionnaireVariation);
             sendImpressions(
                 {},
                 env.FIRST_EVENT_NAME,

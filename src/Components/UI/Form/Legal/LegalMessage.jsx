@@ -51,7 +51,7 @@ const LegalMessage = () => {
   const {currentQuestionCode} = useQuestionnaire();
   const popupRef = useRef(null);
   const brandsBoxRef = useRef(null);
-
+  const formVariationBQuestion = currentQuestionCode ==="form_result"
   useEffect(() => {
     const showBrandsBox = () => {
       const brandsBox = brandsBoxRef.current;
@@ -92,7 +92,7 @@ const LegalMessage = () => {
   return (
     <div
         key={currentQuestionCode}
-        className="animateStaggerItem animateFadeOut"
+        className={`${!formVariationBQuestion ? "animateStaggerItem animateFadeOut":""}`}
         style={containerStyle}
       >
         By submitting this form, you provide us your consent to share your

@@ -3,6 +3,8 @@ import React from "react";
 import  SSLLogo  from '@/images/ssl_lock.svg'
 import { useQuestionnaire } from "@/context/QuestionnaireContext";
 const SSLIcon = () => {
+  const {currentQuestionCode} = useQuestionnaire()
+  const formVariationBQuestion = currentQuestionCode ==="form_result"
     const stylesslWrapper = {
         display: "flex",
         gap: "4px",
@@ -18,10 +20,10 @@ const SSLIcon = () => {
       lineHeight: "22px",
         textDecoration: "underline",
       }
-    const {currentQuestionCode} = useQuestionnaire
+    
     return (
       <div
-      className="animateStaggerItem animateFadeOut"
+      className={`${!formVariationBQuestion ? "animateStaggerItem animateFadeOut":""}`}
           key={currentQuestionCode} 
           style={stylesslWrapper}
         >

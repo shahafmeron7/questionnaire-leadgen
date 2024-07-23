@@ -6,8 +6,8 @@ import {questionnaireDataB} from "./questionnaireDataB";
  const questionnaireVariation = Math.random() <= 0.5 ? 'A' : 'B';
 // const questionnaireVariation ='A';
 
-console.log("questionnaireVariation",questionnaireVariation)
+// console.log("questionnaireVariation",questionnaireVariation)
 let questionnaireData = questionnaireVariation === 'A' ?   questionnaireDataA : questionnaireDataB;
- console.log(questionnaireData);
+//  console.log(questionnaireData);
 
 export { questionnaireData,questionnaireVariation};

@@ -4,6 +4,7 @@ import styles from "./Form.module.css";
 import { useQuestionnaire } from "@/context/QuestionnaireContext.jsx";
 
 import InputWithValidation from "@/components/UI/Form/InputWithValidation";
+import SSLIcon from "@/components/UI/Form/SSLIcon";
 
 import useIsWideScreen from "@/hooks/useIsWideScreen";
 import NextButton from "../UI/Form/NextButton";
@@ -49,6 +50,7 @@ const Form = () => {
       ))}
     </div>
       <NextButton/>
+      <SSLIcon/>
     </>
   );
 };

@@ -35,12 +35,21 @@
    .formResultContainer{
       flex-direction: column;
       width: 100%;
+      gap: 24px;
    }
    .formResultLeft{
          width: 100%;
          max-width: none;
+         gap: 16px;
+   }
+   .formResultLeft h3{
+      line-height: unset;
+      font-size: 28px;
    }
    .formResultRight{
       padding: 32px 24px;
+      gap: 24px;
+      width: 100%;
+      max-width: unset;
    }
 }

@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
   // const base = isProduction ? productionBaseURL : developmentBaseURL
 
   return {
-    envPrefix: "REACT_APP_",
+    envPrefix: "VITE_",
     // This changes the out put dir from dist to build
     // comment this out if that isn't relevant for your project
 

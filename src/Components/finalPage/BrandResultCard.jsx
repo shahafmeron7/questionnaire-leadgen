@@ -5,15 +5,13 @@ import styles from './BrandResultCard.module.css'
 import prosIcon from '@/images/bluecheckmark.svg?url'
 const BrandResultCard = () => {
   const { formBrand } = useQuestionnaire();
-  console.log(brandInfo);
-  console.log(formBrand);
-  console.log(brandInfo[formBrand]);
+
 
 
   const { sellingLines, imgSrc, imgAlt } = brandInfo[formBrand];
   return (
     <div className={styles.brandCard}>
-      <img src={imgSrc} alt={imgAlt} width="294" height="58" />
+      <img className={styles.brandLogo} src={imgSrc} alt={imgAlt} width="294" height="58" />
       <ul className={styles.sellingList}>
         {sellingLines.length > 0 &&
           sellingLines.map((line, index) => (

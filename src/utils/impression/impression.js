@@ -12,7 +12,7 @@ import {
     pageId:10000,
     siteId:1000
   };
-  const Impression = () => {
+  const Impression = (questionnaireVariation) => {
     // !(function () {
     //   var searchParams = new URLSearchParams(window.location.search),
     //       paramsToCookieMap = {
@@ -41,28 +41,31 @@ import {
       let stgExt = window.location.hostname.includes("staging.")
         ? "staging."
         : "";
-  
-      return "https://out." + stgExt + getDomain() + "/track/impression/";
+       return "https://out." + stgExt + getDomain() + "/track/impression/";
     }
   
     function getPageVersion(inputs) {
       let pageVersion = inputs.pageVersion || null;
       try {
         const gaexp = getCookie("_gaexp");
+        let pageVersionOptimize = {};
         if (gaexp) {
-          let pageVersionOptimize = {};
           const gaexp_multi_test_splitted = gaexp.split("!");
           const arr_gaexp =
             gaexp_multi_test_splitted[gaexp_multi_test_splitted.length - 1].split(
               "."
             );
+      
           let test_description = arr_gaexp[arr_gaexp.length - 3];
           let version_id = arr_gaexp[arr_gaexp.length - 1];
           let test_id = test_description;
           pageVersionOptimize.test_description = test_description;
-          pageVersionOptimize.test_id = test_id;
+          pageVersionOptimize.test_id = questionnaireVariation;
           pageVersionOptimize.version_id = version_id;
           pageVersion = pageVersionOptimize;
+        }else{
+          pageVersionOptimize.test_id = questionnaireVariation;
+          pageVersion=pageVersionOptimize;
         }
       } catch (e) {}
   
@@ -72,10 +75,10 @@ import {
     async function send(inputs) {
       let token = getToken();
       let domain = getDomain();
-      if(domain.includes('defaultdomain')){
-        console.log('Failed sending impressions from localhost.')
-        return;
-      }
+        if(domain.includes('defaultdomain')){
+          console.log('Failed sending impressions from localhost.')
+          return;
+        }
         
       let apiUrl = getApiUrl();
       let brandsLists = inputs.brandsListsInfo || {};

@@ -363,14 +363,14 @@ export const QuestionnaireHandlers = (
     Object.keys(responses).forEach((key) => {
       responses[key].users_answer = responses[key].answer;
     });
-    console.log('final form brand ',formBrand);
-    //  if (formBrand === env.PAYSAFE_FORM_ID) {
+    // console.log('final form brand ',formBrand);
+      if (formBrand === env.PAYSAFE_FORM_ID) {
       
-    //    const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
-    //    const monthly_volume = responses.monthly_volume;
-    //    monthly_volume.answer =
-    //      paysafe_monthly_volume[monthly_volume.answerIndexes[0]];
-    //  }
+       const paysafe_monthly_volume = ["1-999", "1000-9999", "10000", "0"];
+       const monthly_volume = responses.monthly_volume;
+       monthly_volume.answer =
+         paysafe_monthly_volume[monthly_volume.answerIndexes[0]];
+     }
     finalResponses = Object.keys(responses).reduce((acc, key) => {
       const { answerIndexes, ...responseWithoutIndexes } = responses[key];
       acc[key] = responseWithoutIndexes;
@@ -415,7 +415,7 @@ export const QuestionnaireHandlers = (
     //if we brand was choosen we dont need to update it.
     if(!formBrand){
       const selectedFormBrand = chooseBrand(responses);
-      console.log('in handler questionnaire before dispatch brand is:',selectedFormBrand);
+      // console.log('in handler questionnaire before dispatch brand is:',selectedFormBrand);
       dispatch({ type: actionTypes.SET_FORM_BRAND, payload:selectedFormBrand  });
     }
 

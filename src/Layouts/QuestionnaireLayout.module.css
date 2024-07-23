@@ -26,11 +26,14 @@
 }
 .styleFormResult {
   padding: 64px 24px !important;
-  max-width: 944px !important;
+  /* max-width: 944px !important; */
 }
 .formResultDesk{
   max-width: 1140px !important;
 
+}
+.styleMobileForm{
+  padding-top: 12px !important;
 }
 @media only screen and (min-width: 768px) {
    .questionnaireWrapper {
