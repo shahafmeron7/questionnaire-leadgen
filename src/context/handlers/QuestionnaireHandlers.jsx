@@ -413,11 +413,11 @@ export const QuestionnaireHandlers = (
   const setFormBrand = ()=>{
     const {formBrand,responses} = state;
     //if we brand was choosen we dont need to update it.
-    if(!formBrand){
+     if(!formBrand){
       const selectedFormBrand = chooseBrand(responses);
       // console.log('in handler questionnaire before dispatch brand is:',selectedFormBrand);
       dispatch({ type: actionTypes.SET_FORM_BRAND, payload:selectedFormBrand  });
-    }
+     }
 
   }
 
