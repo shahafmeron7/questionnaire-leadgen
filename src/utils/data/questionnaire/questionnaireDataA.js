@@ -4,11 +4,11 @@ const questionnaireDataA = {
   flow_name: "merchant_services",
   supported_brands: [
      {
-        weight: 1,
+        weight: 0.6,
         form_id: env.PAYSAFE_FORM_ID,
       },
       {
-        weight: 0,
+        weight: 0.4,
         form_id: env.STAX_FORM_ID,
       },
   ],
